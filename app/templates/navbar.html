@@ -1,0 +1,57 @@
+{% block navbar %}
+
+<nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100"
+    id="sectionsNav">
+    <div class="container">
+        <div class="navbar-translate">
+            <a class="navbar-brand" href="/">
+                Material Kit </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('issue_index') }}" onclick="scrollToDownload()">
+                        <i class="material-icons">cloud_download</i> Consultas
+                    </a>
+                </li>
+                {% if is_authenticated(session) %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('user_index') }}" >
+                        <i class="material-icons">unarchive</i> Usuarios
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth_logout') }}" >
+                        <i class="material-icons">unarchive</i> Cerrar Sesion
+                    </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('auth_login') }}" t>
+                        <i class="material-icons">unarchive</i> Iniciar Sesion
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="page-header header-filter clear-filter purple-filter" data-parallax="true"
+    style="background-image: url('../static/assets/img/bg2.jpg'); height: 50vh;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 ml-auto mr-auto">
+                <div class="brand">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

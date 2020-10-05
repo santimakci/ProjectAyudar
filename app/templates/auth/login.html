@@ -1,13 +1,52 @@
 {% extends "layout.html" %}
 {% block title %}Login{% endblock %}
 {% block head %}
-  {{ super() }}
+{{ super() }}
 {% endblock %}
 {% block content %}
-  <h1>Iniciar sesión</h1>
-  <form action="{{ url_for('auth_authenticate') }}" method="POST">
-    <input name="email" placeholder="Correo" required/>
-    <input type="password" name="password" placeholder="Clave" required/>
-    <input type="submit" value="Login">
-  </form>
+
+<div class="section section-signup page-header" style="background-image: url('./assets/img/city.jpg');">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-md-6 mx-auto">
+        <div class="card card-login">
+          <form class="form" action="{{ url_for('auth_authenticate') }}" method="POST">
+            <div class="card-header card-header-primary text-center">
+              <h4 class="card-title">Login</h4>
+            </div>
+            <div class="card-body">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">mail</i>
+                  </span>
+                </div>
+                <input type="text" class="form-control" placeholder="Email" name="email" required>
+              </div>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">lock_outline</i>
+                  </span>
+                </div>
+                <input class="form-control" placeholder="Password" autocomplete="" type="password" name="password" required >
+              </div>
+              <div class="footer text-center">
+                <button type="submit" class="btn btn-primary btn-wd btn-lg">Iniciar sesion</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <h1>Iniciar sesión</h1>
+<form action="{{ url_for('auth_authenticate') }}" method="POST">
+  <input name="email" placeholder="Correo" required />
+  <input type="password" name="password" placeholder="Clave" required />
+  <input type="submit" value="Login">
+</form> -->
 {% endblock %}
