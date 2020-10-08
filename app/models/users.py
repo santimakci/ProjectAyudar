@@ -1,7 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime
+from app.db import connection
 
-db=SQLAlchemy()
+db=connection()
 
 class Usuario (db.Model):
 
