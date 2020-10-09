@@ -1,9 +1,6 @@
 
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime
+from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime 
 from app.db import base 
-
-""" import code; code.interact(local=dict(globals(), **locals())) """
-
 
 class User (base.Model):
     
