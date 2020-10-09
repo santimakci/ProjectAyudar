@@ -1,20 +1,21 @@
-from flask_sqlalchemy import SQLAlchemy
+
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime
-from app.db import connection
+from app.db import base 
 
-db=connection()
+""" import code; code.interact(local=dict(globals(), **locals())) """
 
-class Usuario (db.Model):
 
+class User (base.Model):
+    
     __tablename__ = "usuarios"
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.Integer, unique=True, nullable=False)
-    password = db.Column(db.Integer, nullable=False)
-    first_name = db.Column(db.Integer, nullable=False)
-    last_name = db.Column(db.Integer, nullable=False)
-    username = db.Column(db.Integer, nullable=False)
-    activo = db.Column(db.Boolean)
-    date_updated = db.Column(db.DateTime)
-    date_created = db.Column(db.DateTime)
+    id = Column(Integer, primary_key=True)
+    email = Column(Integer, unique=True, nullable=False)
+    password = Column(Integer, nullable=False)
+    first_name = Column(Integer, nullable=False)
+    last_name = Column(Integer, nullable=False)
+    username = Column(Integer, nullable=False)
+    activo = Column(Boolean)
+    date_updated = Column(DateTime)
+    date_created = Column(DateTime)
 
 
