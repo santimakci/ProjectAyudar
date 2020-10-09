@@ -12,7 +12,7 @@ class User (base.Model):
     last_name = Column(String, nullable=False)
     username = Column(String, nullable=False)
     activo = Column(Boolean)
-    date_updated = Column(DateTime)S
+    date_updated = Column(DateTime)
     date_created = Column(DateTime)
 
 
