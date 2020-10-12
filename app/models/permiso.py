@@ -3,7 +3,7 @@ from app.db import base
 
 class Permiso (base.model):
 
-    __tablename__ = "permiso"
+    __tablename__ = "permissions"
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True, nullable=False)
-    rol_id = Column(Integer, ForeignKey('rol.id'))
+    roles_id = Column(Integer, ForeignKey('rol.id'))
