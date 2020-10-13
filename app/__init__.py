@@ -22,6 +22,7 @@ def create_app(environment="development"):
     app = Flask(__name__) 
     
     app.config["SESSION_TYPE"] = "filesystem"
+   # app.config['SQLALCHEMY_ECHO'] = environment == "development"
     app.secret_key = '3d6f45a5fc12445dbac2f59c3b6c7cb1'
     env = os.environ.get("FLASK_ENV", environment)
     app.config.from_object(config[env])

@@ -18,9 +18,9 @@ class User (base.Model):
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
     username = Column(String, nullable=False)
-    active = Column(Boolean)
-    date_updated = Column(DateTime)
-    date_created = Column(DateTime)
+    active = Column(Boolean, default=True)
+    date_updated = Column(DateTime, default=base.func.now())
+    date_created = Column(DateTime, default=base.func.now())
     users = relationship('User', secondary=user_rol, lazy='subquery',
      backref=backref('usuarios', lazy=True))
 
@@ -57,6 +57,10 @@ class User (base.Model):
     def create(self, params):
         if (self.find_by_email(params['email']) or self.find_by_username(params['username'])):
             return "Email o username ya utilizado"
+        user = User( **params )
+        base.session.add(user)
+        base.session.commit()
+        return "Se creo el usuario perro"
         
 
    
