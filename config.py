@@ -8,7 +8,7 @@ class BaseConfig(object):
     DB_USER = "db_user"
     DB_PASS = "db_pass"
     DB_NAME = "db_name"
-    SECRET_KEY = "secret"
+    SECRET_KEY = "3d6f45a5fc12445dbac2f59c3b6c7cb1"
 
     @staticmethod
     def configure(app):
@@ -25,6 +25,7 @@ class DevelopmentConfig(BaseConfig):
     DB_USER = environ.get("DB_USER", "MY_DB_USER")
     DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
     DB_NAME = environ.get("DB_NAME", "MY_DB_NAME")
+    SECRET_KEY = "3d6f45a5fc12445dbac2f59c3b6c7cb1"
 
 
 class TestingConfig(BaseConfig):

@@ -16,11 +16,6 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('issue_index') }}" onclick="scrollToDownload()">
-                        <i class="material-icons">cloud_download</i> Consultas
-                    </a>
-                </li>
                 {% if is_authenticated(session) %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('user_index') }}" >

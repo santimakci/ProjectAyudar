@@ -12,7 +12,7 @@
     {% endblock %}
   </head>
   <body>
-
+    {% include 'navbar.html'%}
     <div id="content">
       {% with messages = get_flashed_messages() %}
         {% if messages %}

@@ -3,6 +3,7 @@ from flask import g #LEER QUE HACE LA G DE FLASK
 from flask import cli
 from flask_sqlalchemy import SQLAlchemy
 
+
 base = SQLAlchemy()
 
 def connection(current_app):
@@ -13,7 +14,8 @@ def connection(current_app):
         database=current_app.config["DB_NAME"],
     )
     current_app.config["SESSION_PERMANENT"] = False
-    current_app.config["SESSION_TYPE"] = "filesystem"
+
+    
     current_app.config["SQLALCHEMY_DATABASE_URI"] = db_url
     current_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     base.init_app(current_app)
