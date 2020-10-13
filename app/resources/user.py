@@ -41,3 +41,12 @@ def delete():
     mensaje = User.create(params)
     flash(mensaje)
     return redirect(url_for("user_index"))
+    
+def update():
+    params = request.form
+    mensaje = User.update(params)
+    flash(mensaje)
+    return redirect(url_for("user_index"))
+
+def user_back(id): #Con esto me traigo el user con tal id
+    return User.find_by_id(id)
