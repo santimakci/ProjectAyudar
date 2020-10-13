@@ -30,3 +30,14 @@ def create():
     mensaje = User.create(params)
     flash(mensaje)
     return redirect(url_for("user_index"))
+
+
+#testing delete 
+
+def delete():
+    #if not authenticated(session):
+    #    abort(401)
+    params = request.form
+    mensaje = User.create(params)
+    flash(mensaje)
+    return redirect(url_for("user_index"))

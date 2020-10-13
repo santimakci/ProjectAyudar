@@ -1,3 +1,5 @@
+#chequear
+from os import abort
 
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Table, ForeignKey
 from app.db import base 
@@ -23,33 +25,25 @@ class User (base.Model):
     date_created = Column(DateTime, default=base.func.now())
     users = relationship('User', secondary=user_rol, lazy='subquery',
      backref=backref('usuarios', lazy=True))
+    deleted = Column(Boolean(), default=False)
+    date_deleted= Column(DateTime, default=None) 
 
- #   def __init__(self, email, password, username, first_name, last_name):
- #       self.email = email
- #       self.password = password
- #       self.username = username
- #       self.first_name = first_name
- #       self.last_name = last_name
- #       self.active = True
- #       self.date_created = date.today
- #       self.date_updated = date.today
-      
 
     @classmethod
     def find_by_email_and_pass(cls, mail, password):
-        for user in base.session.query(User).filter(User.email==mail).filter(User.password==password):
+        for user in base.session.query(User).filter(User.email==mail).filter(User.password==password).filter(User.deleted==False):
             return user         
     
 
     @classmethod 
     def find_by_username(cls,username):
-        for user in base.session.query(User).filter(User.username==username):
+        for user in base.session.query(User).filter(User.username==username).filter(User.deleted==False):
             return user
 
 
     @classmethod
     def find_by_email(cls,email):
-        for user in base.session.query(User).filter(User.email==email):
+        for user in base.session.query(User).filter(User.email==email).filter(User.deleted==False):
             return user
 
 
@@ -61,9 +55,18 @@ class User (base.Model):
         base.session.add(user)
         base.session.commit()
         return "Se creo el usuario perro"
-        
-
-   
-
-
     
+    @classmethod
+       #Acción de eliminar usuario.
+       #Dejar disponible desde el listado la realización de esta acción. La acción requerirá confirmación para realizarse o para cancelarla.
+       #Determinar estrategia de borrado (lógico o físico).
+    def delete(id):
+        user = User.query.get_or_404(id)
+        if user.deleted:
+            abort(404)
+        user.deleted = True
+        user.date_deleted=base.func.now
+        base.session.commit()
+        return 'se borro el usuario', 204
+
+
