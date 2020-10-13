@@ -1,5 +1,5 @@
 
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Table, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Table, ForeignKey, update
 from app.db import base 
 from sqlalchemy.orm import relationship, backref
 from datetime import date
@@ -52,6 +52,10 @@ class User (base.Model):
         for user in base.session.query(User).filter(User.email==email):
             return user
 
+    @classmethod
+    def find_by_id(cls,id):
+        for user in base.session.query(User).filter(User.id==id):
+            return user
 
     @classmethod
     def create(self, params):
@@ -60,7 +64,21 @@ class User (base.Model):
         user = User( **params )
         base.session.add(user)
         base.session.commit()
-        return "Se creo el usuario perro"
+        return "Se creo el usuario"
+        
+    @classmethod
+    def update(self, params):
+        """if (self.find_by_email(params['email']) or self.find_by_username(params['username'])): #Podríamos hacer una función por fuera no?
+           return "Email o username ya utilizado" """
+        user_to_update = self.find_by_id(params['id']) #ahora tenemos el usuario
+        user_to_update.email = params['email']
+        user_to_update.password = params['password']
+        user_to_update.first_name = params['first_name']
+        user_to_update.last_name = params['last_name']
+        base.session.commit()
+        return "Usuario actualizado correctamente"
+
+
         
 
    

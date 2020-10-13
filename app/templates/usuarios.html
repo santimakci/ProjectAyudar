@@ -4,9 +4,11 @@
   {{ super() }}
 {% endblock %}
 {% block content %}
+  <div class="col-lg-4 col-md-6 mx-auto">
   <h1>Consultas</h1>
+  <a class="btn btn-success" href=#>Nuevo</a>
   {% for user in users %}
-    <li>{{ user.first_name }} - {{ user.last_name }}</li><a href=#> Editar </a><a href=#> Eliminar </a>
-
+    <li>{{ user.first_name }} - {{ user.last_name }} <a class="btn btn-warning" href="{{url_for('user_update',id=user.id)}}"> Editar </a><a class="btn btn-danger" href=#> Eliminar </a></li>
   {% endfor %}
 {% endblock %}
+   </div>

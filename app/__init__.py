@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, session
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 import os
-from app.resources.user import index as user_index, login as auth_login, new, create
+from app.resources.user import index as user_index, login as auth_login, new, create, update, user_back
 
 from app.helpers import auth as helper_auth
 
@@ -40,12 +40,19 @@ def create_app(environment="development"):
     app.add_url_rule("/users", "user_index", user_index)
     app.add_url_rule("/users", "user_create", create, methods=["POST"]) 
     app.add_url_rule("/users/new", "user_new", new)
-
+    #app.add_url_rule("users/update",)
 
     app.add_url_rule("/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"])
 
-    
+    @app.route("/robarTemplates")
+    def robarTemplates():
+        return render_template("index.html")
 
+
+    @app.route("/users/update")
+    def user_update():
+        user_to_update = user_back(request.args.get('id'))
+        return render_template("user/update.html",user=user_to_update, methods=["POST"])
 
     @app.route("/")
     def home():
