@@ -35,8 +35,9 @@ def create():
 
 #testing delete 
 
-#def delete(id):
-#    return render_template("user/delete.html/{id}")
+def delete(id):
+    user = User.find_by_id(id)
+    return render_template("user/delete.html",user = user)
 
 def commit_delete():
     params = request.form
@@ -50,8 +51,11 @@ def commit_update():
     flash(mensaje)
     return redirect(url_for("user_index"))
 
-#def update(id):
-#    return render_template("user/update.html")
-
 def user_back(id): #Con esto me traigo el user con tal id
     return User.find_by_id(id)
+
+
+def update(id):
+    #import code; code.interact(local=dict(globals(), **locals()))
+    user = User.find_by_id(id)
+    return render_template("user/update.html",user = user)

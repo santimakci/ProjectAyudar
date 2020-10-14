@@ -5,7 +5,8 @@ from flask import Flask, render_template, request, session
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 import os
-from app.resources.user import index as user_index, login as auth_login, new, create, user_back,commit_delete, commit_update 
+from app.resources.user import index as user_index, login as auth_login, new, create, user_back,commit_delete,delete,commit_update
+from app.resources.user import update as update
 
 from app.helpers import auth as helper_auth
 
@@ -40,34 +41,45 @@ def create_app(environment="development"):
     app.add_url_rule("/users", "user_index", user_index)
     app.add_url_rule("/users", "user_create", create, methods=["POST"]) 
     app.add_url_rule("/users/new", "user_new", new)
-#    app.add_url_rule("/users/delete/<id>","user_delete",delete)
+    app.add_url_rule("/users/delete/<int:id>","user_delete",delete)
     app.add_url_rule('/users/commit_delete',"commit_delete",commit_delete, methods=["POST"])
 
-    #app.add_url_rule("/users/update/<id>","user_update",update)
-    app.add_url_rule("/users/commit_update","commit_update",commit_update, methods=["PUT"])
+    app.add_url_rule("/users/update/<int:id>","user_update",update)
+    app.add_url_rule("/users/commit_update","commit_update",commit_update, methods=["POST"])
     app.add_url_rule("/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"])
 
     @app.route("/robarTemplates")
     def robarTemplates():
         return render_template("index.html")
-
-
-    @app.route("/users/update")
-    def user_update():
-        user_to_update = user_back(request.args.get('id'))
-        return render_template("user/update.html",user=user_to_update, methods=["PUT"])
-
-    @app.route("/users/delete")
-    def user_delete():
-        user_to_delete = user_back(request.args.get('id'))
-        return render_template("user/delete.html",user=user_to_delete, methods=["DELETE"])
+    
 
     @app.route("/")
     def home():
        return render_template ("home.html")
 
-    """ @app.route("/usuarios")
-    def usuarios():
-        return render_template("usuarios.html") """
-    
     return app 
+    
+
+    #Cosas comentadas que en algún momento nos van a servir (?) //@gaston:o borrar, despues.. :D
+    """
+    @app.route("/users/update",methods=['GET'])
+    def user_update():
+       # id_prueba = request.args.get('id')
+        id_to_update = request.args.get('id')
+        import code; code.interact(local=dict(globals(), **locals())) 
+
+        id_update = user_back(id_to_update)
+
+        return render_template("user/update.html",user=id_update)
+    
+    @app.route("/users/delete")
+    def user_delete():
+        user_to_delete = user_back(request.args.get('id'))
+        return render_template("user/delete.html",user=user_to_delete, methods=["DELETE"])
+    
+    
+    @app.route("/usuarios")
+    def usuarios():
+        return render_template("usuarios.html") 
+        """
+    

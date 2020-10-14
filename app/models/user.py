@@ -26,7 +26,7 @@ class User (base.Model):
     users = relationship('User', secondary=user_rol, lazy='subquery',
      backref=backref('usuarios', lazy=True))
     deleted = Column(Boolean(), default=False)
-    date_deleted= Column(DateTime, default=base.func.now()) 
+    date_deleted= Column(DateTime, default=base.func.now()) #en el caso de que se requiera borrar un usuario, se actualiza la fecha de borrado 
 
 
     @classmethod
@@ -46,7 +46,7 @@ class User (base.Model):
         for user in base.session.query(User).filter(User.email==email).filter(User.deleted==False):
             return user
 
-    #@classmethod
+    @classmethod
     def find_by_id(cls,id):
         for user in base.session.query(User).filter(User.id==id):
             return user
@@ -68,24 +68,47 @@ class User (base.Model):
         user = self.find_by_id(params['id'])
         user.deleted=True
         user.date_deleted=base.func.now
-        a= user.username
+        a = user.username
       # base.session.commit()
         return f'se borro el usuario {a}'
         
     @classmethod
-    def update(self, params):
+    def update(cls, params):
+        import code; code.interact(local=dict(globals(), **locals()))
         """if (self.find_by_email(params['email']) or self.find_by_username(params['username'])): #Podríamos hacer una función por fuera no?
            return "Email o username ya utilizado" """
-        user_to_update = self.find_by_id(params['id']) #ahora tenemos el usuario
+        user_to_update = params # datos nuevos de el usuario a actualizar
+        old_user = self.find_by_id(params['id']) # datos viejos del usuario a actualizar
         user_to_update.email = params['email']
+        if (equal_email(user_to_update,old_user) or equal_username(user_to_update.old_user)):
+           return "Email o username ya utilizado"
         user_to_update.password = params['password']
         user_to_update.first_name = params['first_name']
         user_to_update.last_name = params['last_name']
         base.session.commit()
+
+        # si se modifico el nombreusuario
+            #y no se encuentra disponible 
+                #return
+        # si se modifico el email =/ si mi email es dintinto 
+            #y no se encuentra disponible 
+                #return
+
+              #  another_user = self.self.find_by_email(params['email']) or self.find_by_username(params['username'])
+        #if another_user != None:
+        
         return "Usuario actualizado correctamente"
 
 
+    @classmethod
+    def equal_email(newUser, oldUser):
+        return (newUser.email == oldUser.email)
+    
+    @classmethod
+    def equal_username(newUser, oldUser):
+        return (newUser.username == oldUser.username)
         
+         
 
    
 

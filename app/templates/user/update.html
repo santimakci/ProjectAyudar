@@ -6,7 +6,8 @@
 {% block content %}  
   <div class="col-lg-4 col-md-6 mx-auto">
     <h1>Actualizar usuario</h1>
-  <form action="url_for('commit_update')" method="PUT">
+  <form action="{{ url_for('commit_update') }} " method="POST">
+    <input name="id" type="hidden" value="{{user.id}}">
     <p>
       <label>Email <label></br>
       <input name="email" placeholder="Correo" value="{{user.email}}"/>
@@ -30,7 +31,7 @@
     <p>
       <input class="btn btn-success" type="submit" value="Actualizar">
     </p>
-    <input name="id" type="hidden" value="{{id}}"> <a class="btn btn-danger" href="{{ url_for('user_index') }}" class="link">Volver</a>
+    <a class="btn btn-danger" href="{{ url_for('user_index') }}" class="link">Volver</a>
   </form> 
 </div>
 {% endblock %}

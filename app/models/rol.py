@@ -1,5 +1,6 @@
 
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, ForeignKey
+from sqlalchemy.sql.schema import Table
 from app.db import base 
 from sqlalchemy.orm import relationship, backref
 
