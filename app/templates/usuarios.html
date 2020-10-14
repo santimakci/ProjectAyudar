@@ -6,11 +6,24 @@
 {% block content %}
   <div class="col-lg-4 col-md-6 mx-auto">
   <h1>Consultas</h1>
+  <table>
+  <tr>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Username</th>
+    <th>Email</th>
+  </tr>
+  <tr>
   {% for user in users %}
-    <li>{{ user.first_name }} - {{ user.last_name }}
-      <a class="btn btn-warning" href="{{url_for('user_update',id=user.id)}}"> Editar</a>
-      <a class="btn btn-danger" href="{{url_for('user_delete',id=user.id)}}"> Eliminar Usuario </a></li>
-  {% endfor %}
+    <td>{{user.first_name}}</td>
+    <td>{{user.last_name}}</td>
+    <td>{{user.username}}</td>
+    <td>{{user.email}}</td>     
+    <td><a class="btn btn-warning" href="{{url_for('user_update',id=user.id)}}"> Editar</a></td>
+    <td><a class="btn btn-danger" href="{{url_for('user_delete',id=user.id)}}"> Eliminar Usuario </a></td>
+  
+    {% endfor %}
+  </table>
   <a class="btn btn-success" href="/users/new">Crear nuevo usuario</a>
 {% endblock %}
    </div>
