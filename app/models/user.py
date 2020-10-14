@@ -96,7 +96,7 @@ class User (base.Model):
 
               #  another_user = self.self.find_by_email(params['email']) or self.find_by_username(params['username'])
         #if another_user != None:
-        
+
         return "Usuario actualizado correctamente"
 
 
