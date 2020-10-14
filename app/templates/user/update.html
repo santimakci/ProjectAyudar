@@ -6,7 +6,7 @@
 {% block content %}  
   <div class="col-lg-4 col-md-6 mx-auto">
     <h1>Actualizar usuario</h1>
-  <form action="url_for('user_update')" method="POST">
+  <form action="url_for('commit_update')" method="PUT">
     <p>
       <label>Email <label></br>
       <input name="email" placeholder="Correo" value="{{user.email}}"/>

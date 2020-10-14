@@ -26,7 +26,7 @@ class User (base.Model):
     users = relationship('User', secondary=user_rol, lazy='subquery',
      backref=backref('usuarios', lazy=True))
     deleted = Column(Boolean(), default=False)
-    date_deleted= Column(DateTime, default=None) 
+    date_deleted= Column(DateTime, default=base.func.now()) 
 
 
     @classmethod
@@ -46,7 +46,7 @@ class User (base.Model):
         for user in base.session.query(User).filter(User.email==email).filter(User.deleted==False):
             return user
 
-    @classmethod
+    #@classmethod
     def find_by_id(cls,id):
         for user in base.session.query(User).filter(User.id==id):
             return user
@@ -64,15 +64,13 @@ class User (base.Model):
        #Acción de eliminar usuario.
        #Dejar disponible desde el listado la realización de esta acción. La acción requerirá confirmación para realizarse o para cancelarla.
        #Determinar estrategia de borrado (lógico o físico).
-    def delete(id):
-        user = User.query.get_or_404(id)
-        if user.deleted:
-            abort(404)
-        user.deleted = True
+    def delete(self,params):
+        user = self.find_by_id(params['id'])
+        user.deleted=True
         user.date_deleted=base.func.now
-        base.session.commit()
-        return 'se borro el usuario', 204
-        return "Se creo el usuario"
+        a= user.username
+      # base.session.commit()
+        return f'se borro el usuario {a}'
         
     @classmethod
     def update(self, params):

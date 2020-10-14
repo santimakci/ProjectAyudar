@@ -10,7 +10,8 @@ from datetime import datetime
 def index():
     """ if not authenticated(session):
         abort(401) """
-    users = User.query.all()
+        
+    users = base.session.query(User).filter(User.deleted==False)
     return render_template("usuarios.html", users=users)
 
 def login():
@@ -34,19 +35,23 @@ def create():
 
 #testing delete 
 
-def delete():
-    #if not authenticated(session):
-    #    abort(401)
+#def delete(id):
+#    return render_template("user/delete.html/{id}")
+
+def commit_delete():
     params = request.form
-    mensaje = User.create(params)
+    mensaje = User.delete(params)
     flash(mensaje)
     return redirect(url_for("user_index"))
-    
-def update():
+
+def commit_update():
     params = request.form
     mensaje = User.update(params)
     flash(mensaje)
     return redirect(url_for("user_index"))
+
+#def update(id):
+#    return render_template("user/update.html")
 
 def user_back(id): #Con esto me traigo el user con tal id
     return User.find_by_id(id)

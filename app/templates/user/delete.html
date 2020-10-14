@@ -1,35 +1,15 @@
 {% extends "layout.html" %}
-{% block title %}Actualizar usuario{% endblock %}
+{% block title %}Borrar usuario{% endblock %}
 {% block head %}
   {{ super() }}
 {% endblock %}
 {% block content %}
-  <h1>Actualizar usuario</h1>
+  <h1>Borrar usuario</h1>
   <p>{{id}}</p>
-  <form action="{{ url_for('user_create') }}" method="POST">
+  <form action="{{ url_for('commit_delete') }}" method="POST">
+    <h3>Estas seguro que queres borrar el usuario "{{ user.first_name }}"?</h2>
     <p>
-      <label>Email <label></br>
-      <input name="email" placeholder="Correo"/>
-    </p>
-    <p>
-      <label>Contraseña <label></br>
-      <input type="password" name="password" placeholder="Clave"/>
-    </p>
-    <p>
-      <label>Username <label></br>
-      <input name="username" placeholder="Username"/>
-    </p>
-    <p>
-      <label>nombre <label></br>
-      <input name="first_name" placeholder="Nombre"/>
-    </p>
-    <p>
-      <label>Apellido <label></br>
-      <input name="last_name" placeholder="Apellido"/>
-    </p>
-    <p>
-      <input type="submit" value="Crear">
-      <button type="reset">Limpiar</button>
+      <input type="submit" value="Delete">
     </p>
   </form>
   <a href="{{ url_for('user_index') }}" class="link">Volver</a>
