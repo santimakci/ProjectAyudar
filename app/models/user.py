@@ -10,9 +10,9 @@ from app.db import base
 from sqlalchemy.orm import relationship, backref
 from datetime import date
 
-user_rol = Table('user_rol', base.metadata,
-    Column('users_id', Integer, ForeignKey('users.id')),
-    Column('roles_id', Integer, ForeignKey('roles.id') )
+user_rol = Table('usersRoles', base.metadata,
+    Column('usuario_id', Integer, ForeignKey('users.id')),
+    Column('rol_id', Integer, ForeignKey('roles.id') )
 ) 
 
 class SignupForm(FlaskForm):
@@ -33,8 +33,8 @@ class User (base.Model):
     active = Column(Boolean, default=True)
     date_updated = Column(DateTime, default=base.func.now())
     date_created = Column(DateTime, default=base.func.now())
-    users = relationship('User', secondary=user_rol, lazy='subquery',
-     backref=backref('usuarios', lazy=True))
+    roles = relationship('Rol', secondary=user_rol, lazy='subquery',
+        backref=backref('rols', lazy=True))
     deleted = Column(Boolean(), default=False)
     date_deleted= Column(DateTime, default=base.func.now()) #en el caso de que se requiera borrar un usuario, se actualiza la fecha de borrado 
 
@@ -105,3 +105,5 @@ class User (base.Model):
         base.session.commit()
 
         return "Usuario actualizado correctamente"
+       
+   

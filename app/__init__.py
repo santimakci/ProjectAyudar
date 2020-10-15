@@ -9,6 +9,8 @@ import os
 from app.resources.user import index as user_index, login as auth_login, new, create, user_back,commit_delete,delete,commit_update
 from app.resources.user import update as update
 
+from app.models.rol import return_roles
+
 from app.helpers import auth as helper_auth
 
 from app.db import connection
@@ -39,7 +41,11 @@ def create_app(environment="development"):
     app.add_url_rule("/logout", "auth_logout", auth.logout) # Url cerrar sesión
     app.add_url_rule("/user_new", "auth_logout", auth.logout) # Url creación usuario
 
+    roles = return_roles
+
     app.add_url_rule("/users", "user_index", user_index)
+
+    
     app.add_url_rule("/users", "user_create", create, methods=["POST"]) 
     app.add_url_rule("/users/new", "user_new", new)
 
