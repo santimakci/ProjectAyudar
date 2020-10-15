@@ -44,12 +44,15 @@ def create_app(environment="development"):
 
     app.add_url_rule("/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"])
 
-    
+
 
     @app.route("/")
     def home():
        return render_template ("home.html")
 
+    @app.route("/index")
+    def index():
+        return render_template("index.html")
     """ @app.route("/usuarios")
     def usuarios():
         return render_template("usuarios.html") """

@@ -1,21 +1,20 @@
 {% block navbar %}
 {% if is_authenticated(session) %}
-<nav class="navbar bg-info fixed-top navbar-expand-lg"  color-on-scroll="100" id="sectionsNav">
+<nav class="navbar navbar-expand-lg bg-info fixed-top"  color-on-scroll="100" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" href="#"><img src="/static/assets/img/image0.png" style="height: 10%; width: auto;"/></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
-            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="/"><img src="/static/assets/img/image0.png" height="25%"/></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon"></span>
                 <span class="navbar-toggler-icon"></span>
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
-        <div class="collapse navbar-collapse d-flex justify-content-center align-items-center" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#" > Inicio
+                    <a class="nav-link" href="#" > Inicio <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -30,15 +29,10 @@
                     <a class="nav-link" href="#" > Configuración
                     </a>
                 </li>
-                <!--<li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('auth_logout') }}" >
-                        <i class="material-icons">unarchive</i> Cerrar Sesion
-                    </a>
-                </li> -->
             </ul>
         </div>
-        <div class="nav-item dropdown inline d-flex justify-content-right align-items-right">
-            <a class="nav-link dropdown-toggle bg-info" style="color: #ffffff;" href="javascript:;" id="navbarDropdownMenuLink" data-toggle="dropdown" >
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle bg-info" style="color: #ffffff;" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
                 <span class="material-icons">account_circle </span> Admin
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
