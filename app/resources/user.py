@@ -1,7 +1,6 @@
 from flask import redirect, render_template, request, url_for, session, abort, flash
-from app.db import connection
 from app.models.user import User
-from app.db import base
+
 from app.helpers.auth import authenticated
 from datetime import datetime
 

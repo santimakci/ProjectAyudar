@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block title %}Consultas{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+
+
+<div class="container">
+
+  {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul class=flashes>
+          {% for message in messages %}
+
+          <div class="alert alert-success">
+            <div class="container">
+              <div class="alert-icon">
+                <i class="material-icons">check</i>
+              </div>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+              </button>
+              <b>Success:</b> {{ message }}
+            </div>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+  <div class="row">
+    <div class="col-lg-4 col-md-6 mx-auto">
+      <div class="card">
+        <div class="text-center">
+          </br>
+          <form class="form " action="{{ url_for('pagesettings_update') }}" method="POST">
+            <p>
+              <label> <strong>Título de la página</strong><label></br>
+                  <input required class="form-control" name="title" value="{{settings.title }}" />
+            </p>
+            <p>
+              <label><strong>Email de contacto</strong><label></br>
+                  <input required type="email" class="form-control" name="email" value="{{settings.email}}" />
+            </p>
+            <p>
+              <label><strong>Descripción de la página</strong> <label></br>
+                  <textarea required rows="5" class="form-control" name="description">{{settings.description}}</textarea>
+            </p>
+            <p>
+              <label><strong>Cantidad de elementos por listado</strong> <label></br>
+                  <input required class="form-control" type="number" name="cant_elements" value="{{settings.elements }}" />
+            </p>
+            <p>
+            <div class="togglebutton">
+              <label>
+                <input type="checkbox" name="enabled" {%- if settings.enabled  -%}checked{% endif %} value="true">
+                <span class="toggle"></span>
+                Página pública activa
+              </label>
+            </div>
+            </p>
+            <p>
+              <input class="btn btn-success" type="submit" value="Actualizar">
+              <button class="btn btn-default" type="reset">Limpiar</button>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

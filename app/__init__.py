@@ -6,12 +6,11 @@ from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 import os
 from app.resources.user import index as user_index, login as auth_login, new, create
-
 from app.helpers import auth as helper_auth
-
 from app.db import connection
 from app.resources import auth
 from config import config
+from app.resources.pagesettings import indexPage, updateSettings
 """ from resources.index import index as  """
    
 
@@ -37,9 +36,15 @@ def create_app(environment="development"):
     app.add_url_rule("/logout", "auth_logout", auth.logout) # Url cerrar sesión
     app.add_url_rule("/user_new", "auth_logout", auth.logout) # Url creación usuario
 
+    #Users
     app.add_url_rule("/users", "user_index", user_index)
     app.add_url_rule("/users", "user_create", create, methods=["POST"]) 
     app.add_url_rule("/users/new", "user_new", new)
+
+    #Page config
+    app.add_url_rule("/pageSettings", "pagesettings_indexPage", indexPage )
+    app.add_url_rule("/updateSettings", "pagesettings_update", updateSettings, methods=["POST"] )
+
 
 
     app.add_url_rule("/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"])
