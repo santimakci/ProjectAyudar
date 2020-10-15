@@ -1,5 +1,3 @@
-
-from app.models.user import SignupForm
 import pymysql
 from sqlalchemy import create_engine
 from flask import Flask, render_template, request, session
@@ -9,7 +7,6 @@ import os
 from app.resources.user import index as user_index, login as auth_login, new, create, user_back,commit_delete,delete,commit_update
 from app.resources.user import update as update
 
-from app.models.rol import return_roles
 
 from app.helpers import auth as helper_auth
 
@@ -41,7 +38,6 @@ def create_app(environment="development"):
     app.add_url_rule("/logout", "auth_logout", auth.logout) # Url cerrar sesión
     app.add_url_rule("/user_new", "auth_logout", auth.logout) # Url creación usuario
 
-    roles = return_roles
 
     app.add_url_rule("/users", "user_index", user_index)
 
@@ -59,23 +55,12 @@ def create_app(environment="development"):
     app.add_url_rule("/users/commit_update","commit_update",commit_update, methods=["POST"])
     app.add_url_rule("/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"])
 
+    #BORRAR ESTO DESPUES
     @app.route("/robarTemplates")
     def robarTemplates():
         return render_template("index.html")
 
-    #tutorial (desp borrar)  
-    @app.route("/signup/", methods=["GET", "POST"])
-    def show_signup_form():
-        form = SignupForm()
-        if form.validate_on_submit():
-            name = form.name.data
-            email = form.email.data
-            password = form.password.data
-            next = request.args.get('next', None)
-            if next:
-                return redirect(next)
-            return redirect(url_for('index'))
-        return render_template("signup_form.html", form=form)  
+    
 
     @app.route("/")
     def home():

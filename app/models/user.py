@@ -1,10 +1,10 @@
 #chequear
+from app.models.rol import Rol
 from os import abort
 #ver que onda
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Email, Length
-
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Table, ForeignKey, update
 from app.db import base 
 from sqlalchemy.orm import relationship, backref
@@ -58,7 +58,8 @@ class User (base.Model):
     def find_by_id(cls,id):
         for user in base.session.query(User).filter(User.id==id):
             return user
-
+ 
+ 
     @classmethod
     def create(self, params):
         if (self.find_by_email(params['email']) or self.find_by_username(params['username'])):
@@ -66,44 +67,24 @@ class User (base.Model):
         user = User( **params )
         base.session.add(user)
         base.session.commit()
-        return "Se creo el usuario perro"
+        return "Se creo el usuario "
 
+    #IMPORTANTE Chequear que si está borrado no se pueda loguear
     @classmethod
     def delete(self,params):
         user = self.find_by_id(params['id'])
         user.deleted = True
         user.date_deleted = base.func.now()
-        a = user.username
         base.session.commit()
-        return f'se borro el usuario {a}'
+        return f'se borro el usuario {user.username}'
 
-    @classmethod
-    def update(self,params):
-
-        new_username = params['username'] 
-        new_password = params['password'] 
-        new_first_name = params['first_name']
-        new_last_name = params['last_name'] 
-        new_email = params['email']
-
-        old_user = self.find_by_id(params['id'])
-
-        if (new_username != old_user.username):
-            if(self.find_by_username(new_username)):
-                return "Email o username ya utilizado"
-
-        if (new_email != old_user.email):
-            if(self.find_by_email(new_email)):
-                return "Email o username ya utilizado"
-
-        #Si llegaste acá, significa que cambiaste el nombre o el email y que no había otro igual, asique todo piola
-        old_user.email = new_email
-        old_user.username = new_username
-        old_user.password = new_password
-        old_user.first_name = new_first_name
-        old_user.last_name = new_last_name
+    def update(self,params,new_roles):
+        self.username = params['username']
+        self.first_name = params['first_name']
+        self.last_name = params['last_name']
+        self.password = params['password']
+        import code; code.interact(local=dict(globals(), **locals()))
+        self.roles = list(base.session.query(Rol).filter(Rol.id in new_roles))
         base.session.commit()
-
-        return "Usuario actualizado correctamente"
+        return "Usuario actualizado correctamente"   
        
-   

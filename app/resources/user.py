@@ -4,6 +4,7 @@ from app.models.user import User
 from app.db import base
 from app.helpers.auth import authenticated
 from datetime import datetime
+from app.models.rol import Rol
 
 
 # Protected resources
@@ -33,11 +34,10 @@ def create():
     return redirect(url_for("user_index"))
 
 
-#testing delete 
-
 def delete(id):
     user = User.find_by_id(id)
     return render_template("user/delete.html",user = user)
+
 
 def commit_delete():
     params = request.form
@@ -45,17 +45,26 @@ def commit_delete():
     flash(mensaje)
     return redirect(url_for("user_index"))
 
+
 def commit_update():
     params = request.form
-    mensaje = User.update(params)
+    new_roles = params.getlist('rol[]')
+    user = User.find_by_id(params['id'])
+    #import code; code.interact(local=dict(globals(), **locals()))
+    mensaje = user.update(params,new_roles)
     flash(mensaje)
     return redirect(url_for("user_index"))
+    #import code; code.interact(local=dict(globals(), **locals()))
+
 
 def user_back(id): #Con esto me traigo el user con tal id
     return User.find_by_id(id)
 
 
 def update(id):
-    #import code; code.interact(local=dict(globals(), **locals()))
+    all_roles = Rol.return_roles()
     user = User.find_by_id(id)
-    return render_template("user/update.html",user = user)
+    return render_template("user/update.html",user = user, all_roles = all_roles)
+
+
+

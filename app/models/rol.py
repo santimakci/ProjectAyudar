@@ -3,8 +3,7 @@ from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Foreig
 from sqlalchemy.sql.schema import Table
 from app.db import base 
 from sqlalchemy.orm import relationship, backref
-from app.models.user import user_rol
-
+#from app.models.user import user_rol
 
 rol_permission = Table('rolesPermissions', base.metadata,
     Column('permissions_id', Integer, ForeignKey('permissions.id')),
@@ -22,9 +21,11 @@ class Rol (base.Model):
     # backref=backref('users', lazy=True))
 
 
-@classmethod 
-def return_roles(cls):
-    return base.session.query(Rol).all()
+    @classmethod 
+    def return_roles(cls):
+        return cls.query.all()
+
+
 
 """
 Para esta etapa, no será obligatorio desarrollar el CRUD de los roles y los permisos, podrán

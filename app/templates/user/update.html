@@ -5,34 +5,39 @@
 {% endblock %}
 {% block content %}  
   <div class="col-lg-4 col-md-6 mx-auto">
-    <h1>Actualizar usuario</h1>
+    <h2>Actualizar usuario</h2>
   <form action="{{ url_for('commit_update') }} " method="POST">
     <input name="id" type="hidden" value="{{user.id}}">
     <p>
-      <label>Email <label></br>
+      <label>Email: <label></br>
       <input name="email" placeholder="Correo" value="{{user.email}}"/>
     </p>
     <p>
-      <label>Contraseña <label></br>
+      <label>Contraseña: <label></br>
       <input type="password" name="password" placeholder="Clave" value="{{user.password}}"/>
     </p>
     <p>
-      <label>Username <label></br>
+      <label>Nombre de usuario: <label></br>
       <input name="username" placeholder="Username" value="{{user.username}}"/>
     </p>
     <p>
-      <label>Nombre <label></br>
+      <label>Nombre: <label></br>
       <input name="first_name" placeholder="Nombre" value="{{user.first_name}}"/>
     </p>
     <p>
-      <label>Apellido <label></br>
+      <label>Apellido: <label></br>
       <input name="last_name" placeholder="Apellido" value="{{user.last_name}}"/>
-    </p>
-    
-    <p>
+    </p>  
+    <div>
+    <label> Mis roles: </label>
+    {% for rol in all_roles %}    
+      <label><input  name="rol[]" type="checkbox" value="{{rol.id}}" {{ rol in user.roles and "checked" }} > {{rol.name}} </label>  
+    {% endfor %}   
+  </div>
+     <p>
       <input class="btn btn-success" type="submit" value="Actualizar">
+      <a class="btn btn-danger" href="{{ url_for('user_index') }}" class="link">Volver</a>
     </p>
-    <a class="btn btn-danger" href="{{ url_for('user_index') }}" class="link">Volver</a>
-  </form> 
+  </form>   
 </div>
 {% endblock %}
