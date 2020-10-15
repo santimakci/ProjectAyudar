@@ -1,24 +1,33 @@
 {% block navbar %}
 {% if is_authenticated(session) %}
-<nav class="navbar bg-info fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
+<nav class="navbar bg-info fixed-top navbar-expand-lg"  color-on-scroll="100" id="sectionsNav">
     <div class="container">
-        
         <div class="navbar-translate">
-            <a class="navbar-brand" href="/"> <img src="https://i.pinimg.com/564x/af/3d/84/af3d84a13c63aa96290637ec646b9ab0.jpg">
-            </a>
+            <a class="navbar-brand" href="#"><img src="/static/assets/img/image0.png" style="height: 10%; width: auto;"/></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
-                aria-label="Toggle navigation">
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon"></span>
                 <span class="navbar-toggler-icon"></span>
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ml-auto">
-                
+        <div class="collapse navbar-collapse d-flex justify-content-center align-items-center" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" > Inicio
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('user_index') }}" > Usuarios
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" > Centros
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" > Configuración
                     </a>
                 </li>
                 <!--<li class="nav-item">
@@ -26,9 +35,19 @@
                         <i class="material-icons">unarchive</i> Cerrar Sesion
                     </a>
                 </li> -->
-                {% endif %}
             </ul>
+        </div>
+        <div class="nav-item dropdown inline d-flex justify-content-right align-items-right">
+            <a class="nav-link dropdown-toggle bg-info" style="color: #ffffff;" href="javascript:;" id="navbarDropdownMenuLink" data-toggle="dropdown" >
+                <span class="material-icons">account_circle </span> Admin
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Perfil</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ url_for('auth_logout') }}">Cerrar sesión</a>
+            </div>
         </div>
     </div>
 </nav>
+{% endif %}
 {% endblock %}

@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700');
 @import url('https://fonts.googleapis.com/css?family=Catamaran:400,800');
 body {
-  background-color: #4B7399;
+  background-color: #FFFFFF;
   font-family: 'Montserrat', Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .clear {
@@ -42,4 +42,26 @@ a.link {
   text-decoration: none;
   margin-top: 50px;
   letter-spacing: 1px;
+}
+
+.nav-link{
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+  right: 0;
 }
