@@ -1,6 +1,9 @@
 #chequear
 from os import abort
+#ver que onda
 from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, PasswordField
+from wtforms.validators import DataRequired, Email, Length
 
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Table, ForeignKey, update
 from app.db import base 
@@ -11,6 +14,12 @@ user_rol = Table('user_rol', base.metadata,
     Column('users_id', Integer, ForeignKey('users.id')),
     Column('roles_id', Integer, ForeignKey('roles.id') )
 ) 
+
+class SignupForm(FlaskForm):
+    name = StringField('Nombre', validators=[DataRequired(), Length(max=64)])
+    password = PasswordField('Password', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Registrar')
 
 class User (base.Model):
     
