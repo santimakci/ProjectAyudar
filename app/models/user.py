@@ -1,5 +1,6 @@
 #chequear
 from os import abort
+from flask_wtf import FlaskForm
 
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Table, ForeignKey, update
 from app.db import base 
@@ -57,35 +58,15 @@ class User (base.Model):
         base.session.add(user)
         base.session.commit()
         return "Se creo el usuario perro"
-    
-    
-       #Acción de eliminar usuario.
-       #Dejar disponible desde el listado la realización de esta acción. La acción requerirá confirmación para realizarse o para cancelarla.
-       #Determinar estrategia de borrado (lógico o físico).
+
     @classmethod
     def delete(self,params):
         user = self.find_by_id(params['id'])
-        user.deleted=True
-        user.date_deleted=base.func.now
+        user.deleted = True
+        user.date_deleted = base.func.now()
         a = user.username
         base.session.commit()
         return f'se borro el usuario {a}'
-        
-
-    """
-    @classmethod
-    def update(cls, params):
-        user_to_update = params # datos nuevos de el usuario a actualizar
-        old_user = self.find_by_id(params['id']) # datos viejos del usuario a actualizar
-        user_to_update.email = params['email']
-        if (self.equal_email(user_to_update,old_user) or self.equal_username(user_to_update.old_user)):
-           return "Email o username ya utilizado"
-        user_to_update.password = params['password']
-        user_to_update.first_name = params['first_name']
-        user_to_update.last_name = params['last_name']
-        base.session.commit()
-        return "Usuario actualizado correctamente"
-    """
 
     @classmethod
     def update(self,params):
@@ -113,4 +94,5 @@ class User (base.Model):
         old_user.first_name = new_first_name
         old_user.last_name = new_last_name
         base.session.commit()
+
         return "Usuario actualizado correctamente"

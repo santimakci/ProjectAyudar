@@ -8,22 +8,23 @@
   <h1>Consultas</h1>
   <table>
   <tr>
-    <th>Nombre</th>
-    <th>Apellido</th>
-    <th>Username</th>
-    <th>Email</th>
+    <th> Nombre </th>
+    <th> Apellido </th>
+    <th> Username </th>
+    <th> Email </th>
+    <th><a class="btn btn-success" href="/users/new">Crear nuevo usuario</a></th>
   </tr>
-  <tr>
+
   {% for user in users %}
-    <td>{{user.first_name}}</td>
+  <tr>  
+    <td>{{user.first_name}} </td>
     <td>{{user.last_name}}</td>
     <td>{{user.username}}</td>
     <td>{{user.email}}</td>     
     <td><a class="btn btn-warning" href="{{url_for('user_update',id=user.id)}}"> Editar</a></td>
-    <td><a class="btn btn-danger" href="{{url_for('user_delete',id=user.id)}}"> Eliminar Usuario </a></td>
-  
+    <td><a class="btn btn-danger" href="{{url_for('user_delete',id=user.id)}}"> Eliminar </a></td>
+  </tr>
     {% endfor %}
-  </table>
-  <a class="btn btn-success" href="/users/new">Crear nuevo usuario</a>
+  </table> 
 {% endblock %}
    </div>
