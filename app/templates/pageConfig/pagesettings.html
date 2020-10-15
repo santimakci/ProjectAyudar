@@ -28,33 +28,33 @@
         {% endif %}
       {% endwith %}
   <div class="row">
-    <div class="col-lg-4 col-md-6 mx-auto">
+    <div class="col-lg-8 col-md-6 mx-auto">
       <div class="card">
-        <div class="text-center">
+        <div class="text-left mx-auto">
           </br>
           <form class="form " action="{{ url_for('pagesettings_update') }}" method="POST">
             <p>
-              <label> <strong>Título de la página</strong><label></br>
+              <label> <strong>Título de la página </strong><label></br>
                   <input required class="form-control" name="title" value="{{settings.title }}" />
             </p>
             <p>
-              <label><strong>Email de contacto</strong><label></br>
+              <label><strong>Email de contacto </strong><label></br>
                   <input required type="email" class="form-control" name="email" value="{{settings.email}}" />
             </p>
             <p>
-              <label><strong>Descripción de la página</strong> <label></br>
-                  <textarea required rows="5" class="form-control" name="description">{{settings.description}}</textarea>
+              <label><strong>Descripción de la página </strong> <label></br>
+                  <textarea required rows="6" class="form-control" name="description">{{settings.description}}</textarea>
             </p>
             <p>
-              <label><strong>Cantidad de elementos por listado</strong> <label></br>
+              <label><strong>Cantidad de elementos por página </strong> <label></br>
                   <input required class="form-control" type="number" name="cant_elements" value="{{settings.elements }}" />
             </p>
             <p>
             <div class="togglebutton">
               <label>
+                Habilitar sitio</strong>
                 <input type="checkbox" name="enabled" {%- if settings.enabled  -%}checked{% endif %} value="true">
                 <span class="toggle"></span>
-                Página pública activa
               </label>
             </div>
             </p>

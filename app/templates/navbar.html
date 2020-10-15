@@ -1,9 +1,9 @@
 {% block navbar %}
 {% if is_authenticated(session) %}
-<nav class="navbar navbar-expand-lg bg-info fixed-top"  color-on-scroll="100" id="sectionsNav">
+<nav class="navbar navbar-expand-lg bg-info sticky-top"  color-on-scroll="100" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" href="/"><img src="/static/assets/img/image0.png" height="25%"/></a>
+            <a class="navbar-brand" href="/"><img src="/static/assets/img/image0.png" height="80%"/></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon"></span>
@@ -12,9 +12,9 @@
             </button>
         </div>
         <div class="collapse navbar-collapse">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#" > Inicio <span class="sr-only">(current)</span>
+                    <a class="nav-link" href="/" > Inicio <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -26,14 +26,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" > Configuración
+                    <a class="nav-link" href="{{ url_for('pagesettings_indexPage') }}" > Configuración
                     </a>
                 </li>
             </ul>
         </div>
         <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle bg-info" style="color: #ffffff;" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
-                <span class="material-icons">account_circle </span> Admin
+                <span class="material-icons">account_circle </span> Admin  
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="#">Perfil</a>

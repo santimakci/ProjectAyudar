@@ -11,6 +11,7 @@ from app.db import connection
 from app.resources import auth
 from config import config
 from app.resources.pagesettings import indexPage, updateSettings
+from app.models.pageSetting import PageSetting
 """ from resources.index import index as  """
    
 
@@ -53,7 +54,8 @@ def create_app(environment="development"):
 
     @app.route("/")
     def home():
-       return render_template ("home.html")
+       settings=PageSetting.find_settings()
+       return render_template ("home.html", settings=settings)
 
     """ @app.route("/usuarios")
     def usuarios():
