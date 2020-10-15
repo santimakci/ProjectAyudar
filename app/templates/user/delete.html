@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}Borrar usuario{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+  <h1>Borrar usuario</h1>
+  <form action="{{ url_for('commit_delete') }}" method="POST">
+    <h3>Estas seguro que queres borrar el usuario "{{ user.first_name }}"?</h2>
+    <p>
+      <input name="id" type="hidden" value="{{user.id}}"> 
+      <input type="submit" value="Delete">
+    </p>
+  </form>
+  <a href="{{ url_for('user_index') }}" class="link">Volver</a>
+{% endblock %}

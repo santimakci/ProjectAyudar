@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block title %}Actualizar usuario{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}  
+  <div class="col-lg-4 col-md-6 mx-auto">
+    <h1>Actualizar usuario</h1>
+  <form action="{{ url_for('commit_update') }} " method="POST">
+    <input name="id" type="hidden" value="{{user.id}}">
+    <p>
+      <label>Email <label></br>
+      <input name="email" placeholder="Correo" value="{{user.email}}"/>
+    </p>
+    <p>
+      <label>Contraseña <label></br>
+      <input type="password" name="password" placeholder="Clave" value="{{user.password}}"/>
+    </p>
+    <p>
+      <label>Username <label></br>
+      <input name="username" placeholder="Username" value="{{user.username}}"/>
+    </p>
+    <p>
+      <label>Nombre <label></br>
+      <input name="first_name" placeholder="Nombre" value="{{user.first_name}}"/>
+    </p>
+    <p>
+      <label>Apellido <label></br>
+      <input name="last_name" placeholder="Apellido" value="{{user.last_name}}"/>
+    </p>
+    <p>
+      <input class="btn btn-success" type="submit" value="Actualizar">
+    </p>
+    <a class="btn btn-danger" href="{{ url_for('user_index') }}" class="link">Volver</a>
+  </form> 
+</div>
+{% endblock %}
