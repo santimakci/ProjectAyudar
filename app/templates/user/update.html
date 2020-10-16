@@ -29,6 +29,12 @@
       <input name="last_name" placeholder="Apellido" value="{{user.last_name}}"/>
     </p>  
     <div>
+      {% if user.active: %}
+      <label><input  name="active" type="checkbox" value="{{user.active}}" checked ></label> 
+      {% else %}
+      <label><input  name="active" type="checkbox" value="{{user.active}}"></label> 
+      {% endif %}
+
     <label> Mis roles: </label>
     {% for rol in all_roles %}    
       <label><input  name="rol[]" type="checkbox" value="{{rol.id}}" {{ rol in user.roles and "checked" }} > {{rol.name}} </label>  

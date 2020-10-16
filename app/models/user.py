@@ -1,10 +1,7 @@
 #chequear
 from app.models.rol import Rol
 from os import abort
-#ver que onda
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import DataRequired, Email, Length
+
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Table, ForeignKey, update
 from app.db import base 
 from sqlalchemy.orm import relationship, backref
@@ -14,12 +11,6 @@ user_rol = Table('usersRoles', base.metadata,
     Column('usuario_id', Integer, ForeignKey('users.id')),
     Column('rol_id', Integer, ForeignKey('roles.id') )
 ) 
-
-class SignupForm(FlaskForm):
-    name = StringField('Nombre', validators=[DataRequired(), Length(max=64)])
-    password = PasswordField('Password', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Registrar')
 
 class User (base.Model):
     
@@ -88,3 +79,13 @@ class User (base.Model):
         base.session.commit()
         return "Usuario actualizado correctamente"   
        
+"""
+       Se deben poder realizar búsquedas sobre los usuarios, al menos por los siguientes
+        campos:
+        ○ nombre de usuario.
+        ○ activo/bloqueado.
+        El resultado de la búsqueda debe estar paginado en base a la configuración del
+        sistema (ver módulo de configuración). La validación deberá realizarse del lado
+        del servidor, es decir, la cantidad de registros retornada debe ser la indicada en el
+        módulo de configuración, por ej. 25 registros por página.
+"""

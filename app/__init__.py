@@ -68,34 +68,3 @@ def create_app(environment="development"):
     return app 
    
 
-
-
-
-
-
-
-
-
-    #Cosas comentadas que en algún momento nos van a servir (?) //@gaston:o borrar, despues.. :D
-    """
-    @app.route("/users/update",methods=['GET'])
-    def user_update():
-       # id_prueba = request.args.get('id')
-        id_to_update = request.args.get('id')
-        import code; code.interact(local=dict(globals(), **locals())) 
-
-        id_update = user_back(id_to_update)
-
-        return render_template("user/update.html",user=id_update)
-    
-    @app.route("/users/delete")
-    def user_delete():
-        user_to_delete = user_back(request.args.get('id'))
-        return render_template("user/delete.html",user=user_to_delete, methods=["DELETE"])
-    
-    
-    @app.route("/usuarios")
-    def usuarios():
-        return render_template("usuarios.html") 
-        """
-    
