@@ -1,6 +1,6 @@
 from flask import redirect, render_template, request, url_for, session, abort, flash
 from app.models.user import User
-
+from app.db import base
 from app.helpers.auth import authenticated
 from datetime import datetime
 
@@ -47,8 +47,11 @@ def commit_delete():
 def commit_update():
     params = request.form
     mensaje = User.update(params)
-    flash(mensaje)
-    return redirect(url_for("user_index"))
+    flash(mensaje[0], mensaje[1])
+    if mensaje[1] == 'success':
+        return redirect(url_for("user_index"))
+    else:
+        return redirect(url_for('user_update',id=params['id']))
 
 def user_back(id): #Con esto me traigo el user con tal id
     return User.find_by_id(id)

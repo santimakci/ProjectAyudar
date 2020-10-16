@@ -9,24 +9,23 @@
 <div class="container">
 
   {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <ul class=flashes>
-          {% for message in messages %}
+  {% if messages %}
+  <ul class=flashes>
 
-          <div class="alert alert-success">
-            <div class="container">
-              <div class="alert-icon">
-                <i class="material-icons">check</i>
-              </div>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true"><i class="material-icons">clear</i></span>
-              </button>
-              <b>Success:</b> {{ message }}
-            </div>
-          {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
+    <div class="alert alert-success">
+      <div class="container">
+        <div class="alert-icon">
+          <i class="material-icons">check</i>
+        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true"><i class="material-icons">clear</i></span>
+        </button>
+        <b>Success:</b> {{ messages|last }}
+      </div>
+
+  </ul>
+  {% endif %}
+  {% endwith %}
   <div class="row">
     <div class="col-lg-8 col-md-6 mx-auto">
       <div class="card">
@@ -43,11 +42,13 @@
             </p>
             <p>
               <label><strong>Descripción de la página </strong> <label></br>
-                  <textarea required rows="6" class="form-control" name="description">{{settings.description}}</textarea>
+                  <textarea required rows="6" class="form-control"
+                    name="description">{{settings.description}}</textarea>
             </p>
             <p>
               <label><strong>Cantidad de elementos por página </strong> <label></br>
-                  <input required class="form-control" type="number" name="cant_elements" value="{{settings.elements }}" />
+                  <input required class="form-control" type="number" name="cant_elements"
+                    value="{{settings.elements }}" />
             </p>
             <p>
             <div class="togglebutton">

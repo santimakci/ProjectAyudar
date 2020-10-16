@@ -1,10 +1,11 @@
 {% block navbar %}
 {% if is_authenticated(session) %}
-<nav class="navbar navbar-expand-lg bg-info sticky-top"  color-on-scroll="100" id="sectionsNav">
+<nav class="navbar navbar-expand-lg bg-info sticky-top" color-on-scroll="100" id="sectionsNav">
     <div class="container">
         <div class="navbar-translate">
-            <a class="navbar-brand" href="/"><img src="/static/assets/img/image0.png" height="80%"/></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="/"><img src="/static/assets/img/image0.png" height="80%" /></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon"></span>
                 <span class="navbar-toggler-icon"></span>
@@ -14,26 +15,37 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/" > Inicio <span class="sr-only">(current)</span>
+                    <a class="nav-link" href="/"> Inicio <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('user_index') }}" > Usuarios
+                    <a class="nav-link" href="{{ url_for('user_index') }}"> Usuarios
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="#" > Centros
+                    <a class="nav-link disabled" href="#"> Centros
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('pagesettings_indexPage') }}" > Configuración
+                    <a class="nav-link" href="{{ url_for('pagesettings_indexPage') }}"> Configuración
                     </a>
                 </li>
             </ul>
         </div>
         <div class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle bg-info" style="color: #ffffff;" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false">
-                <span class="material-icons">account_circle </span> Admin  
+            <a class=" dropdown-toggle  nav-link" style="color: #ffffff;" href="#" id="navbarDropdownMenuLink"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentcolor"
+                        style="margin: 0.2em;" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z" />
+                        <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                        <path fill-rule="evenodd"
+                            d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z" />
+                    </svg>
+                   <Span>Admin</Span>
+                   <b class="caret"></b>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" href="#">Perfil</a>

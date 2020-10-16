@@ -16011,6 +16011,8 @@ h2.title {
   -o-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
   transform: rotate(0deg);
+  margin: auto;
+  margin-left: 5px;
 }
 
 .dropdown-toggle.open:after {

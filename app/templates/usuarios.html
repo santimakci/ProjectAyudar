@@ -1,30 +1,91 @@
 {% extends "layout.html" %}
 {% block title %}Consultas{% endblock %}
 {% block head %}
-  {{ super() }}
+{{ super() }}
 {% endblock %}
 {% block content %}
-  <div class="col-lg-4 col-md-6 mx-auto">
-  <h1>Consultas</h1>
-  <table>
-  <tr>
-    <th> Nombre </th>
-    <th> Apellido </th>
-    <th> Username </th>
-    <th> Email </th>
-    <th><a class="btn btn-success" href="/users/new">Crear nuevo usuario</a></th>
-  </tr>
 
-  {% for user in users %}
-  <tr>  
-    <td>{{user.first_name}} </td>
-    <td>{{user.last_name}}</td>
-    <td>{{user.username}}</td>
-    <td>{{user.email}}</td>     
-    <td><a class="btn btn-warning" href="{{url_for('user_update',id=user.id)}}"> Editar</a></td>
-    <td><a class="btn btn-danger" href="{{url_for('user_delete',id=user.id)}}"> Eliminar </a></td>
-  </tr>
-    {% endfor %}
-  </table> 
-{% endblock %}
-   </div>
+<div class="container">
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul class=flashes>
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+
+    <div class="alert alert-{{category}}">
+      <div class="container text-center">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true"><i class="material-icons">clear</i></span>
+        </button>
+        {{ message }}
+      </div>
+      {% endfor %}
+
+  </ul>
+  {% endif %}
+  {% endwith %}
+
+  <div class="container">
+    <div class="row">
+      
+      
+      <form class="form-inline ">
+          <input type="text" class="col-lg-4  form-control" placeholder="Search">
+        <button type="submit" class="btn btn-white btn-raised btn-fab btn-round">
+          <i class="material-icons">search</i>
+        </button>
+      </form>
+
+      <a class="btn btn-success " style="height: 3.5em;" href="/users/new">Crear nuevo usuario</a>
+    </div>
+
+  </div>
+
+
+
+  <!--   <div class="row">
+    <div class="col-lg-12 col-md-8"> -->
+  <div class="card">
+    <table class="table text-center">
+      <tr >
+        <th scope="col"> Nombre </th>
+        <th scope="col"> Apellido </th>
+        <th scope="col"> Usuario </th>
+        <th scope="col"> Email </th>
+      </tr>
+
+      {% for user in users %}
+      <tr>
+        <td scope="row">{{user.first_name}} </td>
+        <td>{{user.last_name}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>
+          <a href="{{url_for('user_update',id=user.id)}}">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square" "
+              xmlns=" http://www.w3.org/2000/svg">
+              <path
+                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+              <path fill-rule="evenodd"
+                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+            </svg>
+          </a>
+        </td>
+        <td>
+          <a href="{{url_for('user_delete',id=user.id)}}">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash" "
+              xmlns=" http://www.w3.org/2000/svg">
+              <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+              <path fill-rule="evenodd"
+                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+            </svg>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endblock %}
+  </div>
+</div>
+<!--   </div>
+</div> -->

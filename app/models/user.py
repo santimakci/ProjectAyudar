@@ -85,7 +85,7 @@ class User (base.Model):
 
         if (new_email != old_user.email):
             if(self.find_by_email(new_email)):
-                return "Email o username ya utilizado"
+                return ("Email o username ya utilizado", "danger")
 
         #Si llegaste acá, significa que cambiaste el nombre o el email y que no había otro igual, asique todo piola
         old_user.email = new_email
@@ -95,4 +95,4 @@ class User (base.Model):
         old_user.last_name = new_last_name
         base.session.commit()
 
-        return "Usuario actualizado correctamente"
+        return ("Usuario actualizado correctamente", "success")
