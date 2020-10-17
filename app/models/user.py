@@ -21,6 +21,17 @@ class User (base.Model):
     deleted = Column(Boolean(), default=False)
     date_deleted= Column(DateTime, default=base.func.now()) 
 
+    
+    def __init__ (self, params):
+        self.email = params['email']
+        self.username = params['username']
+        self.first_name = params['first_name']
+        self.last_name = params['last_name']
+        self.password = params['password']
+        
+
+
+
 
     @classmethod
     def find_by_email_and_pass(cls, mail, password):
@@ -49,11 +60,11 @@ class User (base.Model):
     @classmethod
     def create(self, params):
         if (self.find_by_email(params['email']) or self.find_by_username(params['username'])):
-            return "Email o username ya utilizado"
-        user = User( **params )
+            return ("Email o username ya utilizado", "danger")
+        user = User( params )
         base.session.add(user)
         base.session.commit()
-        return "Se creo el usuario "
+        return ("Se creo el usuario ", "success")
 
 
     @classmethod

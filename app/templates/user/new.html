@@ -1,46 +1,130 @@
 {% extends "layout.html" %}
 {% block title %}Usuarios{% endblock %}
 {% block head %}
-  {{ super() }}
+{{ super() }}
 {% endblock %}
 {% block content %}
 <div class="col-lg-4 col-md-6 mx-auto">
   <h1>Crear un usuario</h1>
-  <form action="{{ url_for('user_create') }}" method="POST">
+  <form action="{{ url_for('user_create') }}" name="form1" method="POST">
     <p>
       <label>Email: <label></br>
-      <input name="email" placeholder="Correo"/>
+          <input name="email" placeholder="Correo" />
     </p>
     <p>
       <label>Contraseña: <label></br>
-      <input type="password" name="password" placeholder="Clave"/>
+          <input type="password" name="password" placeholder="Clave" />
     </p>
     <p>
       <label>Nombre de usuario: <label></br>
-      <input name="username" placeholder="Username"/>
+          <input name="username" placeholder="Username" />
     </p>
     <p>
       <label>Nombre: <label></br>
-      <input name="first_name" placeholder="Nombre"/>
+          <input name="first_name" placeholder="Nombre" />
     </p>
     <p>
       <label>Apellido: <label></br>
-      <input name="last_name" placeholder="Apellido"/>
+          <input name="last_name" placeholder="Apellido" />
     </p>
-    <p>
-      <label>Roles:  <label></br>
-        <label class="checkbox-inline">
-          <input type="checkbox" value=""> Administrador
-        </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" value=""> Operador
-      </label>
+
+    <div class="col-lg-12 col-md-6 mx-auto">
+    <div class="content">
+      <select multiple="multiple" id="select1" style="width:100px;height:160px;">
+        {% for rol in roles %}
+        <option value={{rol.id}}>{{rol.name}}</option>
+        {% endfor %}
+      </select>
+      <div>
+        <span class="espanes" id="add">Check add to the right</span>
+        <span class="espanes" id="add_all">Add all to the right</span>
+      </div>
+    </div>
+    <div class="content">
+      <select multiple name="roles[]" id="select2" style="width: 100px;height:160px;">
+      </select>
+      <div>
+        <span class="espanes" id="remove">Remove</span>
+        <span class="espanes" id="remove_all">Remove All</span>
+      </div>
+    </div>
+    <input class="btn btn-success" type="submit" onclick="selectAll();" value="Crear">
+    <a class="btn btn-danger" href="{{ url_for('user_index') }}" class="link">Volver</a>
     </p>
-    <p>
-      <input class="btn btn-success" type="submit" value="Crear">
-      <button class="btn btn-warning" type="reset">Limpiar</button>  
-      <a class="btn btn-danger" href="{{ url_for('user_index') }}" class="link">Volver</a>    
-    </p>
+  </div>
+
+
+
+
+
+
+
+
+
   </form>
+</div>
+
+
+
+
+
+<style>
+  div.content {
+    float: left;
+    text-align: center;
+    margin: 10px;
+  }
+
+  .espanes{
+    display: block;
+    margin: 2px 2px;
+    padding: 4px 10px;
+    background: #00bcd4;
+    cursor: pointer;
+    font-size: 12px;
+    color: white;
+  }
+</style>
+<script type="text/javascript">
+  jQuery('[name="form1"]').on("submit", selectAll);
+
+  function selectAll() {
+    jQuery('[name="roles[]"] option').prop('selected', true).val()
+  }
+</script>
+<script>
+  $(function () {
+    $('#add').click(function () {
+      let $options = $('#select1 option:selected');
+      $options.appendTo("#select2");
+    });
+    $('#add_all').click(function () {
+      let $options = $('#select1 option');
+      $options.appendTo("#select2");
+    });
+    $('#select1').dblclick(function () {
+      let $option = $('option:selected', this);
+      $option.appendTo('#select2');
+    });
+    $("#remove").click(function () {
+      let $options = $('#select2 option:selected');
+      $options.appendTo("#select1");
+    });
+    $("#remove_all").click(function () {
+      let $options = $('#select2 option');
+      $options.appendTo('#select1');
+    });
+    $('#select2').dblclick(function () {
+      let $option = $('option:selected');
+      $option.appendTo("#select1");
+    });
+  });
+</script>
+
+
+
+
+
+
 </div>
 {% endblock %}

@@ -12,6 +12,7 @@ from app.resources import auth
 from config import config
 from app.resources.pagesettings import indexPage, updateSettings
 from app.models.pageSetting import PageSetting
+from app.models.rol import Rol
 """ from resources.index import index as  """
    
 
@@ -41,6 +42,7 @@ def create_app(environment="development"):
 
     
     app.add_url_rule("/users", "user_create", create, methods=["POST"]) 
+
     app.add_url_rule("/users/new", "user_new", new)
 
     #app.add_url_rule("/users/newPrueba", "user_new", new)

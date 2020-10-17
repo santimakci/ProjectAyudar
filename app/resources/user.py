@@ -22,15 +22,21 @@ def login():
 def new():
     #if not authenticated(session):
     #    abort(401)
-    return render_template("user/new.html")
+    roles = Rol.return_roles()
+    return render_template("user/new.html", roles=roles)
 
 
 def create():
     #if not authenticated(session):
     #    abort(401)
     params = request.form
+    if request.method == 'POST':
+        lista = request.form.getlist('roles[]')
     mensaje = User.create(params)
-    flash(mensaje)
+    if mensaje[1] == 'success':
+        new_user = User.find_by_username(params['username'])
+        UsersRoles.get_data(new_user.id,lista)
+    flash(mensaje[0], mensaje[1])
     return redirect(url_for("user_index"))
 
 
