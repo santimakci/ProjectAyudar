@@ -60,7 +60,7 @@
         <th scope="col"> Email </th>
       </tr>
 
-      {% for user in users %}
+      {% for user in users.items %}
       <tr>
         <td scope="row">{{user.first_name}} </td>
         <td>{{user.last_name}}</td>
@@ -91,9 +91,25 @@
       </tr>
       {% endfor %}
     </table>
+<<<<<<< HEAD
   <a class="btn btn-success " style="height: 3.5em;" href="/users/new">Crear nuevo usuario</a>
+=======
+    <ul class="pagination pagination-info mx-auto" id="page">
+      {% for page in pages %}
+        {%if page%}
+          <li class="page-item" id="page-{{page}}"><a href="{{ url_for('usersPag',num_page=page) }}" class="page-link">{{page}}</a></li>
+        {%else%}
+          ...
+        {%endif%}
+      {% endfor %}
+    </ul>
+>>>>>>> b2762d7e984bb1ebc1e0f2a0d74cbdd619aca485
     {% endblock %}
   </div>
 </div>
-<!--   </div>
-</div> -->
+{%block javascript%}
+<script>
+    pag=$(document).getElementById("page-{{users.page()}}");
+    pag.addClass("active");
+</script>
+{%endblock%}

@@ -40,7 +40,11 @@ def create_app(environment="development"):
     app.add_url_rule("/logout", "auth_logout", auth.logout) # Url cerrar sesión
     app.add_url_rule("/user_new", "auth_logout", auth.logout) # Url creación usuario
 
-    app.add_url_rule("/users", "user_index", user_index)
+    
+    @app.route("/users/<int:num_page>")
+    def usersPag(num_page):
+      params = user_index(num_page)
+      return  render_template("usuarios.html", users=params[0], pages=params[1])
 
     app.add_url_rule("/users", "user_search", search, methods=["POST"]) 
 
@@ -49,7 +53,6 @@ def create_app(environment="development"):
 
     app.add_url_rule("/users/new", "user_new", new)
 
-    #app.add_url_rule("/users/newPrueba", "user_new", new)
 
 
     app.add_url_rule("/users/delete/<int:id>","user_delete",delete)
