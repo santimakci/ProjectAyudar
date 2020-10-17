@@ -25,7 +25,6 @@
   {% endwith %}
 
   <div class="container">
-<<<<<<< HEAD
     <div class="row">
       
       
@@ -34,11 +33,13 @@
         <div class="form-group has-default bmd-form-group">
           <input type="text" name="username" class="form-control" placeholder="Buscar...">
         </div>
-        <label><input type="radio" name="active" value="1" checked> Activo </label><br> 
-        <label><input type="radio" name="active" value="0"> Bloqueado</label><br>
+  
         <button type="submit" class="btn btn-white btn-raised btn-fab btn-round" style="margin-top: 1em;">
           <i class="material-icons">search</i>
         </button>
+
+        <label style="margin: 2em 0em 0em 2em;"><input type="radio" name="active" value="1" checked> <strong style="MARGIN-LEFT: 0.5em;">Activo</strong>  </label><br> 
+        <label style="margin: 2em 0em 0em 2em;"><input type="radio" name="active" value="0"> <strong style="MARGIN-LEFT: 0.5em;">Bloqueado</strong></label><br>
       </form>
 
 
@@ -91,7 +92,6 @@
       </tr>
       {% endfor %}
     </table>
-  <a class="btn btn-success " style="height: 3.5em;" href="/users/new">Crear nuevo usuario</a>
     {% endblock %}
   </div>
 </div>
