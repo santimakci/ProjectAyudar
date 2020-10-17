@@ -6,6 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from app.resources.user import index as user_index, login as auth_login, new, create, user_back,commit_delete,delete,commit_update
 from app.resources.user import update as update
+from app.resources.user import search as search
+
 from app.helpers import auth as helper_auth
 from app.db import connection
 from app.resources import auth
@@ -40,8 +42,10 @@ def create_app(environment="development"):
 
     app.add_url_rule("/users", "user_index", user_index)
 
-    
-    app.add_url_rule("/users", "user_create", create, methods=["POST"]) 
+    app.add_url_rule("/users", "user_search", search, methods=["POST"]) 
+
+    app.add_url_rule("/users_create", "user_create", create, methods=["POST"]) 
+
 
     app.add_url_rule("/users/new", "user_new", new)
 

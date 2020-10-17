@@ -25,19 +25,22 @@
   {% endwith %}
 
   <div class="container">
+<<<<<<< HEAD
     <div class="row">
       
       
-      <form class="form-inline ">
+      <form class="form-inline" action="{{url_for('user_search')}}" method="POST">
 
         <div class="form-group has-default bmd-form-group">
-          <input type="text" class="form-control" placeholder="Regular">
+          <input type="text" name="username" class="form-control" placeholder="Buscar...">
         </div>
-        <button type="submit" class="btn btn-white btn-raised btn-fab btn-round" style="margin-top: 1em;
-        ">
+        <label><input type="radio" name="active" value="1" checked> Activo </label><br> 
+        <label><input type="radio" name="active" value="0"> Bloqueado</label><br>
+        <button type="submit" class="btn btn-white btn-raised btn-fab btn-round" style="margin-top: 1em;">
           <i class="material-icons">search</i>
         </button>
       </form>
+
 
       <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="/users/new">Crear nuevo usuario</a>
     </div>
@@ -88,6 +91,7 @@
       </tr>
       {% endfor %}
     </table>
+  <a class="btn btn-success " style="height: 3.5em;" href="/users/new">Crear nuevo usuario</a>
     {% endblock %}
   </div>
 </div>
