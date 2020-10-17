@@ -12,7 +12,8 @@
     <th> Apellido </th>
     <th> Username </th>
     <th> Email </th>
-    <th> Roles </th>
+    <th> Activo </th>
+
     <th><a class="btn btn-success" href="/users/new">Crear nuevo usuario</a></th>
   </tr>
 
@@ -22,11 +23,7 @@
     <td>{{user.last_name}}</td>
     <td>{{user.username}}</td>
     <td>{{user.email}}</td>    
-    <td> {% for rol in user.roles %}
-      <option>
-        {{rol.name}}
-      </option>
-      {% endfor %}
+    <td>{% if user.active %} Si {% else %} No {% endif %}</td>
 
     </td>    
     <td><a class="btn btn-warning" href="{{url_for('user_update',id=user.id)}}"> Editar</a></td>

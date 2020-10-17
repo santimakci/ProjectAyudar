@@ -5,6 +5,7 @@ from app.db import base
 from app.helpers.auth import authenticated
 from datetime import datetime
 from app.models.rol import Rol
+from app.models.usersRoles import UsersRoles
 
 
 # Protected resources
@@ -48,23 +49,29 @@ def commit_delete():
 
 def commit_update():
     params = request.form
-    new_roles = params.getlist('rol[]')
-    user = User.find_by_id(params['id'])
-    #import code; code.interact(local=dict(globals(), **locals()))
-    mensaje = user.update(params,new_roles)
+    if request.method == 'POST':
+        lista = request.form.getlist('roles[]')
+    UsersRoles.get_data(params['id'],lista)
+    user = User.find_by_id(params['id'])   
+    mensaje = user.update(params)    
     flash(mensaje)
-    return redirect(url_for("user_index"))
-    #import code; code.interact(local=dict(globals(), **locals()))
+    return redirect(url_for("user_index"))    
 
 
-def user_back(id): #Con esto me traigo el user con tal id
+def user_back(id):
     return User.find_by_id(id)
 
 
 def update(id):
     all_roles = Rol.return_roles()
+    user_roles = UsersRoles.find_user_roles_by_id(id)
+    roles_name_user = Rol.get_name_roles(user_roles)    
+    roles = []
+    for item in all_roles:
+        if item not in roles_name_user:
+            roles.append(item)
     user = User.find_by_id(id)
-    return render_template("user/update.html",user = user, all_roles = all_roles)
+    return render_template("user/update.html",user = user, all_roles = roles, user_roles = roles_name_user)
 
 
 
