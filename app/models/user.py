@@ -74,3 +74,13 @@ class User (base.Model):
         base.session.commit()
         return "Usuario actualizado correctamente"   
        
+"""
+       Se deben poder realizar búsquedas sobre los usuarios, al menos por los siguientes
+        campos:
+        ○ nombre de usuario.
+        ○ activo/bloqueado.
+        El resultado de la búsqueda debe estar paginado en base a la configuración del
+        sistema (ver módulo de configuración). La validación deberá realizarse del lado
+        del servidor, es decir, la cantidad de registros retornada debe ser la indicada en el
+        módulo de configuración, por ej. 25 registros por página.
+"""
