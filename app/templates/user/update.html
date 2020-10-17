@@ -23,33 +23,117 @@
 {% endif %}
 {% endwith %}
 <div class="col-lg-4 col-md-6 mx-auto">
-  <h1>Actualizar usuario</h1>
-  <form action="{{ url_for('commit_update') }} " method="POST">
+  <h2>Actualizar usuario</h2>
+  <form action="{{ url_for('commit_update') }} " name="form1" method="POST">
     <input name="id" type="hidden" value="{{user.id}}">
     <p>
-      <label>Email <label></br>
+      <label>Email: <label></br>
           <input name="email" placeholder="Correo" value="{{user.email}}" />
     </p>
     <p>
-      <label>Contraseña <label></br>
+      <label>Contraseña: <label></br>
           <input type="password" name="password" placeholder="Clave" value="{{user.password}}" />
     </p>
     <p>
-      <label>Username <label></br>
+      <label>Nombre de usuario: <label></br>
           <input name="username" placeholder="Username" value="{{user.username}}" />
     </p>
     <p>
-      <label>Nombre <label></br>
+      <label>Nombre: <label></br>
           <input name="first_name" placeholder="Nombre" value="{{user.first_name}}" />
     </p>
     <p>
-      <label>Apellido <label></br>
+      <label>Apellido: <label></br>
           <input name="last_name" placeholder="Apellido" value="{{user.last_name}}" />
     </p>
     <p>
-      <input class="btn btn-success" type="submit" value="Actualizar">
-    </p>
+      Estado:<br>    
+      <label><input type="radio" name="active" value="1" {% if user.active %}checked{% endif %}> Habilitado</label><br>    
+      <label><input type="radio" name="active" value="0" {% if not user.active %}checked{% endif %}> Bloqueado</label><br>    
+    </p>  
+<<<<<<< HEAD
+    <div class="content">
+      <select multiple="multiple" id="select1" style="width:100px;height:160px;">
+        {% for rol in all_roles %}
+        <option value={{rol.id}}>{{rol.name}}</option>
+        {% endfor %}
+      </select>
+      <div>
+        <span id="add">Check add to the right</span>
+        <span id="add_all">Add all to the right</span>
+      </div>
+    </div>
+    <div class="content">
+      <select multiple name="roles[]" id="select2" style="width: 100px;height:160px;">
+        {% for rol in user_roles %}
+        <option value={{rol.id}}>{{rol.name}}</option>
+        {% endfor %}
+      </select>
+      <div>
+        <span id="remove">Remove</span>
+        <span id="remove_all">Remove All</span>
+      </div>
+    </div>
+    <input class="btn btn-success" type="submit" onclick="selectAll();" value="Actualizar">
     <a class="btn btn-danger" href="{{ url_for('user_index') }}" class="link">Volver</a>
+<<<<<<< HEAD
   </form>
 </div>
+=======
+    </p>
+  </form>
+</div>
+<style>
+  div.content {
+    float: left;
+    text-align: center;
+    margin: 10px;
+  }
+  span {
+    display: block;
+    margin: 2px 2px;
+    padding: 4px 10px;
+    background: #898989;
+    cursor: pointer;
+    font-size: 12px;
+    color: white;
+  }
+</style>
+<script type="text/javascript">
+  jQuery('[name="form1"]').on("submit",selectAll);
+  
+  function selectAll() 
+  { 
+      jQuery('[name="roles[]"] option').prop('selected', true).val()
+  }
+</script>
+<script>
+  $(function () {
+    $('#add').click(function () {
+      let $options = $('#select1 option:selected');
+      $options.appendTo("#select2");
+    });
+    $('#add_all').click(function () {
+      let $options = $('#select1 option');
+      $options.appendTo("#select2");
+    });
+    $('#select1').dblclick(function () {
+      let $option = $('option:selected', this);
+      $option.appendTo('#select2');
+    });
+    $("#remove").click(function () {
+      let $options = $('#select2 option:selected');
+      $options.appendTo("#select1");
+    });
+    $("#remove_all").click(function () {
+      let $options = $('#select2 option');
+      $options.appendTo('#select1');
+    });
+    $('#select2').dblclick(function () {
+      let $option = $('option:selected');
+      $option.appendTo("#select1");
+    });
+  });
+</script>
+>>>>>>> asignacionRoles
 {% endblock %}

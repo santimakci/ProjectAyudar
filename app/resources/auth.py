@@ -10,15 +10,11 @@ def login():
 
 def authenticate():
     params = request.form
-
     user = User.find_by_email_and_pass(params["email"], params["password"])
-
     if not user:
         flash("Usuario o clave incorrecto.",'danger')
         return redirect(url_for("auth_login"))
-
     session["user"] = user.email
-
     return redirect(url_for("home"))
 
 

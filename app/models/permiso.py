@@ -6,4 +6,3 @@ class Permiso (base.model):
     __tablename__ = "permissions"
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True, nullable=False)
-    roles_id = Column(Integer, ForeignKey('rol.id'))

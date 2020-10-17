@@ -5,18 +5,22 @@ from app.db import base
 from sqlalchemy.orm import relationship, backref
 
 
-rol_permission = Table('rol_permiso', base.metadata,
-    Column('permissions_id', Integer, ForeignKey('permissions.id')),
-    Column('roles_id', Integer, ForeignKey('roles.id') )
-) 
-
-
-class Rol (base.model):
+class Rol (base.Model):
 
     __tablename__ = "roles"
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True, nullable=False)
-    users_id = Column(Integer, ForeignKey('users.id'))
-    roles = relationship('Rol', secondary=rol_permission, lazy='subquery',
-        backref=backref('rols', lazy=True))
+
+
+    @classmethod 
+    def return_roles(cls):
+        return cls.query.all()
     
+
+    @classmethod
+    def get_name_roles(cls, roles):
+        roles_user = []
+        for rol in roles:
+            aRol = base.session.query(Rol).filter(Rol.id == int(rol)).first()
+            roles_user.append(aRol)
+        return roles_user
