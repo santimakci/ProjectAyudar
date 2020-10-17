@@ -51,7 +51,6 @@
       <label><input type="radio" name="active" value="1" {% if user.active %}checked{% endif %}> Habilitado</label><br>    
       <label><input type="radio" name="active" value="0" {% if not user.active %}checked{% endif %}> Bloqueado</label><br>    
     </p>  
-<<<<<<< HEAD
     <div class="content">
       <select multiple="multiple" id="select1" style="width:100px;height:160px;">
         {% for rol in all_roles %}
@@ -76,10 +75,6 @@
     </div>
     <input class="btn btn-success" type="submit" onclick="selectAll();" value="Actualizar">
     <a class="btn btn-danger" href="{{ url_for('user_index') }}" class="link">Volver</a>
-<<<<<<< HEAD
-  </form>
-</div>
-=======
     </p>
   </form>
 </div>
@@ -135,5 +130,4 @@
     });
   });
 </script>
->>>>>>> asignacionRoles
 {% endblock %}
