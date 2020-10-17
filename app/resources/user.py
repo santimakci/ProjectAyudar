@@ -5,15 +5,20 @@ from app.helpers.auth import authenticated
 from datetime import datetime
 from app.models.rol import Rol
 from app.models.usersRoles import UsersRoles
+from app.models.pageSetting import PageSetting
 
 
 # Protected resources
-def index():
+def index(num_page):
     """ if not authenticated(session):
         abort(401) """
-        
-    users = base.session.query(User).filter(User.deleted==False)
-    return render_template("usuarios.html", users=users)
+    params = []
+    quantity=PageSetting.find_settings()
+    users = base.session.query(User).filter(User.deleted==False).paginate(per_page=quantity.elements, page=num_page, error_out= True)
+    num_pages=users.iter_pages(left_edge=2, left_current=2, right_current=5, right_edge=2)
+    params.append(users)
+    params.append(num_pages)
+    return params
 
 def login():
     return render_template("auth/login.html")
@@ -74,6 +79,3 @@ def update(id):
             roles.append(item)
     user = User.find_by_id(id)
     return render_template("user/update.html",user = user, all_roles = roles, user_roles = roles_name_user)
-
-
-
