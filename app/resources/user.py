@@ -10,8 +10,7 @@ from app.models.usersRoles import UsersRoles
 # Protected resources
 def index():
     """ if not authenticated(session):
-        abort(401) """
-        
+        abort(401) """        
     users = base.session.query(User).filter(User.deleted==False)
     return render_template("usuarios.html", users=users)
 
@@ -24,6 +23,13 @@ def new():
     #    abort(401)
     return render_template("user/new.html")
 
+def search():
+    params = request.form
+    if params['username'] == '': #solo buscó por activo/bloqueado
+        users_result = base.session.query(User).filter(User.active == params['active']).filter(User.deleted==False)
+    else:     
+        users_result = base.session.query(User).filter(User.username.like(params['username'] + "%")).filter(User.active == params['active']).filter(User.deleted==False)
+    return render_template("usuarios.html", users = users_result)
 
 def create():
     #if not authenticated(session):

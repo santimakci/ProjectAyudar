@@ -8,18 +8,6 @@
   <h1>Crear un usuario</h1>
   <form action="{{ url_for('user_create') }}" method="POST">
     <p>
-      <label>Email: <label></br>
-      <input name="email" placeholder="Correo"/>
-    </p>
-    <p>
-      <label>Contraseña: <label></br>
-      <input type="password" name="password" placeholder="Clave"/>
-    </p>
-    <p>
-      <label>Nombre de usuario: <label></br>
-      <input name="username" placeholder="Username"/>
-    </p>
-    <p>
       <label>Nombre: <label></br>
       <input name="first_name" placeholder="Nombre"/>
     </p>
@@ -28,14 +16,17 @@
       <input name="last_name" placeholder="Apellido"/>
     </p>
     <p>
-      <label>Roles:  <label></br>
-        <label class="checkbox-inline">
-          <input type="checkbox" value=""> Administrador
-        </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" value=""> Operador
-      </label>
+      <label>Email: <label></br>
+      <input name="email" placeholder="Correo"/>
     </p>
+    <p>
+      <label>Nombre de usuario: <label></br>
+      <input name="username" placeholder="Username"/>
+    </p>
+    <p>
+      <label>Contraseña: <label></br>
+      <input type="password" name="password" placeholder="Clave"/>
+    </p>  
     <p>
       <input class="btn btn-success" type="submit" value="Crear">
       <button class="btn btn-warning" type="reset">Limpiar</button>  

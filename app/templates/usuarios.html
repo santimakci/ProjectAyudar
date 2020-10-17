@@ -25,17 +25,16 @@
   {% endwith %}
 
   <div class="container">
-    <div class="row">
-      
-      
-      <form class="form-inline ">
-          <input type="text" class="col-lg-4  form-control" placeholder="Search">
+    <div class="row">      
+      <form class="form-inline " action="{{url_for('user_search')}}" method="POST">
+        <input type="text" name="username" class="col-lg-4  form-control" placeholder="Buscar...">
+        <label><input type="radio" name="active" value="1" checked> Activo </label><br> 
+        <label><input type="radio" name="active" value="0"> Bloqueado</label><br>
         <button type="submit" class="btn btn-white btn-raised btn-fab btn-round">
           <i class="material-icons">search</i>
         </button>
       </form>
 
-      <a class="btn btn-success " style="height: 3.5em;" href="/users/new">Crear nuevo usuario</a>
     </div>
 
   </div>
@@ -84,6 +83,7 @@
       </tr>
       {% endfor %}
     </table>
+  <a class="btn btn-success " style="height: 3.5em;" href="/users/new">Crear nuevo usuario</a>
     {% endblock %}
   </div>
 </div>

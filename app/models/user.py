@@ -1,9 +1,6 @@
-from app.models.rol import Rol
-from os import abort
-from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime, Table, ForeignKey, update
+from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from app.db import base 
-from sqlalchemy.orm import relationship, backref
-from datetime import date
+
 
 
 class User (base.Model):
@@ -21,10 +18,12 @@ class User (base.Model):
     deleted = Column(Boolean(), default=False)
     date_deleted= Column(DateTime, default=base.func.now()) 
 
+  
+
 
     @classmethod
     def find_by_email_and_pass(cls, mail, password):
-        for user in base.session.query(User).filter(User.email==mail).filter(User.password==password).filter(User.deleted==False):
+        for user in base.session.query(User).filter(User.email==mail).filter(User.password==password).filter(User.deleted==False).filter(User.active==True):
             return user         
 
 
@@ -37,6 +36,12 @@ class User (base.Model):
     @classmethod
     def find_by_email(cls,email):
         for user in base.session.query(User).filter(User.email==email).filter(User.deleted==False):
+            return user
+
+
+    @classmethod
+    def find_by_active(cls,active):
+        for user in base.session.query(User).filter(User.active == active).filter(User.deleted==False):
             return user
 
 
