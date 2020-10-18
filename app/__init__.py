@@ -16,11 +16,13 @@ from app.resources.pagesettings import indexPage, updateSettings
 from app.models.pageSetting import PageSetting
 from app.models.rol import Rol
 from app.models.user import User
-
+from app.helpers.auth import authenticated
+from functools import wraps
+from app.models.usersRoles import UsersRoles
 
 def create_app(environment="development"):
-
-    
+  
+      
     app = Flask(__name__) 
     
     app.config["SESSION_TYPE"] = "filesystem"
@@ -30,7 +32,21 @@ def create_app(environment="development"):
     app.config.from_object(config[env])
     Session(app)
      
-    connection(app) #conexion a la base de datos -renombrar- 
+    connection(app)
+    
+    def role_required(role_name):
+      def decorator(func):
+        @wraps(func)
+        def authorize(*args, **kwargs):
+          #import code; code.interact(local=dict(globals(), **locals()))
+          user_roles = UsersRoles.find_user_roles_by_id(int(session['id']))
+          name_roles = Rol.get_arrayname_roles(user_roles)
+          #import code; code.interact(local=dict(globals(), **locals()))
+          if role_name not in name_roles:
+              return render_template("error.html")
+          return func(*args, **kwargs)
+        return authorize
+      return decorator #conexion a la base de datos -renombrar- 
 
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
 
@@ -41,17 +57,21 @@ def create_app(environment="development"):
 
   
     @app.route("/users/<int:num_page>")
+    @role_required('admin')
     def usersPag(num_page):
+      if not authenticated(session):
+        return render_template("error.html")
       params = user_index(num_page)       
       return  render_template("usuarios.html", users=params[0], pages=params[1])
 
     @app.route("/users/<int:num_page>", methods=["POST"])
+    @role_required('admin')
     def usersSearch(num_page):
+      if not authenticated(session):
+        return render_template("error.html")
       params = user_search() 
       return  render_template("usuarios.html", users=params[0], pages=params[1])
 
-   
-    app.add_url_rule("/users", "user_search", search, methods=["POST"]) 
 
     app.add_url_rule("/users_create", "user_create", create, methods=["POST"]) 
 
@@ -62,6 +82,7 @@ def create_app(environment="development"):
 
     #app.add_url_rule("/users/delete/<int:id>","user_delete",delete)
     @app.route("/users/delete/<int:id>",  methods = ['GET', 'POST'])
+    @role_required('admin')
     def user_delete(id):
       user = User.find_by_id(id)
       return render_template("user/delete.html",user = user)

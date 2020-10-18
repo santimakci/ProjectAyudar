@@ -81,6 +81,7 @@ class User (base.Model):
         self.first_name = params['first_name']
         self.last_name = params['last_name']
         self.password = params['password']
+        self.email = params['email']
         self.active = bool(int(params['active']))
         base.session.commit()
         return ("Usuario actualizado correctamente", "success")  

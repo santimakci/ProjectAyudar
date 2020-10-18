@@ -12897,6 +12897,12 @@ cursor: pointer;
   text-decoration: none;
   background-color: #017180;}
 
+  .removes:hover{
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
+    background-color: #5a5252de;}
+
 
 .espanes {
   display: block;
@@ -16797,11 +16803,11 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .togglebutton label input[type=checkbox]:checked+.toggle {
-  background-color: rgba(156, 39, 176, 0.7);
+  background-color: #00bcd4;
 }
 
 .togglebutton label input[type=checkbox]:checked+.toggle:after {
-  border-color: #9c27b0;
+  border-color: #00bcd4;
 }
 
 .togglebutton label input[type=checkbox]:checked+.toggle:active:after {

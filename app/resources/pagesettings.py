@@ -5,16 +5,14 @@ from app.models.pageSetting import *
 
 
 def indexPage():
-    """ if not authenticated(session):
-        abort(401) """
+    if not authenticated(session):
+        return render_template("error.html")
 
     setttings = PageSetting.find_settings()
-   # import code; code.interact(local=dict(globals(), **locals()))
     return render_template("pageConfig/pagesettings.html", settings=setttings)
 
 def updateSettings():
     params = request.form
-    #import code; code.interact(local=dict(globals(), **locals()))
     mensaje = PageSetting.update(params)
     flash(mensaje)
     return redirect(url_for("pagesettings_indexPage"))

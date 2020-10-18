@@ -26,8 +26,8 @@ def login():
 
 
 def new():
-    #if not authenticated(session):
-    #    abort(401)
+    if not authenticated(session):
+        return render_template("error.html")
     roles = Rol.return_roles()
     return render_template("user/new.html", roles=roles)
 
@@ -60,6 +60,8 @@ def create():
 
 
 def delete(id):
+    if not authenticated(session):
+        return render_template("error.html")
     user = User.find_by_id(id)
     return render_template("user/delete.html",user = user)
 
@@ -90,6 +92,8 @@ def user_back(id):
 
 
 def update(id):
+    if not authenticated(session):
+        return render_template("error.html")
     all_roles = Rol.return_roles()
     user_roles = UsersRoles.find_user_roles_by_id(id)
     roles_name_user = Rol.get_name_roles(user_roles)    

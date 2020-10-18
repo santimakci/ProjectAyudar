@@ -24,3 +24,11 @@ class Rol (base.Model):
             aRol = base.session.query(Rol).filter(Rol.id == int(rol)).first()
             roles_user.append(aRol)
         return roles_user
+
+    @classmethod
+    def get_arrayname_roles(cls, roles):
+        roles_user = []
+        for rol in roles:
+            aRol = base.session.query(Rol).filter(Rol.id == int(rol)).first()
+            roles_user.append(aRol.name)
+        return roles_user

@@ -33,34 +33,34 @@
           </br>
           <form class="form " action="{{ url_for('pagesettings_update') }}" method="POST">
             <p>
-              <label> <strong>Título de la página </strong><label></br>
+              <label> <strong>Título de la página </strong></label></br>
                   <input required class="form-control" name="title" value="{{settings.title }}" />
             </p>
             <p>
-              <label><strong>Email de contacto </strong><label></br>
+              <label><strong>Email de contacto </strong></label></br>
                   <input required type="email" class="form-control" name="email" value="{{settings.email}}" />
             </p>
             <p>
-              <label><strong>Descripción de la página </strong> <label></br>
+              <label><strong>Descripción de la página </strong> </label></br>
                   <textarea required rows="6" class="form-control"
                     name="description">{{settings.description}}</textarea>
             </p>
             <p>
-              <label><strong>Cantidad de elementos por página </strong> <label></br>
+              <label><strong>Cantidad de elementos por página </strong> </label></br>
                   <input required class="form-control" type="number" name="cant_elements"
                     value="{{settings.elements }}" />
             </p>
             <p>
             <div class="togglebutton">
               <label>
-                Habilitar sitio</strong>
+                <strong style="">Habilitar sitio</strong>
                 <input type="checkbox" name="enabled" {%- if settings.enabled  -%}checked{% endif %} value="true">
                 <span class="toggle"></span>
               </label>
             </div>
             </p>
             <p>
-              <input class="btn btn-success" type="submit" value="Actualizar">
+              <input class="btn btn-info" type="submit" value="Actualizar">
               <button class="btn btn-default" type="reset">Limpiar</button>
             </p>
           </form>

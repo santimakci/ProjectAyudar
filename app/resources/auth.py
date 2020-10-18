@@ -2,6 +2,9 @@ from flask import redirect, render_template, request, url_for, abort, session, f
 from app.db import connection
 from flask_session import Session
 from app.models.user import User
+from app.models.usersRoles import UsersRoles
+from app.models.rol import Rol
+from app.helpers.auth import authenticated
 
 
 def login():
@@ -14,7 +17,10 @@ def authenticate():
     if not user:
         flash("Usuario o clave incorrecto.",'danger')
         return redirect(url_for("auth_login"))
-    session["user"] = user.email
+    session["user"] = user.username
+    session['id'] = user.id
+    user_roles = UsersRoles.find_user_roles_by_id(user.id)
+    session['roles'] = Rol.get_name_roles(user_roles)
     return redirect(url_for("home"))
 
 
