@@ -12,10 +12,13 @@ def login():
 
 
 def authenticate():
+    """Define si un usuario está autenticado o no y según eso es a que 
+    parte de la aplicación web lo redirige y con que mensaje.
+    """
     params = request.form
     user = User.find_by_email_and_pass(params["email"], params["password"])
     if not user:
-        flash("Usuario o clave incorrecto.",'danger')
+        flash("Usuario o clave incorrecto.", 'danger')
         return redirect(url_for("auth_login"))
     session["user"] = user.username
     session['id'] = user.id
@@ -25,6 +28,8 @@ def authenticate():
 
 
 def logout():
+    """Cierra la sesión del usuario.
+    """
     del session["user"]
     session.clear()
     flash("La sesión se cerró correctamente.", 'info')
