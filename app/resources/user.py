@@ -90,7 +90,7 @@ def commit_delete():
     """
     params = request.form
     mensaje = User.delete(params)
-    flash(mensaje)
+    flash(mensaje[0], mensaje[1])
     return redirect(url_for("usersPag", num_page=1))
 
 
@@ -104,16 +104,15 @@ def commit_update():
         lista = request.form.getlist('roles[]')
     UsersRoles.get_data(params['id'], lista)
     user = User.find_by_id(params['id'])
-    mensaje = user.update(params)
-    flash(mensaje[0], mensaje[1])
-    if mensaje[1] == 'success':
+    try:
+        mensaje = user.update(params)
+        flash(mensaje[0], mensaje[1])  
         return redirect(url_for("usersPag", num_page=1))
-    else:
+    except: 
+        flash('Error al ingresar los datos', 'danger')
         return redirect(url_for('user_update', id=params['id']))
+      
 
-
-def user_back(id):
-    return User.find_by_id(id)
 
 
 def update(id):
@@ -130,4 +129,5 @@ def update(id):
         if item not in roles_name_user:
             roles.append(item)
     user = User.find_by_id(id)
-    return render_template("user/update.html", user=user, all_roles=roles, user_roles=roles_name_user)
+    datos = {'user': user, 'all_roles':roles, 'user_roles':roles_name_user}
+    return datos

@@ -104,7 +104,7 @@ class User (base.Model):
         user.deleted = True
         user.date_deleted = base.func.now()
         base.session.commit()
-        return f'se borro el usuario {user.username}'
+        return (f'se borro el usuario {user.username}', 'success')
 
     def update(self, params):
         """Actualiza los datos de un usuario determinado.

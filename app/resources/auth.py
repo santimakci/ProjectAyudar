@@ -8,6 +8,8 @@ from app.helpers.auth import authenticated
 
 
 def login():
+    """Inicio de sesión del usuario
+    """
     return render_template("auth/login.html")
 
 
