@@ -5,9 +5,9 @@ from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 import os
 from app.resources.user import index as user_index, login as auth_login, new, create, user_back,commit_delete,delete,commit_update
-from app.resources.user import update as update
+from app.resources.user import update as update, search as user_search
 from app.resources.user import search as search
-
+import inspect
 from app.helpers import auth as helper_auth
 from app.db import connection
 from app.resources import auth
@@ -40,12 +40,18 @@ def create_app(environment="development"):
     app.add_url_rule("/logout", "auth_logout", auth.logout) # Url cerrar sesión
     app.add_url_rule("/user_new", "auth_logout", auth.logout) # Url creación usuario
 
-    
+  
     @app.route("/users/<int:num_page>")
     def usersPag(num_page):
-      params = user_index(num_page)
+      params = user_index(num_page)       
       return  render_template("usuarios.html", users=params[0], pages=params[1])
 
+    @app.route("/users/<int:num_page>", methods=["POST"])
+    def usersSearch(num_page):
+      params = user_search() 
+      return  render_template("usuarios.html", users=params[0], pages=params[1])
+
+   
     app.add_url_rule("/users", "user_search", search, methods=["POST"]) 
 
     app.add_url_rule("/users_create", "user_create", create, methods=["POST"]) 

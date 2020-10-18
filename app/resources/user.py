@@ -15,7 +15,7 @@ def index(num_page):
     params = []
     quantity=PageSetting.find_settings()
     users = base.session.query(User).filter(User.deleted==False).paginate(per_page=quantity.elements, page=num_page, error_out= True)
-    num_pages=users.iter_pages(left_edge=2, left_current=2, right_current=5, right_edge=2)
+    num_pages=users.iter_pages(left_edge=2, left_current=2, right_current=5, right_edge=2) 
     params.append(users)
     params.append(num_pages)
     return params
@@ -32,11 +32,16 @@ def new():
 
 def search():
     params = request.form
+    parametros = []
+    quantity=PageSetting.find_settings()
     if params['username'] == '': #solo buscó por activo/bloqueado
-        users_result = base.session.query(User).filter(User.active == params['active']).filter(User.deleted==False)
+        users = base.session.query(User).filter(User.active == params['active']).filter(User.deleted==False).paginate(per_page=quantity.elements, page=1, error_out= True)
     else:     
-        users_result = base.session.query(User).filter(User.username.like(params['username'] + "%")).filter(User.active == params['active']).filter(User.deleted==False)
-    return render_template("usuarios.html", users = users_result)
+        users = base.session.query(User).filter(User.username.like(params['username'] + "%")).filter(User.active == params['active']).filter(User.deleted==False).paginate(per_page=quantity.elements, page=1, error_out= True)
+    num_pages=users.iter_pages(left_edge=2, left_current=2, right_current=5, right_edge=2)
+    parametros.append(users)
+    parametros.append(num_pages)
+    return parametros
 
 def create():
     #if not authenticated(session):
@@ -49,6 +54,7 @@ def create():
         new_user = User.find_by_username(params['username'])
         UsersRoles.get_data(new_user.id,lista)
     flash(mensaje[0], mensaje[1])
+    import code; code.interact(local=dict(globals(), **locals()))
     return redirect(url_for("user_index"))
 
 
