@@ -15,6 +15,7 @@ from config import config
 from app.resources.pagesettings import indexPage, updateSettings
 from app.models.pageSetting import PageSetting
 from app.models.rol import Rol
+from app.models.user import User
 """ from resources.index import index as  """
    
 
@@ -61,7 +62,14 @@ def create_app(environment="development"):
 
 
 
-    app.add_url_rule("/users/delete/<int:id>","user_delete",delete)
+    #app.add_url_rule("/users/delete/<int:id>","user_delete",delete)
+    @app.route("/users/delete/<int:id>",  methods = ['GET', 'POST'])
+    def user_delete(id):
+      user = User.find_by_id(id)
+      return render_template("user/delete.html",user = user)
+
+
+
     app.add_url_rule('/users/commit_delete',"commit_delete",commit_delete, methods=["POST"])
 
     #Page config
@@ -72,7 +80,7 @@ def create_app(environment="development"):
 
     app.add_url_rule("/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"])
 
-    app.add_url_rule("/users/update/<int:id>","user_update",update)
+    app.add_url_rule("/users/update/<int:id>","user_update",update, methods = ['GET', 'POST'])
     app.add_url_rule("/users/commit_update","commit_update",commit_update, methods=["POST"])
     app.add_url_rule("/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"])
    

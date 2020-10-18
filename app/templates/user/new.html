@@ -5,66 +5,58 @@
 {% endblock %}
 {% block content %}
 <div class="col-lg-4 col-md-6 mx-auto">
-  <h1>Crear un usuario</h1>
+  <h3>Crear un usuario</h3>
   <form action="{{ url_for('user_create') }}" name="form1" method="POST">
     <p>
-      <label>Email: <label></br>
-          <input name="email" placeholder="Correo" />
+      <label><strong> Email:</strong>   </label> </br>
+          <input type="email" class="form-control" required name="email" placeholder="Correo" />
     </p>
     <p>
-      <label>Contraseña: <label></br>
-          <input type="password" name="password" placeholder="Clave" />
+      <label><strong> Contraseña:</strong>  </label></br>
+          <input class="form-control" required type="password" name="password" placeholder="Clave" />
     </p>
     <p>
-      <label>Nombre de usuario: <label></br>
-          <input name="username" placeholder="Username" />
+      <label><strong> Nombre de usuario:</strong>  </label></br>
+          <input class="form-control" required name="username" placeholder="Username" />
     </p>
     <p>
-      <label>Nombre: <label></br>
-          <input name="first_name" placeholder="Nombre" />
+      <label><strong> Nombre: </strong>  </label></br>
+          <input class="form-control" required name="first_name" placeholder="Nombre" />
     </p>
     <p>
-      <label>Apellido: <label></br>
-          <input name="last_name" placeholder="Apellido" />
+      <label><strong> Apellido:</strong>   </label></br>
+          <input class="form-control" required name="last_name" placeholder="Apellido" />
     </p>
 
     <div class="col-lg-12 col-md-6 mx-auto">
-    <div class="content">
-      <select multiple="multiple" id="select1" style="width:100px;height:160px;">
-        {% for rol in roles %}
-        <option value={{rol.id}}>{{rol.name}}</option>
-        {% endfor %}
-      </select>
-      <div>
-        <span class="espanes" id="add">Check add to the right</span>
-        <span class="espanes" id="add_all">Add all to the right</span>
+      <div class="content">
+        <select multiple="multiple" id="select1" style="width:100px;height:160px;border: 1px solid #e4e5ee;
+        border-radius: 3px;">
+          {% for rol in roles %}
+          <option class="optiones" value={{rol.id}}>{{rol.name}}</option>
+          {% endfor %}
+        </select>
+        <div>
+          <span class="espanes" id="add">Check add to the right</span>
+          <span class="espanes" id="add_all">Add all to the right</span>
+        </div>
       </div>
-    </div>
-    <div class="content">
-      <select multiple name="roles[]" id="select2" style="width: 100px;height:160px;">
-      </select>
-      <div>
-        <span class="espanes" id="remove">Remove</span>
-        <span class="espanes" id="remove_all">Remove All</span>
+      <div class="content">
+        <select multiple name="roles[]" id="select2" style="width: 100px;height:160px;border: 1px solid #e4e5ee;
+        border-radius: 3px;">
+        </select>
+        <div>
+          <span class="removes" id="remove">Remove</span>
+          <span class="removes" id="remove_all">Remove All</span>
+        </div>
       </div>
+      <input class="btn btn-info" type="submit" onclick="selectAll();" value="Crear">
+      <a class="btn btn-default" href="{{ url_for('usersPag', num_page=1) }}" class="link">Volver</a>
+      </p>
     </div>
-    <input class="btn btn-success" type="submit" onclick="selectAll();" value="Crear">
-    <a class="btn btn-danger" href="{{ url_for('user_index') }}" class="link">Volver</a>
-    </p>
-  </div>
-
-
-
-
-
-
-
-
 
   </form>
 </div>
-
-
 
 
 
@@ -73,18 +65,11 @@
     float: left;
     text-align: center;
     margin: 10px;
-  }
 
-  .espanes{
-    display: block;
-    margin: 2px 2px;
-    padding: 4px 10px;
-    background: #00bcd4;
-    cursor: pointer;
-    font-size: 12px;
-    color: white;
   }
 </style>
+
+
 <script type="text/javascript">
   jQuery('[name="form1"]').on("submit", selectAll);
 

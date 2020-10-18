@@ -27,32 +27,35 @@
   <form action="{{ url_for('commit_update') }} " name="form1" method="POST">
     <input name="id" type="hidden" value="{{user.id}}">
     <p>
-      <label>Email: <label></br>
-          <input name="email" placeholder="Correo" value="{{user.email}}" />
+      <label><strong>Email:</strong> </label></br>
+          <input type="email" required class="form-control" name="email" placeholder="Correo" value="{{user.email}}" />
     </p>
     <p>
-      <label>Contraseña: <label></br>
-          <input type="password" name="password" placeholder="Clave" value="{{user.password}}" />
+      <label><strong>Contraseña:</strong> </label></br>
+          <input class="form-control" required type="password" name="password" placeholder="Clave" value="{{user.password}}" />
     </p>
     <p>
-      <label>Nombre de usuario: <label></br>
-          <input name="username" placeholder="Username" value="{{user.username}}" />
+      <label><strong>Nombre de usuario:</strong> </label></br>
+          <input class="form-control" required name="username" placeholder="Username" value="{{user.username}}" />
     </p>
     <p>
-      <label>Nombre: <label></br>
-          <input name="first_name" placeholder="Nombre" value="{{user.first_name}}" />
+      <label><strong>Nombre:</strong> </label></br>
+          <input class="form-control"required name="first_name" placeholder="Nombre" value="{{user.first_name}}" />
     </p>
     <p>
-      <label>Apellido: <label></br>
-          <input name="last_name" placeholder="Apellido" value="{{user.last_name}}" />
+      <label><strong>Apellido: </label></br>
+          <input class="form-control" required name="last_name" placeholder="Apellido" value="{{user.last_name}}" />
     </p>
     <p>
-      Estado:<br>    
-      <label><input type="radio" name="active" value="1" {% if user.active %}checked{% endif %}> Habilitado</label><br>    
-      <label><input type="radio" name="active" value="0" {% if not user.active %}checked{% endif %}> Bloqueado</label><br>    
-    </p>  
+      Estado:<br>
+      <label><input type="radio" name="active" value="1" {% if user.active %}checked{% endif %}> Habilitado</label><br>
+      <label><input type="radio" name="active" value="0" {% if not user.active %}checked{% endif %}>
+        Bloqueado</label><br>
+    </p>
+    <div class="container">
     <div class="content">
-      <select multiple="multiple" id="select1" style="width:100px;height:160px;">
+      <select multiple="multiple" id="select1" style="width:100px;height:160px;border: 1px solid #e4e5ee;
+      border-radius: 3px;">
         {% for rol in all_roles %}
         <option value={{rol.id}}>{{rol.name}}</option>
         {% endfor %}
@@ -63,44 +66,39 @@
       </div>
     </div>
     <div class="content">
-      <select multiple name="roles[]" id="select2" style="width: 100px;height:160px;">
+      <select multiple name="roles[]" id="select2" style="width: 100px;height:160px;border: 1px solid #e4e5ee;
+      border-radius: 3px;">
         {% for rol in user_roles %}
         <option value={{rol.id}}>{{rol.name}}</option>
         {% endfor %}
       </select>
       <div>
-        <span class="espanes" id="remove">Remove</span>
-        <span class="espanes" id="remove_all">Remove All</span>
+        <span class="removes" id="remove">Remove</span>
+        <span class="removes" id="remove_all">Remove All</span>
       </div>
     </div>
-    <input class="btn btn-success" type="submit" onclick="selectAll();" value="Actualizar">
-    <a class="btn btn-danger" href="{{ url_for('user_index') }}" class="link">Volver</a>
+  </div>
+  <div class="row text-center">
+    <input class="btn btn-info" type="submit" onclick="selectAll();" value="Actualizar">
+    <a class="btn btn-default" href="{{ url_for('usersPag', num_page=1) }}" class="link">Volver</a>
     </p>
   </form>
 </div>
+</div>
+
+
 <style>
   div.content {
     float: left;
     text-align: center;
     margin: 10px;
   }
-
-  .espanes{
-    display: block;
-    margin: 2px 2px;
-    padding: 4px 10px;
-    background: #00bcd4;
-    cursor: pointer;
-    font-size: 12px;
-    color: white;
-  }
 </style>
 <script type="text/javascript">
-  jQuery('[name="form1"]').on("submit",selectAll);
-  
-  function selectAll() 
-  { 
-      jQuery('[name="roles[]"] option').prop('selected', true).val()
+  jQuery('[name="form1"]').on("submit", selectAll);
+
+  function selectAll() {
+    jQuery('[name="roles[]"] option').prop('selected', true).val()
   }
 </script>
 <script>
