@@ -15,7 +15,6 @@ from config import config
 from app.resources.pagesettings import indexPage, updateSettings
 from app.models.pageSetting import PageSetting
 from app.models.rol import Rol
-""" from resources.index import index as  """
    
 
 
@@ -80,7 +79,7 @@ def create_app(environment="development"):
     @app.route("/")
     def home():
        settings=PageSetting.find_settings()
-       return render_template ("home.html", settings=settings)
+       return render_template ("/auth/login.html", settings=settings)
 
     return app 
    

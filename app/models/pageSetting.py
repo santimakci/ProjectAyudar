@@ -21,7 +21,6 @@ class PageSetting (base.Model):
     @classmethod
     def update(self, params):
         page = self.find_settings() 
-        #import code; code.interact(local=dict(globals(), **locals()))
         page.email = params['email']
         page.title = params['title']
         page.description = params['description']

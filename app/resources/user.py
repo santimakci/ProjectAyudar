@@ -20,6 +20,7 @@ def index(num_page):
     params.append(num_pages)
     return params
 
+
 def login():
     return render_template("auth/login.html")
 
@@ -54,8 +55,7 @@ def create():
         new_user = User.find_by_username(params['username'])
         UsersRoles.get_data(new_user.id,lista)
     flash(mensaje[0], mensaje[1])
-    import code; code.interact(local=dict(globals(), **locals()))
-    return redirect(url_for("user_index"))
+    return redirect(url_for("user_index", 1))
 
 
 def delete(id):
@@ -67,7 +67,7 @@ def commit_delete():
     params = request.form
     mensaje = User.delete(params)
     flash(mensaje)
-    return redirect(url_for("user_index"))
+    return redirect(url_for("user_index", 1))
 
 
 def commit_update():
@@ -79,7 +79,7 @@ def commit_update():
     mensaje = user.update(params)   
     flash(mensaje[0], mensaje[1])
     if mensaje[1] == 'success':
-        return redirect(url_for("user_index"))
+        return redirect(url_for("user_index", 1))
     else:
         return redirect(url_for('user_update',id=params['id']))
 
