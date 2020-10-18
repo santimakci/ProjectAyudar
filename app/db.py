@@ -1,12 +1,15 @@
 import pymysql
-from flask import g #LEER QUE HACE LA G DE FLASK 
+from flask import g
 from flask import cli
 from flask_sqlalchemy import SQLAlchemy
 
 
 base = SQLAlchemy()
 
+
 def connection(current_app):
+    """ Genera la conexión a la base de datos.
+    """
     db_url = "mysql+pymysql://{username}:{password}@{host}/{database}".format(
         username=current_app.config["DB_USER"],
         password=current_app.config["DB_PASS"],
@@ -15,16 +18,12 @@ def connection(current_app):
     )
     current_app.config["SESSION_PERMANENT"] = False
 
-    
     current_app.config["SQLALCHEMY_DATABASE_URI"] = db_url
     current_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     base.init_app(current_app)
-    """ g.db = SQLAlchemy(current_app) """
-
 
     return base
 
-#CERRAR CONEXION A LA BASE CON SQLALCHEMY
 
 """ 
 def close(e=None):

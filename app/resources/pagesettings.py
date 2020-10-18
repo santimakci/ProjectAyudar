@@ -5,17 +5,18 @@ from app.models.pageSetting import *
 
 
 def indexPage():
-    """ if not authenticated(session):
-        abort(401) """
+    """Retorna la página de configuración de la aplicación web.
+    """
+    """if not authenticated(session):
+        abort(401)"""
+    settings = PageSetting.find_settings()
+    return render_template("pageConfig/pagesettings.html", settings=settings)
 
-    setttings = PageSetting.find_settings()
-   # import code; code.interact(local=dict(globals(), **locals()))
-    return render_template("pageConfig/pagesettings.html", settings=setttings)
 
 def updateSettings():
+    """Actualiza los valores de configuración de la aplicación web.
+    """
     params = request.form
-    #import code; code.interact(local=dict(globals(), **locals()))
     mensaje = PageSetting.update(params)
     flash(mensaje)
     return redirect(url_for("pagesettings_indexPage"))
-
