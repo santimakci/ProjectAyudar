@@ -1,16 +1,20 @@
 {% extends "layout.html" %}
 {% block title %}Borrar usuario{% endblock %}
 {% block head %}
-  {{ super() }}
+{{ super() }}
 {% endblock %}
 {% block content %}
-  <h1>Borrar usuario</h1>
-  <form action="{{ url_for('commit_delete') }}" method="POST">
-    <h3>Estas seguro que queres borrar el usuario "{{ user.first_name }}"?</h2>
-    <p>
-      <input name="id" type="hidden" value="{{user.id}}"> 
-      <input type="submit" value="Delete">
-    </p>
-  </form>
-  <a href="{{ url_for('usersPag',num_page=1) }}" class="link">Volver</a>
+<form action="{{ url_for('commit_delete') }}" method="POST">
+  <h3 style="text-align: center;">¿Está seguro que quiere borrar el usuario "{{ user.first_name }}"?</h3>
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-sm-12 col-xs-12">
+        <input name="id" type="hidden" value="{{user.id}}">
+        <input class="btn btn-info" type="submit" value="Delete">
+    
+</form>
+<a class="btn btn-default" href="{{ url_for('usersPag', num_page=1) }}" style="height: 3.4em;" class="link">Volver</a>
+</div>
+</div>
+</div>
 {% endblock %}
