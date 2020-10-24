@@ -16949,11 +16949,11 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 footer {
   padding: 0.9375rem 0;
-  text-align: center;
-  display: -webkit-flex;
-  /* Safari */
-  /* Safari 6.1+ */
-  display: flex;
+  text-align: right;
+  background: gainsboro;
+  height: 40px;
+  margin: 0px;
+  padding: 5px;
 }
 
 footer ul {
