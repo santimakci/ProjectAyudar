@@ -153,6 +153,6 @@ def create_app(environment="development"):
     def home():
         """Pagina de inicio"""
         settings = PageSetting.find_settings()
-        return render_template("/auth/login.html", settings=settings)
+        return render_template("home.html", settings=settings)
 
     return app
