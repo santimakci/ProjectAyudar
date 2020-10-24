@@ -17,8 +17,7 @@ class User (base.Model):
     active = Column(Boolean, default=True)
     date_updated = Column(DateTime, default=base.func.now())
     date_created = Column(DateTime, default=base.func.now())
-    deleted = Column(Boolean(), default=False)
-    date_deleted = Column(DateTime, default=base.func.now())
+
 
     def __init__(self, params):
         """Constructor de la clase User, recibe por parametros en un diccionario email, usuario, nombre, apellido y contraseña.
@@ -37,7 +36,7 @@ class User (base.Model):
             mail (String)
             password (String)
         """
-        for user in base.session.query(User).filter(User.email == mail).filter(User.password == password).filter(User.deleted == False).filter(User.active == True):
+        for user in base.session.query(User).filter(User.email == mail).filter(User.password == password).filter(User.active == True):
             return user
 
     @classmethod
