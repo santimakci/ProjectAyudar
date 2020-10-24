@@ -25,6 +25,7 @@ from app.resources.user import (
     commit_delete,
     delete,
     commit_update as userUpdate,
+    update_profile
 )
 from app.resources.user import update as update, search as user_search
 from app.resources.user import search as search
@@ -80,6 +81,7 @@ def create_app(environment="development"):
 
     app.add_url_rule("/users/commit_delete", "commit_delete", commit_delete, methods=["POST"])
     app.add_url_rule("/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"])
+    app.add_url_rule("/update/profile", "update_profile", update_profile , methods=[ "GET","POST"])
 
 
     @app.route("/users/commit_update", methods=["POST"])
@@ -137,6 +139,15 @@ def create_app(environment="development"):
         """Borrado de usuario por id"""
         user = User.find_by_id(id)
         return render_template("user/delete.html", user=user)
+
+    @app.route ("/user/profile", methods=[ "GET", "POST"])
+    def user_profile():
+        if not authenticated(session):
+            return render_template("error.html")
+        user = User.find_by_id(session['id'])
+        return render_template("user/profile.html", user=user)
+
+    
 
     @app.route("/")
     def home():

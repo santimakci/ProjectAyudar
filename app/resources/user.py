@@ -18,7 +18,7 @@ def index(num_page):
     """
     params = []
     quantity = PageSetting.find_settings()
-    users = base.session.query(User).filter(User.deleted == False).paginate(
+    users = base.session.query(User).paginate(
         per_page=quantity.elements, page=num_page, error_out=True)
     num_pages = users.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2)
@@ -30,10 +30,21 @@ def index(num_page):
 def login():
     return render_template("auth/login.html")
 
+def profile():
+    return redirect(url_for("user_profile"))
+
+def update_profile():
+    params = request.form
+    user = User.find_by_id(session['id'])
+    mensaje = user.update_profile(params=params)
+    flash(mensaje[0], mensaje[1])
+    return redirect(url_for("user_profile"))
+
 
 def new():
     """Retorna todos los roles existentes
     """
+    
     if not authenticated(session):
         return render_template("error.html")
     roles = Rol.return_roles()
@@ -49,11 +60,10 @@ def search():
     parametros = []
     quantity = PageSetting.find_settings()
     if params['username'] == '':
-        users = base.session.query(User).filter(User.active == params['active']).filter(
-            User.deleted == False).paginate(per_page=quantity.elements, page=1, error_out=True)
+        users = base.session.query(User).filter(User.active == params['active']).paginate(per_page=quantity.elements, page=1, error_out=True)
     else:
         users = base.session.query(User).filter(User.username.like(params['username'] + "%")).filter(
-            User.active == params['active']).filter(User.deleted == False).paginate(per_page=quantity.elements, page=1, error_out=True)
+            User.active == params['active']).paginate(per_page=quantity.elements, page=1, error_out=True)
     num_pages = users.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2)
     parametros.append(users)
@@ -89,8 +99,13 @@ def commit_delete():
     redirige a la pantalla del listado de usuarios.
     """
     params = request.form
-    mensaje = User.delete(params)
-    flash(mensaje[0], mensaje[1])
+    user_roles = UsersRoles.find_user_roles_by_id(params['id'])
+    name_roles = Rol.get_arrayname_roles(user_roles)
+    if 'admin' not in name_roles:
+        mensaje = User.delete(params)
+        flash(mensaje[0], mensaje[1])
+    else:
+        flash('No se puede eliminar un usuario administrador', 'danger')
     return redirect(url_for("usersPag", num_page=1))
 
 
@@ -111,6 +126,8 @@ def commit_update():
     except: 
         flash('Error al ingresar los datos', 'danger')
         return redirect(url_for('user_update', id=params['id']))
+
+
       
 
 

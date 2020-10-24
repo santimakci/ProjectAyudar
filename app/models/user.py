@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from app.db import base
+import hashlib
 
 
 class User (base.Model):
@@ -17,8 +18,6 @@ class User (base.Model):
     active = Column(Boolean, default=True)
     date_updated = Column(DateTime, default=base.func.now())
     date_created = Column(DateTime, default=base.func.now())
-    deleted = Column(Boolean(), default=False)
-    date_deleted = Column(DateTime, default=base.func.now())
 
     def __init__(self, params):
         """Constructor de la clase User, recibe por parametros en un diccionario email, usuario, nombre, apellido y contraseña.
@@ -26,8 +25,9 @@ class User (base.Model):
         self.email = params['email']
         self.username = params['username']
         self.first_name = params['first_name']
-        self.last_name = params['last_name']
-        self.password = params['password']
+        self.last_name = params['last_name']    
+        self.password = hashlib.md5(params['password'].encode('utf-8')).hexdigest()
+
 
     @classmethod
     def find_by_email_and_pass(cls, mail, password):
@@ -37,7 +37,7 @@ class User (base.Model):
             mail (String)
             password (String)
         """
-        for user in base.session.query(User).filter(User.email == mail).filter(User.password == password).filter(User.deleted == False).filter(User.active == True):
+        for user in base.session.query(User).filter(User.email == mail).filter(User.password == password).filter(User.active == True):
             return user
 
     @classmethod
@@ -48,7 +48,7 @@ class User (base.Model):
             username (String)
 
         """
-        for user in base.session.query(User).filter(User.username == username).filter(User.deleted == False):
+        for user in base.session.query(User).filter(User.username == username):
             return user
 
     @classmethod
@@ -58,14 +58,14 @@ class User (base.Model):
         Args:
             email (String)
         """
-        for user in base.session.query(User).filter(User.email == email).filter(User.deleted == False):
+        for user in base.session.query(User).filter(User.email == email):
             return user
 
     @classmethod
     def find_by_active(cls, active):
         """Filtra por usuarios activos.
         """
-        for user in base.session.query(User).filter(User.active == active).filter(User.deleted == False):
+        for user in base.session.query(User).filter(User.active == active):
             return user
 
     @classmethod
@@ -101,11 +101,11 @@ class User (base.Model):
             params ([dict)
         """
         user = self.find_by_id(params['id'])
-        user.deleted = True
-        user.date_deleted = base.func.now()
+        base.session.delete(user)
         base.session.commit()
         return (f'se borro el usuario {user.username}', 'success')
 
+    
     def update(self, params):
         """Actualiza los datos de un usuario determinado.
 
@@ -115,8 +115,27 @@ class User (base.Model):
         self.username = params['username']
         self.first_name = params['first_name']
         self.last_name = params['last_name']
-        self.password = params['password']
+        self.password = hashlib.md5(params['password'].encode('utf-8')).hexdigest()
         self.email = params['email']
         self.active = bool(int(params['active']))
         base.session.commit()
         return ("Usuario actualizado correctamente", "success")
+
+    
+    def update_profile(self, params):
+        if params['password'] == "":
+            self.first_name = params['first_name']
+            self.last_name = params['last_name']
+            base.session.commit()
+            return ("Se han actualizado el Nombre y Apellido", "success")
+
+        if params['Newpassword'] != params['Newpassword2'] or params['Newpassword'] == "":
+            return ("Error al ingresar la nueva contraseña", "danger")
+        if self.password == hashlib.md5(params['password'].encode('utf-8')).hexdigest():
+            self.password = hashlib.md5(params['Newpassword'].encode('utf-8')).hexdigest()
+            self.first_name = params['first_name']
+            self.last_name = params['last_name']
+            base.session.commit()
+            return ("Usuario actualizado correctamente", "success")
+        return ("Error al ingresar la contraseña", "danger")
+
