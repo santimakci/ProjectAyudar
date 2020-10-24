@@ -30,7 +30,9 @@
 *::after {
   box-sizing: border-box;
 }
-
+.cebra{
+  background: rgba(0, 188, 200, 0.1);
+}
 .bodyerror{
   background-image: url("../img/401-error.jpg");
 }
@@ -3118,7 +3120,10 @@ fieldset:disabled a.btn {
   background-color: #e2e6ea;
   border-color: #dae0e5;
 }
-
+.activePag{
+      background: rgba(0, 188, 200, 1);
+    color: aliceblue;
+}
 .btn-light:focus,
 .btn-light.focus {
   box-shadow: none, 0 0 0 0.2rem rgba(248, 249, 250, 0.5);
