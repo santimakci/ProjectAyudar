@@ -11,11 +11,15 @@ from app.models.pageSetting import PageSetting
 
 
 # Protected resources
-def index(num_page):
+def index():
     """Retorna una lista con el total de usuarios habilitados paginados
     según lo indicado en la configuración, y el iterador sobre las 
     páginas.
     """
+    num_page = int(request.args.get('num_page', 1))
+
+    if not authenticated(session):
+        return render_template("error.html")
     params = []
     quantity = PageSetting.find_settings()
     users = base.session.query(User).paginate(
@@ -23,15 +27,19 @@ def index(num_page):
     num_pages = users.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2)
     params.append(users)
-    params.append(num_pages)
-    return params
+    params.append(num_pages)  
+    return render_template("usuarios.html", users=params[0], pages=params[1])
 
 
 def login():
     return render_template("auth/login.html")
 
 def profile():
-    return redirect(url_for("user_profile"))
+    if not authenticated(session):
+            return render_template("error.html")
+    user = User.find_by_id(session['id'])
+    return render_template("user/profile.html", user=user)
+
 
 def update_profile():
     params = request.form
@@ -57,7 +65,6 @@ def search():
     forma paginada.
     """
     params = request.form
-    parametros = []
     quantity = PageSetting.find_settings()
     if params['username'] == '':
         users = base.session.query(User).filter(User.active == params['active']).paginate(per_page=quantity.elements, page=1, error_out=True)
@@ -66,9 +73,8 @@ def search():
             User.active == params['active']).paginate(per_page=quantity.elements, page=1, error_out=True)
     num_pages = users.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2)
-    parametros.append(users)
-    parametros.append(num_pages)
-    return parametros
+    return render_template("usuarios.html", users=users, pages=num_pages, search=params['username'])
+
 
 
 def create():
@@ -146,5 +152,4 @@ def update(id):
         if item not in roles_name_user:
             roles.append(item)
     user = User.find_by_id(id)
-    datos = {'user': user, 'all_roles':roles, 'user_roles':roles_name_user}
-    return datos
+    return render_template("user/update.html", user=user,all_roles=roles,user_roles=roles_name_user)

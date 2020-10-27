@@ -1,7 +1,7 @@
 import pymysql
-from flask import g
 from flask import cli
 from flask_sqlalchemy import SQLAlchemy
+
 
 
 base = SQLAlchemy()
@@ -25,14 +25,8 @@ def connection(current_app):
     return base
 
 
-""" 
-def close(e=None):
-    #DB.DISPOSE???? 
-    conn = g.pop("db_conn", None)
-
-    if conn is not None:
-        conn.close()
+def close(app):
+    base.session.close()
+    base.engine.dispose()
 
 
-def init_app(app):
-    app.teardown_appcontext(close) """

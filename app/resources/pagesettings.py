@@ -10,7 +10,7 @@ def indexPage():
     if not authenticated(session):
         return render_template("error.html")   
     settings = PageSetting.find_settings()
-    return settings
+    return render_template("pageConfig/pagesettings.html", settings=settings)
 
 
 def updateSettings():
@@ -20,4 +20,4 @@ def updateSettings():
     mensaje = PageSetting.update(params)
     settings = PageSetting.find_settings()
     flash(mensaje)
-    return settings
+    return render_template("pageConfig/pagesettings.html", settings=settings)
