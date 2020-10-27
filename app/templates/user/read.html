@@ -31,6 +31,10 @@
           <input type="email" required class="form-control" name="email" placeholder="Correo" value="{{user.email}}" />
     </p>
     <p>
+      <label><strong>Contraseña:</strong> </label></br>
+          <input class="form-control" required type="password" name="password" placeholder="Clave" value="{{user.password}}" />
+    </p>
+    <p>
       <label><strong>Nombre de usuario:</strong> </label></br>
           <input class="form-control" required name="username" placeholder="Username" value="{{user.username}}" />
     </p>
@@ -43,10 +47,12 @@
           <input class="form-control" required name="last_name" placeholder="Apellido" value="{{user.last_name}}" />
     </p>
     <p>
+
+      {% if not admin %}
       Estado:<br>
       <label><input type="radio" name="active" value="1" {% if user.active %}checked{% endif %}> Habilitado</label><br>
-      <label><input type="radio" name="active" value="0" {% if not user.active %}checked{% endif %}>
-        Bloqueado</label><br>
+      <label><input type="radio" name="active" value="0" {% if not user.active %}checked{% endif %}>Bloqueado</label><br>
+      {% endif %}
     </p>
     <div class="container">
     <div class="content">

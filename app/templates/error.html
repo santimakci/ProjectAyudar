@@ -4,12 +4,11 @@
   {{ super() }}
 {% endblock %}
 {% block content %}
-  <body>
+  <body class="bodyerror">
 
-<img src="{{ url_for('static', filename='assets/img/401-error.jpg') }}" />
-      <div class="link-container text-center">
-        <a  class="btn btn-info" href="{{ url_for('home') }}" class="more-link">Volver al inicio</a>
-      </div>
+
+
+      
   </body>
   {% endblock %}
 

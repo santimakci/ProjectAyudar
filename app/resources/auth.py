@@ -5,7 +5,7 @@ from app.models.user import User
 from app.models.usersRoles import UsersRoles
 from app.models.rol import Rol
 from app.helpers.auth import authenticated
-
+import hashlib
 
 def login():
     """Inicio de sesión del usuario
@@ -18,7 +18,8 @@ def authenticate():
     parte de la aplicación web lo redirige y con que mensaje.
     """
     params = request.form
-    user = User.find_by_email_and_pass(params["email"], params["password"])
+    elpass = hashlib.md5(params['password'].encode('utf-8')).hexdigest()
+    user = User.find_by_email_and_pass(params["email"], elpass)
     if not user:
         flash("Usuario o clave incorrecto.", 'danger')
         return redirect(url_for("auth_login"))
@@ -36,4 +37,4 @@ def logout():
     session.clear()
     flash("La sesión se cerró correctamente.", 'info')
 
-    return redirect(url_for("auth_login"))
+    return redirect(url_for("home"))

@@ -30,6 +30,12 @@
 *::after {
   box-sizing: border-box;
 }
+.cebra{
+  background: rgba(0, 188, 200, 0.1);
+}
+.bodyerror{
+  background-image: url("../img/401-error.jpg");
+}
 
 html {
   font-family: sans-serif;
@@ -3114,7 +3120,10 @@ fieldset:disabled a.btn {
   background-color: #e2e6ea;
   border-color: #dae0e5;
 }
-
+.activePag{
+      background: rgba(0, 188, 200, 1);
+    color: aliceblue;
+}
 .btn-light:focus,
 .btn-light.focus {
   box-shadow: none, 0 0 0 0.2rem rgba(248, 249, 250, 0.5);
@@ -16949,11 +16958,11 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 footer {
   padding: 0.9375rem 0;
-  text-align: center;
-  display: -webkit-flex;
-  /* Safari */
-  /* Safari 6.1+ */
-  display: flex;
+  text-align: right;
+  background: gainsboro;
+  height: 40px;
+  margin: 0px;
+  padding: 5px;
 }
 
 footer ul {

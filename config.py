@@ -25,8 +25,6 @@ class DevelopmentConfig(BaseConfig):
     DB_USER = environ.get("DB_USER", "MY_DB_USER")
     DB_PASS = environ.get("DB_PASS", "MY_DB_PASS")
     DB_NAME = environ.get("DB_NAME", "MY_DB_NAME")
-    SECRET_KEY = "3d6f45a5fc12445dbac2f59c3b6c7cb1"
-
 
 class TestingConfig(BaseConfig):
     """Testing configuration."""

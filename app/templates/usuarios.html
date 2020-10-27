@@ -31,7 +31,7 @@
       <form class="form-inline" action="{{url_for('usersSearch', num_page=1)}}" method="POST">
 
         <div class="form-group has-default bmd-form-group">
-          <input type="text" name="username" class="form-control" placeholder="Buscar...">
+          <input type="text" name="username" class="form-control" {% if search %} value="{{ search }}"  {% else %}placeholder="Buscar..."{% endif %}>
         </div>
   
         <button type="submit" class="btn btn-white btn-raised btn-fab btn-round" style="margin-top: 1em;">
@@ -96,21 +96,25 @@
     <ul class="pagination pagination-info mx-auto" id="page">
       {% for page in pages %}
         {%if page%}
-          <li class="page-item" id="num{{page}}"><a href="{{ url_for('usersPag',num_page=page) }}" class="page-link" >{{page}}</a></li>
+          <li class="page-item" ><a id="num{{page}}" href="{{ url_for('usersPag',num_page=page) }}" class="page-link" >{{page}}</a></li>
         {%else%}
           ...
         {%endif%}
       {% endfor %}
     </ul>
-    {% endblock %}
+
   </div>
 </div>
 
 
+<script>
+      $("tr:odd").addClass("cebra");
+</script>
+
 
 <script>
-  function addClass() {
-  var element = document.getElementById("num{{users.page}}");
-  element.classList.add("active");
-}
+  $("#num{{users.page}}").css({"background": "rgba(0, 188, 200, 1)",
+  "color": "aliceblue"})
+
 </script>
+{% endblock %}
