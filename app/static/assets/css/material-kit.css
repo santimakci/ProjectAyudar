@@ -16957,12 +16957,14 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 footer {
-  padding: 0.9375rem 0;
+  padding: 2px;
+  padding-right: 10px;
   text-align: right;
   background: gainsboro;
   height: 40px;
   margin: 0px;
-  padding: 5px;
+  position: relative;
+  width: 100%;
 }
 
 footer ul {
@@ -17079,6 +17081,7 @@ footer .pull-center {
 
 .card .card-title {
   margin-top: 0.625rem;
+  
 }
 
 .card .card-title:last-child {
