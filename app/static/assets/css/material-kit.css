@@ -37,6 +37,10 @@
   background-image: url("../img/401-error.jpg");
 }
 
+.maintenance{
+  background-image: url("../img/maintenance.png");
+}
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
