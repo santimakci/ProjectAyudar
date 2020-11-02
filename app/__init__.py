@@ -55,10 +55,10 @@ def create_app(environment="development"):
         close(app)
         return response
 
-
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
+    app.jinja_env.globals.update(settings=PageSetting.find_settings)
 
-   # Home de la página
+    # Home de la página
     app.add_url_rule("/", "home", home)
 
     # Autenticación
@@ -86,7 +86,7 @@ def create_app(environment="development"):
     app.add_url_rule("/users", "usersPag", user_index, methods=['GET', 'POST'])
     app.add_url_rule("/usersresults", "usersSearch", user_search, methods=['GET', 'POST'])
 
-  
+
 
 
     return app

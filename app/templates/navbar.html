@@ -23,7 +23,7 @@
                 </li>
                 {% for rol in session['roles'] %}
                 {%if rol.name == "admin"%}
-                <li {% if request.path.startswith('/users/') %} class="nav-item active" {%else%}class="nav-item"{%endif%}>
+                <li {% if request.path.startswith('/users') %} class="nav-item active" {%else%}class="nav-item"{%endif%}>
                     <a class="nav-link" href="{{ url_for('usersPag', num_page=1) }}"> Usuarios
                     </a>
                 </li>
@@ -31,11 +31,17 @@
                     <a class="nav-link" href="{{ url_for('pagesettings_indexPage') }}"> Configuración
                     </a>
                 </li>
+                <li class="nav-item" id="perfil" style="display: none;">
+                    <a class="nav-link" href="{{ url_for('user_profile') }}">Perfil</a>
+                </li>
+                <li class="nav-item" id="logout" style="display: none;">
+                    <a class="nav-link" href="{{ url_for('auth_logout') }}">Cerrar sesión</a>
+                </li>
                 {%endif%}
                 {% endfor %}
             </ul>
         </div>
-        <div class="nav-item dropdown">
+        <div class="nav-item dropdown" id="admin">
             <a class=" dropdown-toggle  nav-link" style="color: #ffffff;" href="#" id="navbarDropdownMenuLink"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <svg width="1.2em" height="1.2em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentcolor"
@@ -77,6 +83,25 @@
 </nav>
 {% endif %}
 <script>
-
+    var width = $(window).width();
+        if(width < 768){
+            $('#admin').removeClass("dropdown").css("display","none");
+            $('#perfil').css("display","");
+            $('#logout').css("display","");
+        }
+    $(window).resize(function(){
+        console.log('resize called');
+        var width = $(window).width();
+        if(width < 768){
+            $('#admin').removeClass("dropdown").css("display","none");
+            $('#perfil').css("display","");
+            $('#logout').css("display","");
+        }   
+        else{
+            $('#admin').addClass("dropdown").css("display", "");
+            $('#perfil').css("display","none");
+            $('#logout').css("display","none");
+        }
+    })
 </script>
 {% endblock %}

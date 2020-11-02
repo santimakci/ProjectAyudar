@@ -7,4 +7,8 @@ def home():
     """Retorna al login de la pagina
     """
     settings = PageSetting.find_settings()
-    return render_template("home.html", settings=settings)
+    if (not(settings.enabled) and not(authenticated(session))):
+        return render_template("maintenance.html")
+    else:
+        return render_template("home.html", settings=settings)
+        
