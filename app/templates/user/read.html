@@ -1,27 +1,11 @@
-{% extends "layout.html" %}
+{% extends "layout/layout.html" %}
 {% block title %}Actualizar usuario{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
 
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul class=flashes>
-  {% for category, message in get_flashed_messages(with_categories=True) %}
-
-  <div class="alert alert-{{category}}">
-    <div class="container text-center">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true"><i class="material-icons">clear</i></span>
-      </button>
-      {{ message }}
-    </div>
-    {% endfor %}
-
-</ul>
-{% endif %}
-{% endwith %}
+{% include 'helpers/messages.html' %}
 <div class="col-lg-4 col-md-6 mx-auto">
   <h2>Actualizar usuario</h2>
   <form action="{{ url_for('commit_update') }} " name="form1" method="POST">

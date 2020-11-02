@@ -8,7 +8,7 @@ def indexPage():
     """Retorna la página de configuración de la aplicación web.
     """
     if not authenticated(session):
-        return render_template("error.html")   
+        return render_template("errors/error.html")   
     settings = PageSetting.find_settings()
     return render_template("pageConfig/pagesettings.html", settings=settings)
 

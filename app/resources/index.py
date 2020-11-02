@@ -8,7 +8,7 @@ def home():
     """
     settings = PageSetting.find_settings()
     if (not(settings.enabled) and not(authenticated(session))):
-        return render_template("maintenance.html")
+        return render_template("errors/maintenance.html")
     else:
-        return render_template("home.html", settings=settings)
+        return render_template("layout/index.html", settings=settings)
         

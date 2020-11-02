@@ -36,13 +36,10 @@
 .bodyerror{
   background-image: url("../img/401-error.jpg");
 }
-<<<<<<< HEAD
 
 .maintenance{
   background-image: url("../img/maintenance.png");
 }
-=======
->>>>>>> e34ef6f7ba2b7e8f24a867518e5f99ba9e931ab1
 
 html {
   font-family: sans-serif;

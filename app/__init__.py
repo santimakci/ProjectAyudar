@@ -71,8 +71,6 @@ def create_app(environment="development"):
     # Home de la página
     app.add_url_rule("/", "home", home)
 
-   # Home de la página
-    app.add_url_rule("/", "home", home)
 
     # Autenticación
     app.add_url_rule("/login", "auth_login", auth_login)  # Url login
@@ -110,6 +108,5 @@ def create_app(environment="development"):
 
     #Listado de Centros / Busqueda de centros (pendiente)
     app.add_url_rule("/centers","centers", center_index, methods=['GET', 'POST'])
-
 
     return app

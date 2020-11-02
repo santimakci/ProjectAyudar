@@ -12,16 +12,16 @@ def index():
     """Retorna una lista con el total de centros 
     """
     if not authenticated(session):
-        return render_template("error.html")
+        return render_template("errors/error.html")
     centers = base.session.query(Center) 
     params = []
     params.append(centers)
     #import code; code.interact(local=dict(globals(), **locals()))
-    return render_template("centros.html", centers=params[0])
+    return render_template("center/centros.html", centers=params[0])
 
 def new():
     if not authenticated(session):
-        return render_template("error.html")
+        return render_template("errors/error.html")
 
     return render_template("center/new.html")
 
@@ -37,7 +37,7 @@ def delete(id):
     """Chequea que exista el centro con el id recibido por parámetro y 
     es redirigido a la pantalla para eliminar a un centro"""
     if not authenticated(session):
-        return render_template("error.html")    
+        return render_template("errors/error.html")    
     center = Center.find_by_id(id)
     return render_template("center/delete.html", center=center)
 
@@ -71,7 +71,7 @@ def update(id):
     es redirigido a la pantalla para modificar los datos del centro.
     """
     if not authenticated(session):
-        return render_template("error.html")
+        return render_template("errors/error.html")
     center = Center.find_by_id(id)
     return render_template("center/update.html", center=center)
     

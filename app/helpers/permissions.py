@@ -8,8 +8,8 @@ def role_required(role_name):
 
 def authorize(*args, **kwargs):
     if not authenticated(session):
-        return render_template("error.html")
+        return render_template("errors/error.html")
     user_roles = UsersRoles.find_user_roles_by_id(int(session["id"]))
     name_roles = Rol.get_arrayname_roles(user_roles)
     if role_name not in name_roles:
-        return render_template("error.html")
+        return render_template("errors/error.html")

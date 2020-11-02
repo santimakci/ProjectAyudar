@@ -19,7 +19,7 @@ def index():
     num_page = int(request.args.get('num_page', 1))
 
     if not authenticated(session):
-        return render_template("error.html")
+        return render_template("errors/error.html")
     params = []
     quantity = PageSetting.find_settings()
     users = base.session.query(User).paginate(
@@ -28,7 +28,7 @@ def index():
         left_edge=2, left_current=2, right_current=2, right_edge=2)
     params.append(users)
     params.append(num_pages)  
-    return render_template("usuarios.html", users=params[0], pages=params[1])
+    return render_template("user/usuarios.html", users=params[0], pages=params[1])
 
 
 def login():
@@ -36,7 +36,7 @@ def login():
 
 def profile():
     if not authenticated(session):
-            return render_template("error.html")
+            return render_template("errors/error.html")
     user = User.find_by_id(session['id'])
     return render_template("user/profile.html", user=user)
 
@@ -54,7 +54,7 @@ def new():
     """
     
     if not authenticated(session):
-        return render_template("error.html")
+        return render_template("errors/error.html")
     roles = Rol.return_roles()
     return render_template("user/new.html", roles=roles)
 
@@ -73,7 +73,7 @@ def search():
             User.active == params['active']).paginate(per_page=quantity.elements, page=1, error_out=True)
     num_pages = users.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2)
-    return render_template("usuarios.html", users=users, pages=num_pages, search=params['username'])
+    return render_template("user/usuarios.html", users=users, pages=num_pages, search=params['username'])
 
 
 
@@ -95,7 +95,7 @@ def delete(id):
     """Chequea que exista el usuario con el id recibido por parámetro y 
     es redirigido a la pantalla para eliminar a un usuario"""
     if not authenticated(session):
-        return render_template("error.html")    
+        return render_template("errors/error.html")    
     user = User.find_by_id(id)
     return render_template("user/delete.html", user=user)
 
@@ -143,7 +143,7 @@ def update(id):
     es redirigido a la pantalla para modificar los datos de un usuario.
     """
     if not authenticated(session):
-        return render_template("error.html")
+        return render_template("errors/error.html")
     all_roles = Rol.return_roles()
     user_roles = UsersRoles.find_user_roles_by_id(id)
     roles_name_user = Rol.get_name_roles(user_roles)

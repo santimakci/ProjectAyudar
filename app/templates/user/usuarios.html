@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "layout/layout.html" %}
 {% block title %}Consultas{% endblock %}
 {% block head %}
 {{ super() }}
@@ -6,42 +6,27 @@
 {% block content %}
 
 <div class="container">
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  <ul class=flashes>
-    {% for category, message in get_flashed_messages(with_categories=True) %}
-
-    <div class="alert alert-{{category}}">
-      <div class="container text-center">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true"><i class="material-icons">clear</i></span>
-        </button>
-        {{ message }}
-      </div>
-      {% endfor %}
-
-  </ul>
-  {% endif %}
-  {% endwith %}
-
+  {% include 'helpers/messages.html' %}
   <div class="container">
     <div class="row">
       
       
-      <form class="form-inline" action="" method="POST">
+      <form class="form-inline" action="{{url_for('usersSearch', num_page=1)}}" method="POST">
 
         <div class="form-group has-default bmd-form-group">
-          <input type="text" name="name" class="form-control" {% if search %} value="{{ search }}"  {% else %}placeholder="Buscar..."{% endif %}>
+          <input type="text" name="username" class="form-control" {% if search %} value="{{ search }}"  {% else %}placeholder="Buscar..."{% endif %}>
         </div>
   
         <button type="submit" class="btn btn-white btn-raised btn-fab btn-round" style="margin-top: 1em;">
           <i class="material-icons">search</i>
         </button>
 
+        <label style="margin: 2em 0em 0em 2em;"><input type="radio" name="active" value="1" checked> <strong style="MARGIN-LEFT: 0.5em;">Activo</strong>  </label><br> 
+        <label style="margin: 2em 0em 0em 2em;"><input type="radio" name="active" value="0"> <strong style="MARGIN-LEFT: 0.5em;">Bloqueado</strong></label><br>
       </form>
 
 
-      <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="/centers/new">Crear nuevo centro</a>
+      <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="/users/new">Crear nuevo usuario</a>
     </div>
 
   </div>
@@ -54,23 +39,19 @@
     <table class="table text-center">
       <tr >
         <th scope="col"> Nombre </th>
-        <th scope="col"> Dirección </th>
-        <th scope="col"> Horario de apertura </th>
-        <th scope="col"> Horario de cierre </th>
-        <th scope="col"> Télefono </th>
-        <th scope="col"> Web </th>
+        <th scope="col"> Apellido </th>
+        <th scope="col"> Usuario </th>
+        <th scope="col"> Email </th>
       </tr>
 
-      {% for center in centers %}
+      {% for user in users.items %}
       <tr>
-        <td scope="row">{{center.name}} </td>
-        <td>{{center.address}}</td>
-        <td>{{center.open_time}}</td>
-        <td>{{center.close_time}}</td>
-        <td>{{center.phone}}</td>
-        <td>{{center.web}}</td>
+        <td scope="row">{{user.first_name}} </td>
+        <td>{{user.last_name}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
         <td>
-          <a href="{{url_for('center_update',id=center.id)}}">
+          <a href="{{url_for('user_update',id=user.id)}}">
             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square" "
               xmlns=" http://www.w3.org/2000/svg">
               <path
@@ -81,7 +62,7 @@
           </a>
         </td>
         <td>
-          <a href="{{url_for('center_delete',id=center.id)}}">
+          <a href="{{url_for('user_delete',id=user.id)}}">
             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash" "
               xmlns=" http://www.w3.org/2000/svg">
               <path
@@ -95,6 +76,15 @@
       {% endfor %}
     </table>
 
+    <ul class="pagination pagination-info mx-auto" id="page">
+      {% for page in pages %}
+        {%if page%}
+          <li class="page-item" ><a id="num{{page}}" href="{{ url_for('usersPag',num_page=page) }}" class="page-link" >{{page}}</a></li>
+        {%else%}
+          ...
+        {%endif%}
+      {% endfor %}
+    </ul>
 
   </div>
 </div>
@@ -105,4 +95,9 @@
 </script>
 
 
+<script>
+  $("#num{{users.page}}").css({"background": "rgba(0, 188, 200, 1)",
+  "color": "aliceblue"})
+
+</script>
 {% endblock %}
