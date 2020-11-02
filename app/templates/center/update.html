@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block title %}Actualizar usuario{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+
+  <div class="alert alert-{{category}}">
+    <div class="container text-center">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true"><i class="material-icons">clear</i></span>
+      </button>
+      {{ message }}
+    </div>
+    {% endfor %}
+
+</ul>
+{% endif %}
+{% endwith %}
+<div class="col-lg-4 col-md-6 mx-auto">
+  <h2>Actualizar usuario</h2>
+  <form action="{{ url_for('center_commit_update') }} " name="form1" method="POST">
+    <input name="id" type="hidden" value="{{center.id}}">
+    <p>
+        <label><strong> Nombre: </strong>  </label></br>
+            <input class="form-control" required name="name" placeholder="Nombre" value="{{center.name}}" />
+    </p>
+    <p>
+        <label><strong> Dirección:</strong>   </label></br>
+            <input class="form-control" required name="address" placeholder="Dirección" value="{{center.address}}" />
+    </p>
+    <p>
+        <label><strong> Teléfono:</strong>   </label></br>
+            <input class="form-control" required name="phone" placeholder="Teléfono" value="{{center.phone}}" />
+    </p>
+    <p>
+        <label><strong> Hora de apertura: </strong>  </label></br>
+            <input type="time" required name="open_time" placeholder="Hora de apertura" value="{{center.open_time}}" />
+    </p>
+    <p>
+        <label><strong> Hora de cierre: </strong>  </label></br>
+            <input type="time" required name="close_time" placeholder="Hora de cierre" value="{{center.close_time}}" />
+    </p>
+    <p>
+        <label><strong> Tipo de centro: </strong>  </label></br>
+            <input class="form-control" required name="center_type" placeholder="Tipo de centro" value="{{center.center_type}}" />
+    </p>
+    <p>
+      <label><strong> Municipalidad: </strong>  </label></br>
+          <input class="form-control" required name="municipality" placeholder="Municipalidad" value="{{center.municipality}}" />
+  </p>
+    <p>
+        <label><strong> Pagina Web: </strong>  </label></br>
+            <input class="form-control" required name="web" placeholder="Web:" value="{{center.web}}" />
+    </p>
+
+
+</div>
+  <div class="row text-center justify-content-center">
+    <input class="btn btn-info" type="submit" value="Actualizar">
+    <a class="btn btn-default" href="{{ url_for('centers') }}" class="link">Volver</a>
+    </p>
+  </form>
+</div>
+</div>
+
+
+<style>
+  div.content {
+    float: left;
+    text-align: center;
+    margin: 10px;
+  }
+</style>
+{% endblock %}

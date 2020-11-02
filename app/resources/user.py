@@ -101,7 +101,7 @@ def delete(id):
 
 
 def commit_delete():
-    """Llama a la función que realiza el borrado lógico de un usuario y
+    """Llama a la función que realiza el borrado fisico de un usuario y
     redirige a la pantalla del listado de usuarios.
     """
     params = request.form

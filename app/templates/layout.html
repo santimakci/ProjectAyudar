@@ -9,7 +9,6 @@
     <link rel="stylesheet" src="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" src="{{url_for('static', filename='static/style.css')}}">
     <link rel="shortcut icon" type="image/x-ico" href="{{url_for('static', filename='assets/img/favicon.ico') }}">
-    <link rel="stylesheet" type="text/css" src="{{url_for('static', filename='assets/css/mediaq.css')}}">
     <title>{% block title %}Ayudar{% endblock %}</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     {% endblock %}
@@ -18,9 +17,6 @@
   <body>
     <div class="main">
     {% include 'navbar.html'%}
- 
-     
-    
       <div id="content">
         {% block content %}
         {% endblock %}

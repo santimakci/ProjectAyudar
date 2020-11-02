@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block title %}Borrar centro{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<form action="{{ url_for('center_commit_delete') }}" method="POST">
+  <h3 style="text-align: center;">¿Está seguro que quiere borrar el centro: "{{ center.name }}"?</h3>
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-sm-12 col-xs-12">
+        <input name="id" type="hidden" value="{{center.id}}">
+        <input class="btn btn-info" type="submit" value="Borrar">
+    
+</form>
+<a class="btn btn-default" href="{{ url_for('centers') }}" style="height: 3.4em;" class="link">Volver</a>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -15,8 +15,21 @@ from app.helpers.auth import authenticated
 from app.models.pageSetting import PageSetting
 from app.models.rol import Rol
 from app.models.user import User
+from app.models.center import Center
 from app.models.usersRoles import UsersRoles
 from app.resources import auth
+<<<<<<< HEAD
+=======
+from app.resources.center import (
+    index as center_index , 
+    new as center_new , 
+    create as center_create,
+    update as center_update,
+    commit_update as center_commit_update,
+    delete as center_delete,
+    commit_delete as center_commit_delete
+)
+>>>>>>> e34ef6f7ba2b7e8f24a867518e5f99ba9e931ab1
 from app.resources.index import home 
 from app.resources.pagesettings import indexPage, updateSettings
 from app.resources.user import (
@@ -61,6 +74,9 @@ def create_app(environment="development"):
     # Home de la página
     app.add_url_rule("/", "home", home)
 
+   # Home de la página
+    app.add_url_rule("/", "home", home)
+
     # Autenticación
     app.add_url_rule("/login", "auth_login", auth_login)  # Url login
     app.add_url_rule("/logout", "auth_logout", auth.logout)  # Url cerrar sesión
@@ -74,6 +90,15 @@ def create_app(environment="development"):
     app.add_url_rule("/users/update/<int:id>", "user_update", update, methods=['GET', 'POST'])
     app.add_url_rule("/users/delete/<int:id>", "user_delete", delete, methods=['GET', 'POST'])
 
+    #Center ABM
+    app.add_url_rule("/centers_create", "center_create", center_create, methods=["POST"])
+    app.add_url_rule("/centers/new","center_new",center_new)
+    app.add_url_rule("/centers/update/<int:id>", "center_update", center_update, methods=['GET', 'POST'])
+    #consultar el famoso gran center_commit_update (mala convención de nombres?)
+    app.add_url_rule("/centers/commit_update", "center_commit_update", center_commit_update, methods=["POST"])
+    app.add_url_rule("/centers/delete/<int:id>", "center_delete", center_delete, methods=['GET', 'POST'])
+    app.add_url_rule("/centers/commit_delete", "center_commit_delete", center_commit_delete, methods=["POST"])
+
     # User Profile
     app.add_url_rule("/user/profile", "user_profile", profile, methods=[ "GET", "POST"]) 
     app.add_url_rule("/update/profile", "update_profile", update_profile , methods=[ "GET","POST"])
@@ -86,7 +111,8 @@ def create_app(environment="development"):
     app.add_url_rule("/users", "usersPag", user_index, methods=['GET', 'POST'])
     app.add_url_rule("/usersresults", "usersSearch", user_search, methods=['GET', 'POST'])
 
-
+    #Listado de Centros / Busqueda de centros (pendiente)
+    app.add_url_rule("/centers","centers", center_index, methods=['GET', 'POST'])
 
 
     return app

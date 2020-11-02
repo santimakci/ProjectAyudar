@@ -1,0 +1,134 @@
+{% extends "layout.html" %}
+{% block title %}Actualizar usuario{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+
+  <div class="alert alert-{{category}}">
+    <div class="container text-center">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true"><i class="material-icons">clear</i></span>
+      </button>
+      {{ message }}
+    </div>
+    {% endfor %}
+
+</ul>
+{% endif %}
+{% endwith %}
+<div class="col-lg-4 col-md-6 mx-auto">
+  <h2>Actualizar usuario</h2>
+  <form action="{{ url_for('commit_update') }} " name="form1" method="POST">
+    <input name="id" type="hidden" value="{{user.id}}">
+    <p>
+      <label><strong>Email:</strong> </label></br>
+          <input type="email" required class="form-control" name="email" placeholder="Correo" value="{{user.email}}" />
+    </p>
+    <p>
+      <label><strong>Contraseña:</strong> </label></br>
+          <input class="form-control" required type="password" name="password" placeholder="Clave" value="{{user.password}}" />
+    </p>
+    <p>
+      <label><strong>Nombre de usuario:</strong> </label></br>
+          <input class="form-control" required name="username" placeholder="Username" value="{{user.username}}" />
+    </p>
+    <p>
+      <label><strong>Nombre:</strong> </label></br>
+          <input class="form-control"required name="first_name" placeholder="Nombre" value="{{user.first_name}}" />
+    </p>
+    <p>
+      <label><strong>Apellido: </label></br>
+          <input class="form-control" required name="last_name" placeholder="Apellido" value="{{user.last_name}}" />
+    </p>
+    <p>
+
+      {% if not admin %}
+      Estado:<br>
+      <label><input type="radio" name="active" value="1" {% if user.active %}checked{% endif %}> Habilitado</label><br>
+      <label><input type="radio" name="active" value="0" {% if not user.active %}checked{% endif %}>Bloqueado</label><br>
+      {% endif %}
+    </p>
+    <div class="container">
+    <div class="content">
+      <select multiple="multiple" id="select1" style="width:100px;height:160px;border: 1px solid #e4e5ee;
+      border-radius: 3px;">
+        {% for rol in all_roles %}
+        <option value={{rol.id}}>{{rol.name}}</option>
+        {% endfor %}
+      </select>
+      <div>
+        <span class="espanes" id="add">Añadir rol</span>
+        <span class="espanes" id="add_all">Añadir todos</span>
+      </div>
+    </div>
+    <div class="content">
+      <select multiple name="roles[]" id="select2" style="width: 100px;height:160px;border: 1px solid #e4e5ee;
+      border-radius: 3px;">
+        {% for rol in user_roles %}
+        <option value={{rol.id}}>{{rol.name}}</option>
+        {% endfor %}
+      </select>
+      <div>
+        <span class="removes" id="remove">Eliminar rol</span>
+        <span class="removes" id="remove_all">Eliminar todos</span>
+      </div>
+    </div>
+  </div>
+  <div class="row text-center">
+    <input class="btn btn-info" type="submit" onclick="selectAll();" value="Actualizar">
+    <a class="btn btn-default" href="{{ url_for('usersPag', num_page=1) }}" class="link">Volver</a>
+    </p>
+  </form>
+</div>
+</div>
+
+
+<style>
+  div.content {
+    float: left;
+    text-align: center;
+    margin: 10px;
+  }
+</style>
+<script type="text/javascript">
+  jQuery('[name="form1"]').on("submit", selectAll);
+
+  function selectAll() {
+    jQuery('[name="roles[]"] option').prop('selected', true).val()
+  }
+</script>
+<script>
+  $(function () {
+    $('#add').click(function () {
+      let $options = $('#select1 option:selected');
+      $options.appendTo("#select2");
+    });
+    $('#add_all').click(function () {
+      let $options = $('#select1 option');
+      $options.appendTo("#select2");
+    });
+    $('#select1').dblclick(function () {
+      let $option = $('option:selected', this);
+      $option.appendTo('#select2');
+    });
+    $("#remove").click(function () {
+      let $options = $('#select2 option:selected');
+      $options.appendTo("#select1");
+    });
+    $("#remove_all").click(function () {
+      let $options = $('#select2 option');
+      $options.appendTo('#select1');
+    });
+    $('#select2').dblclick(function () {
+      let $option = $('option:selected');
+      $option.appendTo("#select1");
+    });
+  });
+</script>
+{% endblock %}

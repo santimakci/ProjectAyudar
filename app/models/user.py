@@ -5,8 +5,7 @@ import hashlib
 
 class User (base.Model):
     """La clase User se asocia con la tabla users en la base de datos. Tiene email, contraseña, nombre, apellido,
-    nombre de usuario, si está activo, la fecha de creación, la última fecha en la que fue modificado, si está borrado 
-    y la fecha en la que fue borrado logicamente.
+    nombre de usuario, si está activo, la fecha de creación y la última fecha en la que fue modificado.
     """
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
@@ -95,7 +94,7 @@ class User (base.Model):
 
     @classmethod
     def delete(self, params):
-        """Realiza un borrado lógico sobre un usuario existente en la base de datos.
+        """Realiza un borrado fisico sobre un usuario existente en la base de datos.
 
         Args:
             params ([dict)
