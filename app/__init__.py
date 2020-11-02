@@ -18,8 +18,6 @@ from app.models.user import User
 from app.models.center import Center
 from app.models.usersRoles import UsersRoles
 from app.resources import auth
-<<<<<<< HEAD
-=======
 from app.resources.center import (
     index as center_index , 
     new as center_new , 
@@ -29,7 +27,6 @@ from app.resources.center import (
     delete as center_delete,
     commit_delete as center_commit_delete
 )
->>>>>>> e34ef6f7ba2b7e8f24a867518e5f99ba9e931ab1
 from app.resources.index import home 
 from app.resources.pagesettings import indexPage, updateSettings
 from app.resources.user import (
