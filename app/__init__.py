@@ -55,21 +55,6 @@ def create_app(environment="development"):
         close(app)
         return response
 
-    def role_required(role_name):
-        def decorator(func):
-            @wraps(func)
-            def authorize(*args, **kwargs):
-              if not authenticated(session):
-                return render_template("error.html")
-              user_roles = UsersRoles.find_user_roles_by_id(int(session["id"]))
-              name_roles = Rol.get_arrayname_roles(user_roles)
-              if role_name not in name_roles:
-                  return render_template("error.html")
-              return func(*args, **kwargs)
-
-            return authorize
-
-        return decorator
 
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
 
