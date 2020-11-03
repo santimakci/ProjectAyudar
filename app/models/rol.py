@@ -44,3 +44,5 @@ class Rol (base.Model):
             aRol = base.session.query(Rol).filter(Rol.id == int(rol)).first()
             roles_user.append(aRol.name)
         return roles_user
+
+    

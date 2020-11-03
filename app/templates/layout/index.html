@@ -63,6 +63,9 @@
         </div>
         <div class="description">
           <h4 class="info-title">Configuración</h4>
+          {% for permiso in user_permisos() %}
+            <span>{{permiso}}</span>
+          {%endfor%}
           <p>Permite administrar el sitio, su nombre, su descripción, la cantidad de elementos a mostrar por página, entre
             otras cosas. </p>
         </div>

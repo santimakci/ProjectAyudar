@@ -1,0 +1,61 @@
+{% extends "layout/layout.html" %}
+{% block title %}Actualizar usuario{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+{% include 'helpers/messages.html' %}
+<div class="col-lg-4 col-md-6 mx-auto">
+  <h2>Información del centro</h2>
+  <form action=# name="form1" method="POST">
+    <input name="id" type="hidden" value="{{center.id}}">
+    <p>
+        <label><strong> Nombre: </strong></label></br>
+            <input class="form-control" required name="name" placeholder="Nombre" value="{{center.name}}" disabled/>
+    </p>
+    <p>
+        <label><strong> Dirección:</strong></label></br>
+            <input class="form-control" required name="address" placeholder="Dirección" value="{{center.address}}" disabled/>
+    </p>
+    <p>
+        <label><strong> Teléfono:</strong>   </label></br>
+            <input class="form-control" required name="phone" placeholder="Teléfono" value="{{center.phone}}" disabled/>
+    </p>
+    <p>
+        <label><strong> Hora de apertura: </strong>  </label></br>
+            <input type="time" required name="open_time" placeholder="Hora de apertura" value="{{center.open_time}}" disabled />
+    </p>
+    <p>
+        <label><strong> Hora de cierre: </strong>  </label></br>
+            <input type="time" required name="close_time" placeholder="Hora de cierre" value="{{center.close_time}}" disabled />
+    </p>
+    <p>
+        <label><strong> Tipo de centro: </strong>  </label></br>
+            <input class="form-control" required name="center_type" placeholder="Tipo de centro" value="{{center.center_type}}" disabled/>
+    </p>
+    <p>
+      <label><strong> Municipalidad: </strong>  </label></br>
+          <input class="form-control" required name="municipality" placeholder="Municipalidad" value="{{center.municipality}}" disabled/>
+  </p>
+    <p>
+        <label><strong> Pagina Web: </strong>  </label></br>
+            <input class="form-control" required name="web" placeholder="Web:" value="{{center.web}}" disabled />
+    </p>
+</div>
+  <div class="row text-center justify-content-center">
+    <a class="btn btn-default" href="{{ url_for('centers') }}" class="link">Solicitar turno </a>
+    <a class="btn btn-default" href="{{ url_for('centers') }}" class="link">Volver</a>
+    </p>
+  </form>
+</div>
+</div>
+
+
+<style>
+  div.content {
+    float: left;
+    text-align: center;
+    margin: 10px;
+  }
+</style>
+{% endblock %}

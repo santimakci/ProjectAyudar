@@ -29,9 +29,8 @@ def find_permission_by_id(self,id):
     Args:
         id(int)
     """
-    return base.session.query(Permiso).filter(Permiso.id == id).first():
+    return base.session.query(Permiso).filter(Permiso.id == id).first()
         
-
 def update_permission_name(self, params)
     self.name = params['name']
     base.session.commit()

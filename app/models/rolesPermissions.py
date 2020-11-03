@@ -10,4 +10,17 @@ class RolesPermissions (base.Model):
     __tablename__ = "rolesPermissions"
     id = Column(Integer, primary_key=True)
     rol_id = Column(Integer, ForeignKey('roles.id'))
-    permissions_id = Column(Integer, ForeignKey('permissions.id'))
+    permission_id = Column(Integer, ForeignKey('permissions.id'))
+
+
+    @classmethod
+    def get_permissions_by_roles(cls, roles):
+        permisos = []
+        
+        for rol in roles:  
+            for permi in base.session.query(RolesPermissions).filter(RolesPermissions.rol_id == rol): 
+                permisos.append(permi.id)
+        return permisos
+     
+
+     

@@ -11,6 +11,7 @@ from functools import wraps
 
 from app.db import connection
 from app.helpers import auth as helper_auth
+from app.helpers.permissions import permissions
 from app.helpers.auth import authenticated
 from app.models.pageSetting import PageSetting
 from app.models.rol import Rol
@@ -25,7 +26,8 @@ from app.resources.center import (
     update as center_update,
     commit_update as center_commit_update,
     delete as center_delete,
-    commit_delete as center_commit_delete
+    commit_delete as center_commit_delete,
+    view as center_view
 )
 from app.resources.index import home 
 from app.resources.pagesettings import indexPage, updateSettings
@@ -64,13 +66,17 @@ def create_app(environment="development"):
     def after_request_func(response):
         close(app)
         return response
-
+    
+    
+    #import code; code.interact(local=dict(globals(), **locals()))
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
     app.jinja_env.globals.update(settings=PageSetting.find_settings)
+    app.jinja_env.globals.update(user_permisos=permissions)
+
+
 
     # Home de la página
     app.add_url_rule("/", "home", home)
-
 
     # Autenticación
     app.add_url_rule("/login", "auth_login", auth_login)  # Url login
@@ -107,6 +113,7 @@ def create_app(environment="development"):
     app.add_url_rule("/usersresults", "usersSearch", user_search, methods=['GET', 'POST'])
 
     #Listado de Centros / Busqueda de centros (pendiente)
-    app.add_url_rule("/centers","centers", center_index, methods=['GET', 'POST'])
+    app.add_url_rule("/centers", "centers", center_index, methods=['GET', 'POST'])
+    app.add_url_rule("/centers/view/<int:id>", "center_view", center_view, methods=['GET', 'POST'])
 
     return app

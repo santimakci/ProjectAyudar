@@ -19,6 +19,8 @@ def index():
     #import code; code.interact(local=dict(globals(), **locals()))
     return render_template("center/centros.html", centers=params[0])
 
+
+
 def new():
     if not authenticated(session):
         return render_template("errors/error.html")
@@ -75,3 +77,11 @@ def update(id):
     center = Center.find_by_id(id)
     return render_template("center/update.html", center=center)
     
+def view(id):
+    """Retorna una lista con el total de centros 
+    """
+    if not authenticated(session):
+        return render_template("errors/error.html")
+    
+    center = Center.find_by_id(id)
+    return render_template("center/view.html", center=center)
