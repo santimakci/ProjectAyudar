@@ -1,41 +1,53 @@
-var map = L.map('mapid').setView([-34.9187, -57.956], 13);
+let map;
+let marker;
 
+const initializeMap =  (selector) => {
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FzdG9uZ2luZXN0ZXQiLCJhIjoiY2toMTc5cTEzMGdtZzJyb3dicmh2MzN2YiJ9.lT2Tq_6BTzjaVtvn7N2lRw';
+    map = new mapboxgl.Map({
+        container: selector,
+        style: 'mapbox://styles/mapbox/streets-v11',
+        //primero la longitud despues latitud (si no , te lleva al mar)
+        center: [-57.956, -34.9187],
+        zoom: 13
+        });
+         
+        map.addControl(
+            new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+            })
+            );
 
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox/streets-v11',
-    tileSize: 512,
-    zoomOffset: -1,
-    accessToken: 'pk.eyJ1IjoiZ2FzdG9uZ2luZXN0ZXQiLCJhIjoiY2toMTc5cTEzMGdtZzJyb3dicmh2MzN2YiJ9.lT2Tq_6BTzjaVtvn7N2lRw'
-}).addTo(map);
+    map.on('click', onMapClick);
 
-
-
-var marker = L.marker([-34.9187, -57.956],{draggable:true}).addTo(map);
-
-function onMapClick(e) {
-    marker
-        .setLatLng(e.latlng)
-}
-
-const addSearchControl = () => {
-    L.control.scale().addTo(map);
-    let searchControl = new L.esri.Controls.Geosearch().addTo(map);
-    
-    let results = new L.LayerGroup().addTo(map);
-
-    searchControl.on('results',(data) => {
-        results.clearLayers();
-
-        if(data.results.length > 0) {
-            addMarker(data.results[0].latlng);
-        };
-    });
 };
 
-map.on('click', onMapClick);
+function onMapClick(e) {
+    addMarker(e.latlng);
+};
+
+
+const addMarker =  ({lat , lng}) => {
+    if(marker) marker.remove();
+    
+    marker = L.marker([lat, lng],{draggable:true}).addTo(map);
+};
+
+
+
+const submitHandler = (event) => {
+    if (!marker) {
+        event.preventDefault();
+        alert('Debes seleccionar una ubicación en el mapa.')
+    }
+    else {
+        latlng = marker.getLatLng();
+        document.getElementById('lat').setAttribute('vsalue',latlng.lat)
+        document.getElementById('lng').setAttribute('value',latlng.lng)
+    }
+};
+
 
 window.onload = () => {
     initializeMap('mapid');
-}
+};
