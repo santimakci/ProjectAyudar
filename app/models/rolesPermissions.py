@@ -19,7 +19,7 @@ class RolesPermissions (base.Model):
         
         for rol in roles:  
             for permi in base.session.query(RolesPermissions).filter(RolesPermissions.rol_id == rol): 
-                permisos.append(permi.id)
+                permisos.append(permi.permission_id)
         return permisos
      
 

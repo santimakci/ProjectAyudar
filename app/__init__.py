@@ -27,7 +27,8 @@ from app.resources.center import (
     commit_update as center_commit_update,
     delete as center_delete,
     commit_delete as center_commit_delete,
-    view as center_view
+    view as center_view,
+    search as center_search
 )
 from app.resources.index import home 
 from app.resources.pagesettings import indexPage, updateSettings
@@ -65,15 +66,12 @@ def create_app(environment="development"):
     @app.after_request
     def after_request_func(response):
         close(app)
-        return response
-    
+        return response    
     
     #import code; code.interact(local=dict(globals(), **locals()))
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
     app.jinja_env.globals.update(settings=PageSetting.find_settings)
     app.jinja_env.globals.update(user_permisos=permissions)
-
-
 
     # Home de la página
     app.add_url_rule("/", "home", home)
@@ -95,6 +93,7 @@ def create_app(environment="development"):
     app.add_url_rule("/centers_create", "center_create", center_create, methods=["POST"])
     app.add_url_rule("/centers/new","center_new",center_new)
     app.add_url_rule("/centers/update/<int:id>", "center_update", center_update, methods=['GET', 'POST'])
+
     #consultar el famoso gran center_commit_update (mala convención de nombres?)
     app.add_url_rule("/centers/commit_update", "center_commit_update", center_commit_update, methods=["POST"])
     app.add_url_rule("/centers/delete/<int:id>", "center_delete", center_delete, methods=['GET', 'POST'])
@@ -113,7 +112,8 @@ def create_app(environment="development"):
     app.add_url_rule("/usersresults", "usersSearch", user_search, methods=['GET', 'POST'])
 
     #Listado de Centros / Busqueda de centros (pendiente)
-    app.add_url_rule("/centers", "centers", center_index, methods=['GET', 'POST'])
     app.add_url_rule("/centers/view/<int:id>", "center_view", center_view, methods=['GET', 'POST'])
-
+    app.add_url_rule("/centers","centers", center_index, methods=['GET', 'POST'])
+    app.add_url_rule("/centersresults", "centersSearch", center_search, methods=['GET', 'POST'])
+    
     return app

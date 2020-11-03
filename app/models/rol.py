@@ -45,4 +45,3 @@ class Rol (base.Model):
             roles_user.append(aRol.name)
         return roles_user
 
-    

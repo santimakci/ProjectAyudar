@@ -22,5 +22,6 @@ def permissions():
     user_roles = UsersRoles.find_user_roles_by_id(int(session["id"]))
     user_permisos = RolesPermissions.get_permissions_by_roles(user_roles)
     return user_permisos
+   
     
     

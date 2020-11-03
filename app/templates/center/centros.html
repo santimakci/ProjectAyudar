@@ -7,31 +7,19 @@
 
 <div class="container">
   {% include 'helpers/messages.html' %}
-
   <div class="container">
     <div class="row">
-      
-      
-      <form class="form-inline" action="" method="POST">
-
+      <form class="form-inline" action="{{url_for('centersSearch', num_page=1)}}" method="POST">
         <div class="form-group has-default bmd-form-group">
           <input type="text" name="name" class="form-control" {% if search %} value="{{ search }}"  {% else %}placeholder="Buscar..."{% endif %}>
         </div>
-  
         <button type="submit" class="btn btn-white btn-raised btn-fab btn-round" style="margin-top: 1em;">
           <i class="material-icons">search</i>
         </button>
-
       </form>
-
-
       <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="/centers/new">Crear nuevo centro</a>
     </div>
-
   </div>
-
-
-
   <!--   <div class="row">
     <div class="col-lg-12 col-md-8"> -->
   <div class="card">
@@ -44,8 +32,7 @@
         <th scope="col"> Télefono </th>
         <th scope="col"> Web </th>
       </tr>
-
-      {% for center in centers %}
+      {% for center in centers.items %}
       <tr>
         <td scope="row">{{center.name}} </td>
         <td>{{center.address}}</td>
@@ -87,14 +74,25 @@
       {% endfor %}
     </table>
 
-
+    <ul class="pagination pagination-info mx-auto" id="page">
+      {% for page in pages %}
+        {%if page%}
+          <li class="page-item" ><a id="num{{page}}" href="{{ url_for('centers',num_page=page) }}" class="page-link" >{{page}}</a></li>
+        {%else%}
+          ...
+        {%endif%}
+      {% endfor %}
+    </ul>
   </div>
 </div>
 
 
 <script>
-      $("tr:odd").addClass("cebra");
+  $("tr:odd").addClass("cebra");
 </script>
+<script>
+  $("#num{{centers.page}}").css({"background": "rgba(0, 188, 200, 1)",
+  "color": "aliceblue"})
 
-
+</script>
 {% endblock %}

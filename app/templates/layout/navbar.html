@@ -17,28 +17,32 @@
                 <li {% if request.path == ('/') %} class="nav-item active" {%else%}class="nav-item"{%endif%}>
                     <a class="nav-link d-sm-none d-md-block" href="/"> Inicio</a>
                 </li>
-                <li class="nav-item">
+                {%if 1 in user_permisos()%}
+                <li {% if request.path.startswith('/centers') %} class="nav-item active" {%else%}class="nav-item"{%endif%}>
                     <a class="nav-link" href="{{ url_for('centers') }}"> Centros
                     </a>
                 </li>
-                {% for rol in session['roles'] %}
-                {%if rol.name == "admin"%}
+                {%endif%}
+                {%if 6 in user_permisos()%}
                 <li {% if request.path.startswith('/users') %} class="nav-item active" {%else%}class="nav-item"{%endif%}>
                     <a class="nav-link" href="{{ url_for('usersPag', num_page=1) }}"> Usuarios
                     </a>
                 </li>
+                {%endif%}
+                {%if 11 in user_permisos()%}
                 <li {% if request.path.startswith('/pageSettings') %} class="nav-item active" {%else%}class="nav-item"{%endif%}>
                     <a class="nav-link" href="{{ url_for('pagesettings_indexPage') }}"> Configuración
                     </a>
                 </li>
+                {%endif%}
+                {%if 10 in user_permisos()%}
                 <li class="nav-item" id="perfil" style="display: none;">
                     <a class="nav-link" href="{{ url_for('user_profile') }}">Perfil</a>
                 </li>
+                {%endif%}
                 <li class="nav-item" id="logout" style="display: none;">
                     <a class="nav-link" href="{{ url_for('auth_logout') }}">Cerrar sesión</a>
-                </li>
-                {%endif%}
-                {% endfor %}
+                </li>                
             </ul>
         </div>
         <div class="nav-item dropdown" id="admin">

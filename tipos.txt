@@ -1,0 +1,27 @@
+PERMISOS
+id    Permiso         Descripcion
+1     center_index    Permite entrar a la lista de todos lso centros url:/centros
+2     center_new      Permite agregar un nuevo centro 
+3     center_destroy  Permite eliminar un centro
+4     center_update   Permite actualizar un centro
+5     center_show     Permite ver el detalle de un centro
+
+6     user_index      Permite ver el listado de usuarios
+7     user_new        Permite agregar un usuario
+8     user_destroy    Permite eliminar un usuario
+9     user_update     Permite actualizar un usuario
+10    ¿user_show?     Permite ver perfil?
+
+11    turn_index      
+12    turn_new
+13    turn_update
+14    turn_destroy
+15    turn_show
+
+16    page_settings   Permite entrar a la configuracion de la pagina
+
+ROLES
+
+id   nombre
+1    Admin   
+4    Operator
