@@ -5,19 +5,39 @@ from flask import redirect, render_template, request, url_for, session, abort, f
 from app.db import base
 from app.helpers.auth import authenticated
 from app.models.center import Center
-
+from app.models.pageSetting import PageSetting
 
 # Protected resources
 def index():
     """Retorna una lista con el total de centros 
     """
+    num_page = int(request.args.get('num_page', 1))
+
     if not authenticated(session):
         return render_template("errors/error.html")
-    centers = base.session.query(Center) 
+    quantity = PageSetting.find_settings()
+    centers = base.session.query(Center).paginate(
+        per_page=quantity.elements, page=num_page, error_out=True)
+    num_pages = centers.iter_pages(
+        left_edge=2, left_current=2, right_current=2, right_edge=2) 
     params = []
     params.append(centers)
-    #import code; code.interact(local=dict(globals(), **locals()))
-    return render_template("center/centros.html", centers=params[0])
+    params.append(num_pages)
+    return render_template("center/centros.html", centers=params[0], pages=params[1])
+
+def search():
+    """Realiza la búsqueda sobre usuarios por nombre de usuario o si 
+    los mismos están activos o bloqueados y retorna el resultado de 
+    forma paginada.
+    """
+    params = request.form
+    quantity = PageSetting.find_settings()
+    if params['name'] == '':
+            centers = base.session.query(Center).paginate(per_page=quantity.elements, page=1, error_out=True)
+    else:
+        centers = base.session.query(Center).filter(Center.name.like(params['name'] + "%")).paginate(per_page=quantity.elements, page=1, error_out=True)
+    num_pages = centers.iter_pages(left_edge=2, left_current=2, right_current=2, right_edge=2)
+    return render_template("center/centros.html", centers=centers, pages=num_pages, search=params['name'])
 
 def new():
     if not authenticated(session):

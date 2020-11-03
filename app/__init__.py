@@ -25,7 +25,8 @@ from app.resources.center import (
     update as center_update,
     commit_update as center_commit_update,
     delete as center_delete,
-    commit_delete as center_commit_delete
+    commit_delete as center_commit_delete,
+    search as center_search
 )
 from app.resources.index import home 
 from app.resources.pagesettings import indexPage, updateSettings
@@ -106,7 +107,7 @@ def create_app(environment="development"):
     app.add_url_rule("/users", "usersPag", user_index, methods=['GET', 'POST'])
     app.add_url_rule("/usersresults", "usersSearch", user_search, methods=['GET', 'POST'])
 
-    #Listado de Centros / Busqueda de centros (pendiente)
+    #Listado de Centros / Busqueda de centros 
     app.add_url_rule("/centers","centers", center_index, methods=['GET', 'POST'])
-
+    app.add_url_rule("/centersresults", "centersSearch", center_search, methods=['GET', 'POST'])
     return app
