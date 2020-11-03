@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String, Boolean, Time, Numeric
 from sqlalchemy.dialects.mysql import LONGBLOB
 from app.db import base
-# aclaracion , uso Numeric para reemplazar a Decimal que no me lo toma SqlAlchemy https://www.reddit.com/r/learnpython/comments/c117sw/sqlalchemy_mysql_cant_import_decimal_column_type/
-# para logblob desde aca me base https://stackoverflow.com/questions/43791725/sqlalchemy-how-to-make-a-longblob-column-in-mysql
+
+
+#agregar los pdf por ahora en el filesystem personal 
 
 class Center (base.Model):
     """La clase Center se asocia con la tabla centers en la base de datos. Tiene nombre, direccion, telefono
@@ -19,8 +20,8 @@ class Center (base.Model):
     municipality = Column(String, unique=False, nullable=False)
     web = Column(String, unique=False, nullable=True)
     published = Column(Boolean, default=False)
-    protocol = Column(LONGBLOB, nullable=False)
-    coordinates = Column(Numeric, nullable=False)
+    latitude = Column(String,unique=False,nullable=False)
+    longitude = Column(String,unique=False, nullable=False)
     status = Column(String, default="Pendiente")
 
 #ver lo de protocolo y las coordenadas
@@ -34,8 +35,8 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
-        self.protocol = 1
-        self.coordinates = 1
+        self.latitude = params['latitude']
+        self.longitude = params['longitude']
         self.web = params['web']
 
     @classmethod
@@ -97,6 +98,8 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
+        self.latitude = params['latitude']
+        self.longitude = params['longitude']
         self.web = params['web']
         base.session.commit()
         return ("Usuario actualizado correctamente", "success")
