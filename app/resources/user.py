@@ -8,9 +8,11 @@ from app.models.user import User
 from app.models.rol import Rol
 from app.models.usersRoles import UsersRoles
 from app.models.pageSetting import PageSetting
+from app.helpers.permissions import permission_required
 
 
 # Protected resources
+@permission_required('user_index')
 def index():
     """Retorna una lista con el total de usuarios habilitados paginados
     según lo indicado en la configuración, y el iterador sobre las 
@@ -34,13 +36,12 @@ def index():
 def login():
     return render_template("auth/login.html")
 
+@permission_required('user_show')
 def profile():
-    if not authenticated(session):
-            return render_template("errors/error.html")
     user = User.find_by_id(session['id'])
     return render_template("user/profile.html", user=user)
 
-
+@permission_required('user_update')
 def update_profile():
     params = request.form
     user = User.find_by_id(session['id'])
@@ -48,13 +49,10 @@ def update_profile():
     flash(mensaje[0], mensaje[1])
     return redirect(url_for("user_profile"))
 
-
+@permission_required('user_new')
 def new():
     """Retorna todos los roles existentes
     """
-    
-    if not authenticated(session):
-        return render_template("errors/error.html")
     roles = Rol.return_roles()
     return render_template("user/new.html", roles=roles)
 
@@ -90,7 +88,7 @@ def create():
     flash(mensaje[0], mensaje[1])
     return redirect(url_for("usersPag", num_page=1))
 
-
+@permission_required('user_destroy')
 def delete(id):
     """Chequea que exista el usuario con el id recibido por parámetro y 
     es redirigido a la pantalla para eliminar a un usuario"""
@@ -137,13 +135,11 @@ def commit_update():
       
 
 
-
+@permission_required('user_update')
 def update(id):
     """Chequea que exista el usuario con el id recibido por parámetro y 
     es redirigido a la pantalla para modificar los datos de un usuario.
     """
-    if not authenticated(session):
-        return render_template("errors/error.html")
     all_roles = Rol.return_roles()
     user_roles = UsersRoles.find_user_roles_by_id(id)
     roles_name_user = Rol.get_name_roles(user_roles)

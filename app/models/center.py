@@ -4,6 +4,9 @@ from app.db import base
 
 
 #agregar los pdf por ahora en el filesystem personal 
+import datetime
+# aclaracion , uso Numeric para reemplazar a Decimal que no me lo toma SqlAlchemy https://www.reddit.com/r/learnpython/comments/c117sw/sqlalchemy_mysql_cant_import_decimal_column_type/
+# para logblob desde aca me base https://stackoverflow.com/questions/43791725/sqlalchemy-how-to-make-a-longblob-column-in-mysql
 
 class Center (base.Model):
     """La clase Center se asocia con la tabla centers en la base de datos. Tiene nombre, direccion, telefono
@@ -24,7 +27,7 @@ class Center (base.Model):
     latitude = Column(String,unique=False,nullable=False)
     longitude = Column(String,unique=False, nullable=False)
     status = Column(String, default="Pendiente")
-
+    email = Column(String, unique=False, nullable=False)
 #ver lo de protocolo y las coordenadas
     def __init__(self, params):
         """Constructor de la clase Center, recibe por parametros en un diccionario.
@@ -40,6 +43,25 @@ class Center (base.Model):
         self.latitude = params['lat']
         self.longitude = params['lng']
         self.web = params['web']
+
+
+    @classmethod
+    def return_centers_API_Data(cls):
+        centros = []
+        for center in base.session.query(Center).all():
+            Dict = {
+                'nombre': center.name,
+                'direccion': center.address,
+                "telefono": center.phone,
+                "hora_apertura": center.open_time.strftime('%H:%M'),
+                "hora_cierre": center.close_time.strftime('%H:%M'),
+                "tipo": center.center_type,
+                "web": center.web,
+                "email": center.email
+                }
+            centros.append(Dict) 
+        return centros
+
 
     @classmethod
     def find_by_id(cls, id):

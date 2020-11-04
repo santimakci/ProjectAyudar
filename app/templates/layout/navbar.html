@@ -17,28 +17,30 @@
                 <li {% if request.path == ('/') %} class="nav-item active" {%else%}class="nav-item"{%endif%}>
                     <a class="nav-link d-sm-none d-md-block" href="/"> Inicio</a>
                 </li>
+                {%if 'center_index' in user_permisos%}
                 <li {% if request.path.startswith('/centers') %} class="nav-item active" {%else%}class="nav-item"{%endif%}>
                     <a class="nav-link" href="{{ url_for('centers') }}"> Centros
                     </a>
                 </li>
-                {% for rol in session['roles'] %}
-                {%if rol.name == "admin"%}
+                {%endif%}
+                {%if 'user_index' in user_permisos%}
                 <li {% if request.path.startswith('/users') %} class="nav-item active" {%else%}class="nav-item"{%endif%}>
                     <a class="nav-link" href="{{ url_for('usersPag', num_page=1) }}"> Usuarios
                     </a>
                 </li>
+                {%endif%}
+                {%if 'page_settings' in user_permisos%}
                 <li {% if request.path.startswith('/pageSettings') %} class="nav-item active" {%else%}class="nav-item"{%endif%}>
                     <a class="nav-link" href="{{ url_for('pagesettings_indexPage') }}"> Configuración
                     </a>
                 </li>
+                {%endif%}
                 <li class="nav-item" id="perfil" style="display: none;">
                     <a class="nav-link" href="{{ url_for('user_profile') }}">Perfil</a>
                 </li>
                 <li class="nav-item" id="logout" style="display: none;">
                     <a class="nav-link" href="{{ url_for('auth_logout') }}">Cerrar sesión</a>
-                </li>
-                {%endif%}
-                {% endfor %}
+                </li>                
             </ul>
         </div>
         <div class="nav-item dropdown" id="admin">
@@ -82,26 +84,7 @@
     </div>
 </nav>
 {% endif %}
-<script>
-    var width = $(window).width();
-        if(width < 768){
-            $('#admin').removeClass("dropdown").css("display","none");
-            $('#perfil').css("display","");
-            $('#logout').css("display","");
-        }
-    $(window).resize(function(){
-        console.log('resize called');
-        var width = $(window).width();
-        if(width < 768){
-            $('#admin').removeClass("dropdown").css("display","none");
-            $('#perfil').css("display","");
-            $('#logout').css("display","");
-        }   
-        else{
-            $('#admin').addClass("dropdown").css("display", "");
-            $('#perfil').css("display","none");
-            $('#logout').css("display","none");
-        }
-    })
-</script>
+
+<script src="{{url_for('static', filename='assets/js/page-scripts/dropdownNavbar.js')}}" type="text/javascript"></script>
+
 {% endblock %}

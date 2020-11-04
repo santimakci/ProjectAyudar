@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 27-10-2020 a las 19:51:39
+-- Tiempo de generación: 04-11-2020 a las 21:02:48
 -- Versión del servidor: 10.1.44-MariaDB-0ubuntu0.18.04.1
 -- Versión de PHP: 7.2.24-0ubuntu0.18.04.6
 
@@ -19,8 +19,29 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `grupo21`
 --
-CREATE DATABASE IF NOT EXISTS `grupo21` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `grupo21`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `centers`
+--
+
+CREATE TABLE `centers` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `address` text CHARACTER SET latin1 NOT NULL,
+  `phone` varchar(300) CHARACTER SET latin1 NOT NULL,
+  `open_time` time NOT NULL,
+  `close_time` time NOT NULL,
+  `center_type` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `municipality` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `web` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `published` tinyint(1) NOT NULL,
+  `latitude` text CHARACTER SET latin1 NOT NULL,
+  `longitude` text CHARACTER SET latin1 NOT NULL,
+  `status` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `email` varchar(100) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -42,7 +63,7 @@ CREATE TABLE `pageSettings` (
 --
 
 INSERT INTO `pageSettings` (`id`, `email`, `description`, `title`, `enabled`, `elements`) VALUES
-(1, 'ayudar@ayudar.com.ar', 'La mejor página @juli aprobanos', 'ayudAR', 1, 5),
+(1, 'fede@mail.com', 'La mejor pagina del condado', 'AYUDAR', 1, 1),
 (2, 'jose@mail.com', 'El sistema de dice que hay un error', '', 0, 0),
 (4, 'maria@mail.com', 'No tengo acceso al sistema', '', 0, 0);
 
@@ -56,6 +77,23 @@ CREATE TABLE `permissions` (
   `id` int(11) NOT NULL,
   `name` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `permissions`
+--
+
+INSERT INTO `permissions` (`id`, `name`) VALUES
+(1, 'center_index'),
+(2, 'center_new'),
+(3, 'center_destroy'),
+(4, 'center_update'),
+(5, 'center_show'),
+(6, 'user_index'),
+(7, 'user_new'),
+(8, 'user_destroy'),
+(9, 'user_update'),
+(10, 'user_show'),
+(11, 'page_settings');
 
 -- --------------------------------------------------------
 
@@ -88,6 +126,28 @@ CREATE TABLE `rolesPermissions` (
   `permission_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `rolesPermissions`
+--
+
+INSERT INTO `rolesPermissions` (`id`, `rol_id`, `permission_id`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3),
+(4, 1, 4),
+(5, 1, 5),
+(6, 1, 6),
+(7, 1, 7),
+(8, 1, 8),
+(9, 1, 9),
+(10, 1, 10),
+(11, 1, 11),
+(12, 4, 11),
+(13, 4, 6),
+(14, 4, 7),
+(15, 4, 9),
+(16, 4, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -95,9 +155,9 @@ CREATE TABLE `rolesPermissions` (
 --
 
 CREATE TABLE `users` (
-  `id` int(11) UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
   `email` varchar(30) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
   `first_name` varchar(30) NOT NULL,
   `last_name` varchar(30) NOT NULL,
   `username` varchar(20) CHARACTER SET latin1 COLLATE latin1_spanish_ci NOT NULL,
@@ -111,11 +171,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `first_name`, `last_name`, `username`, `active`, `date_updated`, `date_created`) VALUES
-(1, 'admin', '123123', 'Cosme', 'Fulanito', 'admin', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 'santimakcimovich@gmail.com', '123', 'Santiago', 'Makcimovich', 'santi', 1, '2020-10-18 23:48:24', '2020-10-18 23:48:24'),
-(3, 'vero@gmail.com', 'vero', 'vero', 'isoardi', 'veroiso', 1, '2020-10-18 23:49:16', '2020-10-18 23:49:16'),
-(6, 'veroisoardi@gmail.com', 'vero', 'veronica', 'isoardi', 'veroisoardi', 1, '2020-10-19 00:03:04', '2020-10-19 00:03:04'),
-(7, 'admin@admin.com', '123', 'Gaston', 'Ginestet', 'Gaston', 1, '2020-10-19 00:03:15', '2020-10-19 00:03:15');
+(1, 'admin@admin.com', '202cb962ac59075b964b07152d234b70', 'Cosmee', 'Fulanitocapo', 'admin', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(12, 'santimakcimovich@gmail.com', 'd9b1d7db4cd6e70935368a1efb10e377', 'Santiago', 'Makcimovich', 'santiagoaa', 1, '2020-10-22 20:31:31', '2020-10-22 20:31:31'),
+(13, 'santimakcimovich@gmail.comasd', '202cb962ac59075b964b07152d234b70', 'sa', 'aasd', 'santi', 1, '2020-10-24 01:35:47', '2020-10-24 01:35:47');
 
 -- --------------------------------------------------------
 
@@ -126,7 +184,7 @@ INSERT INTO `users` (`id`, `email`, `password`, `first_name`, `last_name`, `user
 CREATE TABLE `usersRoles` (
   `id` int(11) NOT NULL,
   `rol_id` int(11) NOT NULL,
-  `user_id` int(11) UNSIGNED NOT NULL
+  `user_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -134,15 +192,20 @@ CREATE TABLE `usersRoles` (
 --
 
 INSERT INTO `usersRoles` (`id`, `rol_id`, `user_id`) VALUES
-(1, 1, 1),
-(2, 4, 2),
-(3, 4, 3),
-(4, 4, 6),
-(5, 1, 7);
+(6, 1, 1),
+(48, 4, 13),
+(49, 4, 12),
+(50, 4, 1);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `centers`
+--
+ALTER TABLE `centers`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `pageSettings`
@@ -192,6 +255,11 @@ ALTER TABLE `usersRoles`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `centers`
+--
+ALTER TABLE `centers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `pageSettings`
 --
 ALTER TABLE `pageSettings`
@@ -200,7 +268,7 @@ ALTER TABLE `pageSettings`
 -- AUTO_INCREMENT de la tabla `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
@@ -210,17 +278,17 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `rolesPermissions`
 --
 ALTER TABLE `rolesPermissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT de la tabla `usersRoles`
 --
 ALTER TABLE `usersRoles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 --
 -- Restricciones para tablas volcadas
 --
