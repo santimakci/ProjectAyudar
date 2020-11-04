@@ -69,7 +69,7 @@ class Center (base.Model):
         center = self.find_by_id(params['id'])
         base.session.delete(center)
         base.session.commit()
-        return (f'se borro el usuario {center.name}', 'success')
+        return (f'Se borró el centro {center.name}', 'success')
 
 
     @classmethod
@@ -83,7 +83,7 @@ class Center (base.Model):
         center = Center(params)
         base.session.add(center)
         base.session.commit()
-        return ("Se creó el centro ", "success")
+        return ("Se creó el centro correctamente ", "success")
 
     def update(self, params):
         """Actualiza los datos de un centro determinado.
@@ -98,9 +98,9 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
-        self.latitude = params['latitude']
-        self.longitude = params['longitude']
+        self.latitude = params['lat']
+        self.longitude = params['lng']
         self.web = params['web']
         base.session.commit()
-        return ("Usuario actualizado correctamente", "success")
+        return ("Centro actualizado correctamente", "success")
 

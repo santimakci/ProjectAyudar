@@ -58,4 +58,11 @@ const submitHandler = (event) => {
 
 window.onload = () => {
     initializeMap('mapid');
+    lat= document.getElementById('lat').getAttribute('value');
+    lng= document.getElementById('lng').getAttribute('value');
+    if(lat != null && lng != null){
+        addMarker({lng,lat});
+        map.setCenter({lng,lat})
+    }
+
 };

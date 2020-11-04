@@ -1,6 +1,18 @@
 {% extends "layout/layout.html" %}
 {% block title %}Actualizar usuario{% endblock %}
 {% block head %}
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+<link
+rel="stylesheet"
+href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+type="text/css"
+/>
+<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 {{ super() }}
 {% endblock %}
 {% block content %}
@@ -8,7 +20,7 @@
 {% include 'helpers/messages.html' %}
 <div class="col-lg-4 col-md-6 mx-auto">
   <h2>Actualizar usuario</h2>
-  <form action="{{ url_for('center_commit_update') }} " name="form1" method="POST">
+  <form action="{{ url_for('center_commit_update') }} " name="form1" method="POST" onsubmit="submitHandler(event)">
     <input name="id" type="hidden" value="{{center.id}}">
     <p>
         <label><strong> Nombre: </strong>  </label></br>
@@ -43,6 +55,12 @@
             <input class="form-control" required name="web" placeholder="Web:" value="{{center.web}}" />
     </p>
 
+    <div class="map-container">
+      <div id="mapid" style="width: 600px; height: 400px; position: relative; outline: none;"></div>
+   </div>
+
+    <input type="hidden" name="lat" id="lat" value="{{center.latitude}}">
+    <input type="hidden" name="lng" id="lng" value="{{center.longitude}}">
 
 </div>
   <div class="row text-center justify-content-center">
@@ -61,4 +79,5 @@
     margin: 10px;
   }
 </style>
+<script src="{{url_for('static', filename='assets/js/map.js')}}" type="text/javascript"></script>
 {% endblock %}
