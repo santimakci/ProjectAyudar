@@ -25,6 +25,17 @@ const initializeMap =  (selector) => {
     map.on('click', onMapClick);
 };
 
+const initializeView =  ({lng , lat}) => {
+
+    marker = new mapboxgl.Marker({
+        draggable: false
+        })
+        .setLngLat([lng, lat])
+        .addTo(map);
+
+    map.off('click', onMapClick);
+};
+
 
 function onMapClick(e) {
     addMarker(e.lngLat);
@@ -61,8 +72,15 @@ window.onload = () => {
     lat= document.getElementById('lat').getAttribute('value');
     lng= document.getElementById('lng').getAttribute('value');
     if(lat != null && lng != null){
-        addMarker({lng,lat});
+        if (document.getElementById('lat').disabled =! true) {
+            addMarker({lng,lat});
+        }
+
+        else {
+            initializeView({lng,lat});
+        }
         map.setCenter({lng,lat})
     }
+    
 
 };
