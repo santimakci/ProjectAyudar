@@ -1,12 +1,9 @@
 from datetime import datetime
-
 from flask import redirect, render_template, request, url_for, session, abort, flash
-
 from app.db import base
 from app.helpers.auth import authenticated
 from app.models.center import Center
 from app.models.pageSetting import PageSetting
-
 from app.helpers.permissions import *
 
 # Protected resources
@@ -49,10 +46,9 @@ def new():
 def create():
     """Crea un Centro con los valores recibidos.
     """
-    import code; code.interact(local=dict(globals(), **locals()))
     params = request.form
     mensaje = Center.create(params)
-    flash(mensaje)
+    flash(mensaje[0], mensaje[1])
     return redirect(url_for("centers"))
 
 @permission_required('center_destroy')

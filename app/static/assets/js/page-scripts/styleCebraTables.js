@@ -1,0 +1,2 @@
+  $("tr:odd").addClass("cebra");
+  

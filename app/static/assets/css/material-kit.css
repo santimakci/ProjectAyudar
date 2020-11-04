@@ -41,6 +41,13 @@
   background-image: url("../img/maintenance.png");
 }
 
+.addRoles{
+  float: left;
+  text-align: center;
+  margin: 10px;
+
+}
+
 html {
   font-family: sans-serif;
   line-height: 1.15;

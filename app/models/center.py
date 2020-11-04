@@ -35,13 +35,14 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
+        self.email = params['email']
         self.protocol = 1
         self.coordinates = 1
         self.web = params['web']
 
 
     @classmethod
-    def return_API_Data(cls):
+    def return_centers_API_Data(cls):
         centros = []
         for center in base.session.query(Center).all():
             Dict = {
@@ -56,6 +57,7 @@ class Center (base.Model):
                 }
             centros.append(Dict) 
         return centros
+
 
     @classmethod
     def find_by_id(cls, id):
@@ -101,7 +103,7 @@ class Center (base.Model):
         center = Center(params)
         base.session.add(center)
         base.session.commit()
-        return ("Se creó el centro ", "success")
+        return ("Se creó el centro", "success")
 
     def update(self, params):
         """Actualiza los datos de un centro determinado.
@@ -116,6 +118,7 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
+        self.email = paramsp['email']
         self.web = params['web']
         base.session.commit()
         return ("Usuario actualizado correctamente", "success")

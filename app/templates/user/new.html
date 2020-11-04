@@ -29,7 +29,7 @@
     </p>
 
    
-      <div class="content">
+      <div class="content addRoles">
         <select multiple="multiple" id="select1" style="width:100px;height:160px;border: 1px solid #e4e5ee;
         border-radius: 3px;">
           {% for rol in roles %}
@@ -41,7 +41,7 @@
           <span class="espanes" id="add_all">Añadir todos</span>
         </div>
       </div>
-      <div class="content">
+      <div class="content addRoles">
         <select multiple name="roles[]" id="select2" style="width: 100px;height:160px;border: 1px solid #e4e5ee;
         border-radius: 3px;">
         </select>
@@ -55,62 +55,10 @@
       <a class="btn btn-default" href="{{ url_for('usersPag', num_page=1) }}" class="link">Volver</a>
       </p>
     
-
   </form>
 </div>
 
-
-
-<style>
-  div.content {
-    float: left;
-    text-align: center;
-    margin: 10px;
-
-  }
-</style>
-
-
-<script type="text/javascript">
-  jQuery('[name="form1"]').on("submit", selectAll);
-
-  function selectAll() {
-    jQuery('[name="roles[]"] option').prop('selected', true).val()
-  }
-</script>
-<script>
-  $(function () {
-    $('#add').click(function () {
-      let $options = $('#select1 option:selected');
-      $options.appendTo("#select2");
-    });
-    $('#add_all').click(function () {
-      let $options = $('#select1 option');
-      $options.appendTo("#select2");
-    });
-    $('#select1').dblclick(function () {
-      let $option = $('option:selected', this);
-      $option.appendTo('#select2');
-    });
-    $("#remove").click(function () {
-      let $options = $('#select2 option:selected');
-      $options.appendTo("#select1");
-    });
-    $("#remove_all").click(function () {
-      let $options = $('#select2 option');
-      $options.appendTo('#select1');
-    });
-    $('#select2').dblclick(function () {
-      let $option = $('option:selected');
-      $option.appendTo("#select1");
-    });
-  });
-</script>
-
-
-
-
-
+<script src="{{url_for('static', filename='assets/js/page-scripts/addRoles.js')}}" type="text/javascript"></script>
 
 </div>
 {% endblock %}

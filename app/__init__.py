@@ -30,7 +30,7 @@ from app.resources.center import (
     view as center_view,
     search as center_search
 )
-from app.resources.api.center import index as CentersApi
+from app.resources.api.center import ( centers as CentersApi, center_by_id )
 from app.resources.index import home 
 from app.resources.pagesettings import indexPage, updateSettings
 from app.resources.user import (
@@ -115,8 +115,9 @@ def create_app(environment="development"):
     app.add_url_rule("/users", "usersPag", user_index, methods=['GET', 'POST'])
     app.add_url_rule("/usersresults", "usersSearch", user_search, methods=['GET', 'POST'])
 
-    #Listado de API
+    #Listado de URLS de la API de centros
     app.add_url_rule('/centros', "centrosApi", CentersApi, methods=['GET', 'POST'])
+    app.add_url_rule('/centros/<int:id>', "centros_id", center_by_id, methods=['GET'])
 
     
     

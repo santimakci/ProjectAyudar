@@ -7,7 +7,7 @@
 
 {% include 'helpers/messages.html' %}
 <div class="col-lg-4 col-md-6 mx-auto">
-  <h2>Actualizar usuario</h2>
+  <h2>Actualizar centro</h2>
   <form action="{{ url_for('center_commit_update') }} " name="form1" method="POST">
     <input name="id" type="hidden" value="{{center.id}}">
     <p>
@@ -52,13 +52,4 @@
   </form>
 </div>
 </div>
-
-
-<style>
-  div.content {
-    float: left;
-    text-align: center;
-    margin: 10px;
-  }
-</style>
 {% endblock %}

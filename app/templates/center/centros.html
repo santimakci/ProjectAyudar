@@ -92,13 +92,9 @@
   </div>
 </div>
 
-
-<script>
-  $("tr:odd").addClass("cebra");
-</script>
+<script src="{{url_for('static', filename='assets/js/page-scripts/styleCebraTables.js')}}" type="text/javascript"></script>
 <script>
   $("#num{{centers.page}}").css({"background": "rgba(0, 188, 200, 1)",
   "color": "aliceblue"})
-
 </script>
 {% endblock %}
