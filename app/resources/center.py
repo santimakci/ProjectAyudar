@@ -30,14 +30,19 @@ def search():
     los mismos están activos o bloqueados y retorna el resultado de 
     forma paginada.
     """
-    params = request.form
+    
+    params = request.form.get('name')
+    num_page = int(request.args.get('num_page', 1))
     quantity = PageSetting.find_settings()
-    if params['name'] == '':
+    if params == '':
             centers = base.session.query(Center).paginate(per_page=quantity.elements, page=1, error_out=True)
-    else:
-        centers = base.session.query(Center).filter(Center.name.like(params['name'] + "%")).paginate(per_page=quantity.elements, page=1, error_out=True)
+    elif params == None:
+        params=request.args.get('search')
+        centers = base.session.query(Center).filter(Center.name.like("%" + params + "%")).paginate(per_page=quantity.elements, page=num_page, error_out=True)
+    else: 
+        centers = base.session.query(Center).filter(Center.name.like("%" + params + "%")).paginate(per_page=quantity.elements, page=num_page, error_out=True)
     num_pages = centers.iter_pages(left_edge=2, left_current=2, right_current=2, right_edge=2)
-    return render_template("center/centros.html", centers=centers, pages=num_pages, search=params['name'])
+    return render_template("center/centros.html", centers=centers, pages=num_pages, search=params)
 
 def new():
     if not authenticated(session):
