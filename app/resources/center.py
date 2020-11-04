@@ -1,3 +1,5 @@
+import requests
+import json
 from datetime import datetime
 
 from flask import redirect, render_template, request, url_for, session, abort, flash
@@ -100,3 +102,10 @@ def update(id):
     center = Center.find_by_id(id)
     return render_template("center/update.html", center=center)
     
+
+def listado_municipios():
+    url="https://api-referencias.proyecto2020.linti.unlp.edu.ar/municipios?per_page=135"
+    response = requests.get(url)
+    parsed = json.loads(response.text)
+    municipios = parsed['data']['Town']
+    return municipios

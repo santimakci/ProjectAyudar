@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String, Boolean, Time, Numeric
 from sqlalchemy.dialects.mysql import LONGBLOB
 from app.db import base
-# aclaracion , uso Numeric para reemplazar a Decimal que no me lo toma SqlAlchemy https://www.reddit.com/r/learnpython/comments/c117sw/sqlalchemy_mysql_cant_import_decimal_column_type/
-# para logblob desde aca me base https://stackoverflow.com/questions/43791725/sqlalchemy-how-to-make-a-longblob-column-in-mysql
+
+
+#agregar los pdf por ahora en el filesystem personal 
 
 class Center (base.Model):
     """La clase Center se asocia con la tabla centers en la base de datos. Tiene nombre, direccion, telefono
@@ -13,15 +14,15 @@ class Center (base.Model):
     name = Column(String, unique=False, nullable=False)
     address = Column(String, unique=True, nullable=False)
     phone = Column(String, unique=True, nullable=False)
-    email = Column(String, unique=True, nullable=False)
     open_time = Column(Time, unique=False, nullable=False)
     close_time = Column(Time, unique=False, nullable=False)
     center_type = Column(String, unique=False, nullable=False)
     municipality = Column(String, unique=False, nullable=False)
     web = Column(String, unique=False, nullable=True)
+    email = Column(String, unique=False, nullable=False)
     published = Column(Boolean, default=False)
-    protocol = Column(LONGBLOB, nullable=False)
-    coordinates = Column(Numeric, nullable=False)
+    latitude = Column(String,unique=False,nullable=False)
+    longitude = Column(String,unique=False, nullable=False)
     status = Column(String, default="Pendiente")
 
 #ver lo de protocolo y las coordenadas
@@ -35,9 +36,9 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
-        self.protocol = 1
-        self.coordinates = 1
         self.email = params['email']
+        self.latitude = params['lat']
+        self.longitude = params['lng']
         self.web = params['web']
 
     @classmethod
@@ -70,7 +71,7 @@ class Center (base.Model):
         center = self.find_by_id(params['id'])
         base.session.delete(center)
         base.session.commit()
-        return (f'se borro el usuario {center.name}', 'success')
+        return (f'Se borró el centro {center.name}', 'success')
 
 
     @classmethod
@@ -84,7 +85,7 @@ class Center (base.Model):
         center = Center(params)
         base.session.add(center)
         base.session.commit()
-        return ("Se creó el centro ", "success")
+        return ("Se creó el centro correctamente ", "success")
 
     def update(self, params):
         """Actualiza los datos de un centro determinado.
@@ -99,7 +100,10 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
+        self.latitude = params['lat']
+        self.longitude = params['lng']
         self.web = params['web']
+        self.email = params['email']
         base.session.commit()
-        return ("Usuario actualizado correctamente", "success")
+        return ("Centro actualizado correctamente", "success")
 

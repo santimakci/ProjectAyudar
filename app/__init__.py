@@ -1,7 +1,6 @@
 import pymysql
 import os
 import inspect
-from app.db import close
 
 from flask import Flask, render_template, request, session
 from flask_session import Session
@@ -10,6 +9,7 @@ from sqlalchemy import create_engine
 from functools import wraps
 
 from app.db import connection
+from app.db import close
 from app.helpers import auth as helper_auth
 from app.helpers.auth import authenticated
 from app.models.pageSetting import PageSetting
@@ -26,7 +26,8 @@ from app.resources.center import (
     commit_update as center_commit_update,
     delete as center_delete,
     commit_delete as center_commit_delete,
-    search as center_search
+    search as center_search,
+    listado_municipios
 )
 from app.resources.index import home 
 from app.resources.pagesettings import indexPage, updateSettings
@@ -66,8 +67,12 @@ def create_app(environment="development"):
         close(app)
         return response
 
+    
     app.jinja_env.globals.update(is_authenticated=helper_auth.authenticated)
     app.jinja_env.globals.update(settings=PageSetting.find_settings)
+    app.jinja_env.globals.update(municipios=listado_municipios())
+
+
 
     # Home de la página
     app.add_url_rule("/", "home", home)
