@@ -35,8 +35,8 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
-        self.latitude = params['latitude']
-        self.longitude = params['longitude']
+        self.latitude = params['lat']
+        self.longitude = params['lng']
         self.web = params['web']
 
     @classmethod

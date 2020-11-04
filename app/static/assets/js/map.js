@@ -1,5 +1,6 @@
 let map;
 let marker;
+let geocoder;
 
 const initializeMap =  (selector) => {
     mapboxgl.accessToken = 'pk.eyJ1IjoiZ2FzdG9uZ2luZXN0ZXQiLCJhIjoiY2toMTc5cTEzMGdtZzJyb3dicmh2MzN2YiJ9.lT2Tq_6BTzjaVtvn7N2lRw';
@@ -10,29 +11,36 @@ const initializeMap =  (selector) => {
         center: [-57.956, -34.9187],
         zoom: 13
         });
-         
-        map.addControl(
+
+
+    geocoder = map.addControl(
             new MapboxGeocoder({
             accessToken: mapboxgl.accessToken,
-            mapboxgl: mapboxgl
+            mapboxgl: mapboxgl,
+            placeholder: 'Buscar..',
+            marker: false
             })
             );
 
     map.on('click', onMapClick);
-
 };
+
 
 function onMapClick(e) {
-    addMarker(e.latlng);
+    addMarker(e.lngLat);
+    console.log('A click event has occurred at ' + e.lngLat);
 };
 
 
-const addMarker =  ({lat , lng}) => {
+const addMarker =  ({lng , lat}) => {
     if(marker) marker.remove();
     
-    marker = L.marker([lat, lng],{draggable:true}).addTo(map);
+    marker = new mapboxgl.Marker({
+        draggable: true
+    })
+        .setLngLat([lng, lat])
+        .addTo(map);
 };
-
 
 
 const submitHandler = (event) => {
@@ -41,8 +49,8 @@ const submitHandler = (event) => {
         alert('Debes seleccionar una ubicación en el mapa.')
     }
     else {
-        latlng = marker.getLatLng();
-        document.getElementById('lat').setAttribute('vsalue',latlng.lat)
+        latlng = marker.getLngLat();
+        document.getElementById('lat').setAttribute('value',latlng.lat)
         document.getElementById('lng').setAttribute('value',latlng.lng)
     }
 };
