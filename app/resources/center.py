@@ -7,14 +7,14 @@ from app.helpers.auth import authenticated
 from app.models.center import Center
 from app.models.pageSetting import PageSetting
 
+from app.helpers.permissions import *
+
 # Protected resources
+@permission_required('center_index')
 def index():
     """Retorna una lista con el total de centros 
     """
     num_page = int(request.args.get('num_page', 1))
-
-    if not authenticated(session):
-        return render_template("errors/error.html")
     quantity = PageSetting.find_settings()
     centers = base.session.query(Center).paginate(
         per_page=quantity.elements, page=num_page, error_out=True)
@@ -40,26 +40,25 @@ def search():
     return render_template("center/centros.html", centers=centers, pages=num_pages, search=params['name'])
 
 
-
+@permission_required('center_new')
 def new():
-    if not authenticated(session):
-        return render_template("errors/error.html")
 
     return render_template("center/new.html")
+
 
 def create():
     """Crea un Centro con los valores recibidos.
     """
+    import code; code.interact(local=dict(globals(), **locals()))
     params = request.form
     mensaje = Center.create(params)
     flash(mensaje)
     return redirect(url_for("centers"))
 
+@permission_required('center_destroy')
 def delete(id):
     """Chequea que exista el centro con el id recibido por parámetro y 
-    es redirigido a la pantalla para eliminar a un centro"""
-    if not authenticated(session):
-        return render_template("errors/error.html")    
+    es redirigido a la pantalla para eliminar a un centro"""  
     center = Center.find_by_id(id)
     return render_template("center/delete.html", center=center)
 
@@ -88,20 +87,16 @@ def commit_update():
         flash('Error al ingresar los datos', 'danger')
         return redirect(url_for('center_update', id=params['id']))
 
+@permission_required('center_update')
 def update(id):
     """Chequea que exista el centro con el id recibido por parámetro y 
     es redirigido a la pantalla para modificar los datos del centro.
     """
-    if not authenticated(session):
-        return render_template("errors/error.html")
     center = Center.find_by_id(id)
     return render_template("center/update.html", center=center)
     
 def view(id):
     """Retorna una lista con el total de centros 
-    """
-    if not authenticated(session):
-        return render_template("errors/error.html")
-    
+    """  
     center = Center.find_by_id(id)
     return render_template("center/view.html", center=center)

@@ -30,6 +30,7 @@ from app.resources.center import (
     view as center_view,
     search as center_search
 )
+from app.resources.api.center import index as CentersApi
 from app.resources.index import home 
 from app.resources.pagesettings import indexPage, updateSettings
 from app.resources.user import (
@@ -81,7 +82,7 @@ def create_app(environment="development"):
     app.add_url_rule("/logout", "auth_logout", auth.logout)  # Url cerrar sesión
     app.add_url_rule("/autenticacion", "auth_authenticate", auth.authenticate, methods=["POST"])
 
-    # User ABM
+    # User CRUD
     app.add_url_rule("/users/commit_delete", "commit_delete", commit_delete, methods=["POST"])
     app.add_url_rule("/users/commit_update", "commit_update", commit_update, methods=["POST"])
     app.add_url_rule("/users_create", "user_create", create, methods=["POST"])
@@ -89,10 +90,13 @@ def create_app(environment="development"):
     app.add_url_rule("/users/update/<int:id>", "user_update", update, methods=['GET', 'POST'])
     app.add_url_rule("/users/delete/<int:id>", "user_delete", delete, methods=['GET', 'POST'])
 
-    #Center ABM
+    #Center CRUD
     app.add_url_rule("/centers_create", "center_create", center_create, methods=["POST"])
     app.add_url_rule("/centers/new","center_new",center_new)
     app.add_url_rule("/centers/update/<int:id>", "center_update", center_update, methods=['GET', 'POST'])
+    app.add_url_rule("/centers/view/<int:id>", "center_view", center_view, methods=['GET', 'POST'])
+    app.add_url_rule("/centers","centers", center_index, methods=['GET', 'POST'])
+    app.add_url_rule("/centersresults", "centersSearch", center_search, methods=['GET', 'POST'])
 
     #consultar el famoso gran center_commit_update (mala convención de nombres?)
     app.add_url_rule("/centers/commit_update", "center_commit_update", center_commit_update, methods=["POST"])
@@ -111,9 +115,9 @@ def create_app(environment="development"):
     app.add_url_rule("/users", "usersPag", user_index, methods=['GET', 'POST'])
     app.add_url_rule("/usersresults", "usersSearch", user_search, methods=['GET', 'POST'])
 
-    #Listado de Centros / Busqueda de centros (pendiente)
-    app.add_url_rule("/centers/view/<int:id>", "center_view", center_view, methods=['GET', 'POST'])
-    app.add_url_rule("/centers","centers", center_index, methods=['GET', 'POST'])
-    app.add_url_rule("/centersresults", "centersSearch", center_search, methods=['GET', 'POST'])
+    #Listado de API
+    app.add_url_rule('/centros', "centrosApi", CentersApi, methods=['GET', 'POST'])
+
+    
     
     return app

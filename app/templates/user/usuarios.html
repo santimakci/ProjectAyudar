@@ -25,8 +25,9 @@
         <label style="margin: 2em 0em 0em 2em;"><input type="radio" name="active" value="0"> <strong style="MARGIN-LEFT: 0.5em;">Bloqueado</strong></label><br>
       </form>
 
-
+      {%if 'user_new' in user_permisos%}
       <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="/users/new">Crear nuevo usuario</a>
+      {%endif%}
     </div>
 
   </div>
@@ -51,6 +52,7 @@
         <td>{{user.username}}</td>
         <td>{{user.email}}</td>
         <td>
+          {%if 'user_update' in user_permisos%}
           <a href="{{url_for('user_update',id=user.id)}}">
             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square" "
               xmlns=" http://www.w3.org/2000/svg">
@@ -60,8 +62,10 @@
                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
             </svg>
           </a>
+          {%endif%}
         </td>
         <td>
+          {%if 'user_destroy' in user_permisos%}
           <a href="{{url_for('user_delete',id=user.id)}}">
             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash" "
               xmlns=" http://www.w3.org/2000/svg">
@@ -71,6 +75,7 @@
                 d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
             </svg>
           </a>
+          {%endif%}
         </td>
       </tr>
       {% endfor %}

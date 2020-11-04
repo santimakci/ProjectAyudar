@@ -7,6 +7,7 @@ from app.models.usersRoles import UsersRoles
 from app.models.rol import Rol
 from app.helpers.auth import authenticated
 import hashlib
+from app.helpers.permissions import permissions
 
 def login():
     """Inicio de sesión del usuario
@@ -33,7 +34,6 @@ def authenticate():
                 return redirect(url_for("home"))                         
     session["user"] = user.username
     session['id'] = user.id
-    session['roles'] = Rol.get_name_roles(user_roles)
     return redirect(url_for("home"))
 
 

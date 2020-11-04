@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean, Time, Numeric
 from sqlalchemy.dialects.mysql import LONGBLOB
 from app.db import base
+import datetime
 # aclaracion , uso Numeric para reemplazar a Decimal que no me lo toma SqlAlchemy https://www.reddit.com/r/learnpython/comments/c117sw/sqlalchemy_mysql_cant_import_decimal_column_type/
 # para logblob desde aca me base https://stackoverflow.com/questions/43791725/sqlalchemy-how-to-make-a-longblob-column-in-mysql
 
@@ -22,7 +23,7 @@ class Center (base.Model):
     protocol = Column(LONGBLOB, nullable=False)
     coordinates = Column(Numeric, nullable=False)
     status = Column(String, default="Pendiente")
-
+    email = Column(String, unique=False, nullable=False)
 #ver lo de protocolo y las coordenadas
     def __init__(self, params):
         """Constructor de la clase Center, recibe por parametros en un diccionario.
@@ -37,6 +38,24 @@ class Center (base.Model):
         self.protocol = 1
         self.coordinates = 1
         self.web = params['web']
+
+
+    @classmethod
+    def return_API_Data(cls):
+        centros = []
+        for center in base.session.query(Center).all():
+            Dict = {
+                'nombre': center.name,
+                'direccion': center.address,
+                "telefono": center.phone,
+                "hora_apertura": center.open_time.strftime('%H:%M'),
+                "hora_cierre": center.close_time.strftime('%H:%M'),
+                "tipo": center.center_type,
+                "web": center.web,
+                "email": center.email
+                }
+            centros.append(Dict) 
+        return centros
 
     @classmethod
     def find_by_id(cls, id):
