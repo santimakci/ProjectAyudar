@@ -13,6 +13,7 @@ class Center (base.Model):
     name = Column(String, unique=False, nullable=False)
     address = Column(String, unique=True, nullable=False)
     phone = Column(String, unique=True, nullable=False)
+    email = Column(String, unique=True, nullable=False)
     open_time = Column(Time, unique=False, nullable=False)
     close_time = Column(Time, unique=False, nullable=False)
     center_type = Column(String, unique=False, nullable=False)
@@ -36,6 +37,7 @@ class Center (base.Model):
         self.municipality = params['municipality']
         self.protocol = 1
         self.coordinates = 1
+        self.email = params['email']
         self.web = params['web']
 
     @classmethod

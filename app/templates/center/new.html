@@ -8,42 +8,54 @@
   <h3>Crear un centro</h3>
   <form action="{{ url_for('center_create') }}" name="form1" method="POST">
     <p>
-        <label><strong> Nombre: </strong>  </label></br>
-            <input class="form-control" required name="name" placeholder="Nombre"  />
+      <label><strong> Nombre: </strong> </label></br>
+      <input class="form-control" required name="name" placeholder="Nombre" />
     </p>
     <p>
-        <label><strong> Dirección:</strong>   </label></br>
-            <input class="form-control" required name="address" placeholder="Dirección" />
+      <label><strong> Dirección:</strong> </label></br>
+      <input class="form-control" required name="address" placeholder="Dirección" />
     </p>
     <p>
-        <label><strong> Teléfono:</strong>   </label></br>
-            <input class="form-control" required name="phone" placeholder="Teléfono" />
+      <label><strong> Teléfono:</strong> </label></br>
+      <input class="form-control" required name="phone" placeholder="Teléfono" />
     </p>
     <p>
-        <label><strong> Hora de apertura: </strong>  </label></br>
-            <input type="time" required name="open_time" placeholder="Hora de apertura" />
+      <label><strong> Hora de apertura: </strong> </label></br>
+      <input type="time" required name="open_time" placeholder="Hora de apertura" />
     </p>
     <p>
-        <label><strong> Hora de cierre: </strong>  </label></br>
-            <input type="time" required name="close_time" placeholder="Hora de cierre" />
+      <label><strong> Hora de cierre: </strong> </label></br>
+      <input type="time" required name="close_time" placeholder="Hora de cierre" />
     </p>
     <p>
-        <label><strong> Tipo de centro: </strong>  </label></br>
-            <input class="form-control" required name="center_type" placeholder="Tipo de centro" />
+      <label><strong> Tipo de centro: </strong> </label></br>
+      <select class="form-control" required name="center_type" placeholder="Tipo de centro">
+        <option value="sangre">Sangre</option>
+        <option value="plasma">Plasma</option>
+        <option value="ropa">Ropa</option>
+        <option value="comida">Comida</option>
+      </select>
     </p>
     <p>
-      <label><strong> Municipalidad: </strong>  </label></br>
-          <input class="form-control" required name="municipality" placeholder="Municipalidad" />
-  </p>
+      <label><strong> Municipalidad: </strong> </label></br>
+      <input class="form-control" required name="municipality" placeholder="Municipalidad" />
+    </p>
     <p>
-        <label><strong> Pagina Web: </strong>  </label></br>
-            <input class="form-control" required name="web" placeholder="Web:" />
+      <label><strong> Pagina Web: </strong> </label></br>
+      <input class="form-control" name="web" placeholder="Web:" />
+    </p>
+    <p>
+      <label><strong> Email:</strong> </label></br>
+      <input class="form-control" name="email" placeholder="Email" />
+    </p>
+    <p>
+      <label><strong>Protocolo:</strong></label></br>
+      <input type="file" class="form-control-file" name="protocol" placeholder="Protocolo">
+    </p>
+    <input class="btn btn-info" type="submit" value="Crear">
+    <a class="btn btn-default" href="{{ url_for('centers') }}" class="link">Volver</a>
     </p>
 
-      <input class="btn btn-info" type="submit" value="Crear">
-      <a class="btn btn-default" href="{{ url_for('centers') }}" class="link">Volver</a>
-      </p>
-    
 
   </form>
 </div>
