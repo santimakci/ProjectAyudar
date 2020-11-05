@@ -1,5 +1,5 @@
 {% extends "layout/layout.html" %}
-{% block title %}Actualizar usuario{% endblock %}
+{% block title %}Información centro{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
@@ -43,7 +43,7 @@
     </p>
 </div>
   <div class="row text-center justify-content-center">
-    <a class="btn btn-default" href="{{ url_for('centers') }}" class="link">Solicitar turno </a>
+    <a class="btn btn-default" href="{{ url_for('center_turnosDisp', idcenter=center.id) }}" class="link">Turnos </a>
     <a class="btn btn-default" href="{{ url_for('centers') }}" class="link">Volver</a>
     </p>
   </form>

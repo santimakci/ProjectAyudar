@@ -19,8 +19,8 @@ class Center (base.Model):
     municipality = Column(String, unique=False, nullable=False)
     web = Column(String, unique=False, nullable=True)
     published = Column(Boolean, default=False)
-    protocol = Column(LONGBLOB, nullable=False)
-    coordinates = Column(Numeric, nullable=False)
+    #protocol = Column(LONGBLOB, nullable=False)
+    #coordinates = Column(Numeric, nullable=False)
     status = Column(String, default="Pendiente")
 
 #ver lo de protocolo y las coordenadas
@@ -34,8 +34,8 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
-        self.protocol = 1
-        self.coordinates = 1
+        #self.protocol = 1
+        #self.coordinates = 1
         self.web = params['web']
 
     @classmethod

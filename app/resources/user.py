@@ -134,9 +134,6 @@ def commit_update():
         return redirect(url_for('user_update', id=params['id']))
 
 
-      
-
-
 
 def update(id):
     """Chequea que exista el usuario con el id recibido por parámetro y 

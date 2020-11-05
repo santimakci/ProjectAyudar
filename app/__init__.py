@@ -28,7 +28,7 @@ from app.resources.center import (
     delete as center_delete,
     commit_delete as center_commit_delete,
     view as center_view,
-    search as center_search
+    search as center_search,
 )
 from app.resources.index import home 
 from app.resources.pagesettings import indexPage, updateSettings
@@ -45,6 +45,16 @@ from app.resources.user import (
     delete,
     update,
     search as user_search
+)
+from app.resources.turn import(
+    index as turn_index,
+    update as turn_update,
+    delete as turn_delete,
+    new as turn_new,
+    create as turn_create,
+    view as turn_view,
+    commit_update,
+    commit_delete,
 )
 from config import config
 
@@ -92,11 +102,11 @@ def create_app(environment="development"):
     #Center ABM
     app.add_url_rule("/centers_create", "center_create", center_create, methods=["POST"])
     app.add_url_rule("/centers/new","center_new",center_new)
-    app.add_url_rule("/centers/update/<int:id>", "center_update", center_update, methods=['GET', 'POST'])
+    app.add_url_rule("/centers/update/<int:idcenter>", "center_update", center_update, methods=['GET', 'POST'])
 
     #consultar el famoso gran center_commit_update (mala convención de nombres?)
     app.add_url_rule("/centers/commit_update", "center_commit_update", center_commit_update, methods=["POST"])
-    app.add_url_rule("/centers/delete/<int:id>", "center_delete", center_delete, methods=['GET', 'POST'])
+    app.add_url_rule("/centers/delete/<int:idcenter>", "center_delete", center_delete, methods=['GET', 'POST'])
     app.add_url_rule("/centers/commit_delete", "center_commit_delete", center_commit_delete, methods=["POST"])
 
     # User Profile
@@ -112,8 +122,18 @@ def create_app(environment="development"):
     app.add_url_rule("/usersresults", "usersSearch", user_search, methods=['GET', 'POST'])
 
     #Listado de Centros / Busqueda de centros (pendiente)
-    app.add_url_rule("/centers/view/<int:id>", "center_view", center_view, methods=['GET', 'POST'])
+    app.add_url_rule("/centers/<int:idcenter>", "center_view", center_view, methods=['GET', 'POST'])
     app.add_url_rule("/centers","centers", center_index, methods=['GET', 'POST'])
     app.add_url_rule("/centersresults", "centersSearch", center_search, methods=['GET', 'POST'])
-    
+
+    #Listado de turnos de un centro
+    app.add_url_rule("/centers/<int:idcenter>/turnos_disponibles","center_turnosDisp", turn_index, methods=['GET', 'POST'])
+
+    #
+    app.add_url_rule("/centers/<int:idcenter>/turnos_disponibles/view/<int:idturno>", "turn_view", turn_view, methods=['GET', 'POST'])
+    app.add_url_rule("/centers/<int:idcenter>/turnos_disponibles/update/<int:idturno>", "turn_update", turn_update, methods=['GET', 'POST'])
+    app.add_url_rule("/centers/<int:idcenter>/turnos_disponibles/delete/<int:idturno>", "turn_delete", turn_delete, methods=['GET', 'POST'])
+    app.add_url_rule("/centers/<int:idcenter>/turnos_disponibles/new", "turn_new", turn_new, methods=['GET', 'POST'])
+    app.add_url_rule("/centers/<int:idcenter>/turnos_disponibles/create", "turn_create", turn_create, methods=['GET', 'POST'])
+
     return app

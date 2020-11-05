@@ -1,0 +1,40 @@
+{% extends "layout/layout.html" %}
+{% block title %}Nuevo turno{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="col-lg-4 col-md-6 mx-auto">
+  <h3>Solicitar un turno</h3>
+  <form action="{{ url_for('turn_create',idcenter=center) }}" name="form1" method="POST">
+    <p>
+        <label><strong> Email solicitante: </strong>  </label></br>
+            <input class="form-control" type="email" name="email" placeholder="Email solicitante" required />
+    </p>
+    <p>
+        <label><strong>Fecha:</strong></label></br>
+            <input type="date" class="form-control" min={{today}} name="day" placeholder="Fecha" required />
+    </p>
+    <label><strong>Horarios disponibles:</strong>
+    <select class="form-control form-control-sm" name="num_block" id="num_block" required>
+      {% for key in time %}
+        <option value="{{key}}">{{time[key]}}</option>
+      {% endfor %}
+    </select>
+    <input type="hidden" name="center_id" value="{{center}}">
+  </label>
+    <p>   
+    <input class="btn btn-info" type="submit" value="Crear">
+    <a class="btn btn-default" href="{{ url_for('center_turnosDisp',idcenter=center) }}" class="link">Volver</a>
+    </p>
+  </form>
+</div>
+<style>
+  div.content {
+    float: left;
+    text-align: center;
+    margin: 10px;
+  }
+</style>
+</div>
+{% endblock %}

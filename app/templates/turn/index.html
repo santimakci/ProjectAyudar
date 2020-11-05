@@ -1,15 +1,14 @@
 {% extends "layout/layout.html" %}
-{% block title %}Consultas{% endblock %}
+{% block title %}Turnos disponibles{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
 {% block content %}
-
 <div class="container">
   {% include 'helpers/messages.html' %}
   <div class="container">
     <div class="row">
-      <form class="form-inline" action="{{url_for('centersSearch', num_page=1)}}" method="POST">
+      <form class="form-inline" action="#" method="POST">
         <div class="form-group has-default bmd-form-group">
           <input type="text" name="name" class="form-control" {% if search %} value="{{ search }}"  {% else %}placeholder="Buscar..."{% endif %}>
         </div>
@@ -17,39 +16,34 @@
           <i class="material-icons">search</i>
         </button>
       </form>
-      <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="/centers/new">Crear nuevo centro</a>
+      <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="{{ url_for('center_view', idcenter=center)}}">Volver</a>
+      <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="{{ url_for('turn_new', idcenter=center)}}">Solicitar turno</a>
     </div>
   </div>
   <!--   <div class="row">
     <div class="col-lg-12 col-md-8"> -->
   <div class="card">
     <table class="table text-center">
-      <tr >
-        <th scope="col"> Nombre </th>
-        <th scope="col"> Dirección </th>
-        <th scope="col"> Horario de apertura </th>
-        <th scope="col"> Horario de cierre </th>
-        <th scope="col"> Télefono </th>
-        <th scope="col"> Web </th>
-      </tr>
-      {% for center in centers.items %}
       <tr>
-        <td scope="row">{{center.name}} </td>
-        <td>{{center.address}}</td>
-        <td>{{center.open_time}}</td>
-        <td>{{center.close_time}}</td>
-        <td>{{center.phone}}</td>
-        <td>{{center.web}}</td>
-        <td><a href="{{url_for('center_view',idcenter=center.id)}}">
-          <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-eye" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
-            <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-          </svg>
-        </a>
-
+        <th scope="col"> Email solicitante </th>
+        <th scope="col"> Horario </th>
+        <th scope="col"> Día </th>
+      </tr>
+      {% for turn in turns.items %}
+      <tr>
+        <td scope="row">{{turn.email_request}} </td>
+        <td>{{turn.time}}</td>
+        <td>{{turn.day}}</td>
+        <td>
+          <a href="{{url_for('turn_view',idcenter=center,idturno=turn.id)}}">
+            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-eye" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
+              <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+            </svg>
+          </a>
         </td>
         <td>
-          <a href="{{url_for('center_update',idcenter=center.id)}}">
+          <a href="{{url_for('turn_update',idcenter=center,idturno=turn.id)}}">
             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square" "
               xmlns=" http://www.w3.org/2000/svg">
               <path
@@ -60,7 +54,7 @@
           </a>
         </td>
         <td>
-          <a href="{{url_for('center_delete',idcenter=center.id)}}">
+          <a href="{{url_for('turn_delete',idcenter=center,idturno=turn.id)}}">
             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash" "
               xmlns=" http://www.w3.org/2000/svg">
               <path
@@ -70,14 +64,14 @@
             </svg>
           </a>
         </td>
-      </tr>
+      </tr>      
       {% endfor %}
     </table>
 
     <ul class="pagination pagination-info mx-auto" id="page">
       {% for page in pages %}
         {%if page%}
-          <li class="page-item" ><a id="num{{page}}" href="{{ url_for('centers',num_page=page) }}" class="page-link" >{{page}}</a></li>
+          <li class="page-item" ><a id="num{{page}}" href="{{ url_for('center_turnosDisp',num_page=page,idcenter=center) }}" class="page-link" >{{page}}</a></li>
         {%else%}
           ...
         {%endif%}
@@ -86,13 +80,11 @@
   </div>
 </div>
 
-
 <script>
   $("tr:odd").addClass("cebra");
 </script>
 <script>
-  $("#num{{centers.page}}").css({"background": "rgba(0, 188, 200, 1)",
-  "color": "aliceblue"})
-
+$("#num{{turns.page}}").css({"background": "rgba(0, 188, 200, 1)",
+"color": "aliceblue"})
 </script>
 {% endblock %}

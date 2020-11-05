@@ -40,13 +40,11 @@ def search():
     return render_template("center/centros.html", centers=centers, pages=num_pages, search=params['name'])
 
 
-
 def new():
     if not authenticated(session):
         return render_template("errors/error.html")
 
     return render_template("center/new.html")
-
 def create():
     """Crea un Centro con los valores recibidos.
     """
@@ -55,12 +53,12 @@ def create():
     flash(mensaje)
     return redirect(url_for("centers"))
 
-def delete(id):
+def delete(idcenter):
     """Chequea que exista el centro con el id recibido por parámetro y 
     es redirigido a la pantalla para eliminar a un centro"""
     if not authenticated(session):
         return render_template("errors/error.html")    
-    center = Center.find_by_id(id)
+    center = Center.find_by_id(idcenter)
     return render_template("center/delete.html", center=center)
 
 def commit_delete():
@@ -88,20 +86,20 @@ def commit_update():
         flash('Error al ingresar los datos', 'danger')
         return redirect(url_for('center_update', id=params['id']))
 
-def update(id):
+def update(idcenter):
     """Chequea que exista el centro con el id recibido por parámetro y 
     es redirigido a la pantalla para modificar los datos del centro.
     """
     if not authenticated(session):
         return render_template("errors/error.html")
-    center = Center.find_by_id(id)
+    center = Center.find_by_id(idcenter)
     return render_template("center/update.html", center=center)
     
-def view(id):
+def view(idcenter):
     """Retorna una lista con el total de centros 
     """
     if not authenticated(session):
         return render_template("errors/error.html")
     
-    center = Center.find_by_id(id)
+    center = Center.find_by_id(idcenter)
     return render_template("center/view.html", center=center)
