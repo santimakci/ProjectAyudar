@@ -36,6 +36,11 @@
 .bodyerror{
   background-image: url("../img/401-error.jpg");
 }
+.bodyerrorcuatro{
+  background-image: url("../img/404cat.jpg");
+  background-repeat: no-repeat;
+  width: 100vh;
+}
 
 .maintenance{
   background-image: url("../img/maintenance.png");
