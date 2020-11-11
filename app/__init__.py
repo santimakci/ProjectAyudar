@@ -30,7 +30,6 @@ from app.resources.center import (
     search as center_search,
     listado_municipios,
     view as center_view,
-    search as center_search,
 )
 from app.resources.api.center import (centers as CentersApi, center_by_id)
 from app.resources.api.turns import turns as turnsAPi, reserve_turn
@@ -248,7 +247,7 @@ def create_app(environment="development"):
                      "turn_create",
                      turn_create,
                      methods=['GET', 'POST'])
-    app.add_url_rule("/centers/<int:idcenter>/turnos/centersresults",
+    app.add_url_rule("/centers/<int:idcenter>/turnos/turnsresults",
                      "turn_search",
                      turn_search,
                      methods=['GET', 'POST'])

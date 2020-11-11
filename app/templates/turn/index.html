@@ -11,16 +11,14 @@
       <form class="form-inline" action="{{url_for('turn_search',idcenter=center,num_page=1)}}" method="POST">
         <div class="form-group has-default bmd-form-group">
           <input type="text" name="email" class="form-control" {% if search %} value="{{ search }}"  {% else %}placeholder="Buscar..."{% endif %}>
-        </div>        
-        <div class="form-group has-default bmd-form-group">
-        <input type="date" name="day" id="day">
-      </div>
-      <button type="submit" class="btn btn-white btn-raised btn-fab btn-round" style="margin-top: 1em;">
+        </div>             
+      <button type="submit" class="btn btn-white btn-raised btn-fab btn-round"  style="margin-top: 1em;">
         <i class="material-icons">search</i>
       </button>
+      <div class="form-group has-default bmd-form-group">
+        <input class="form-control datetimepicker" type="date" name="day" id="day" {%if day %} value="{{ day }}" {%endif%} style="margin-left: 1.5em;">
+      </div> 
       </form>
-      <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="{{ url_for('center_view', idcenter=center)}}">Volver</a>
-      <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="{{ url_for('turn_new', idcenter=center)}}">Solicitar turno</a>
     </div>
   </div>
   <!--   <div class="row">
@@ -83,12 +81,20 @@
     <ul class="pagination pagination-info mx-auto" id="page">
       {% for page in pages %}
         {%if page%}
-          <li class="page-item" ><a id="num{{page}}" href="{{ url_for('center_turnosDisp',num_page=page,idcenter=center) }}" class="page-link" >{{page}}</a></li>
+        {% if search or day %}
+            <li class="page-item" ><a id="num{{page}}" href="{{url_for('turn_search', idcenter=center,num_page=page, search=search, day=day)}}" class="page-link" >{{page}}</a></li>
+          {%else%}  
+            <li class="page-item" ><a id="num{{page}}" href="{{ url_for('center_turnosDisp',num_page=page,idcenter=center) }}" class="page-link" >{{page}}</a></li>
+          {%endif%}
         {%else%}
           ...
         {%endif%}
       {% endfor %}
     </ul>
+  </div>
+  <div class="text-center">
+    <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="{{ url_for('turn_new', idcenter=center)}}">Solicitar turno</a>
+    <a class="btn btn-default ml-auto" style="height: 3.5em; margin-top: 2em;" href="{{ url_for('center_view', idcenter=center)}}">Volver</a>
   </div>
 </div>
 

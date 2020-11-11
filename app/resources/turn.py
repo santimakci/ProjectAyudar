@@ -7,7 +7,7 @@ from app.models.rol import Rol
 from app.models.usersRoles import UsersRoles
 from app.models.pageSetting import PageSetting
 from app.models.turn import Turn
-from datetime import date
+from datetime import date, datetime
 from app.helpers.permissions import *
 
 @permission_required('turn_index')
@@ -22,18 +22,32 @@ def index(idcenter):
     return render_template("turn/index.html", turns=params[0], pages=params[1], center=idcenter)
 
 def search(idcenter):
-    params = request.form
+    params = request.form.to_dict()
     num_page = int(request.args.get('num_page', 1))
-    quantity = PageSetting.find_settings()
-    if params['email'] is None:
-            turns = base.session.query(Turn).filter(Turn.center_id == idcenter).paginate(per_page=quantity.elements, page=num_page, error_out=True)
-    elif params['email'] == None:
-        params['email']=request.args.get('search')      
-        turns = base.session.query(Turn).filter(Turn.email_request.like("%" + params['email'] + "%")).paginate(per_page=quantity.elements, page=num_page, error_out=True)
-    else: 
-        turns = base.session.query(Turn).filter(Turn.email_request.like("%" + params['email'] + "%")).paginate(per_page=quantity.elements, page=num_page, error_out=True)
+    quantity = PageSetting.find_settings()    
+
+    if bool(params) and params['email'] == '' and params['day'] == '':
+        turns = base.session.query(Turn).filter(Turn.center_id == idcenter).paginate(per_page=quantity.elements, page=num_page, error_out=True)
+    elif not bool(params):
+        params['email']= request.args.get('search', '')
+        params['day'] = request.args.get('day', '')  
+        turns = search_by_email_and_day(params['email'], params['day'], num_page, quantity)
+    else:
+        turns = search_by_email_and_day(params['email'], params['day'], num_page, quantity)
     num_pages = turns.iter_pages(left_edge=2, left_current=2, right_current=2, right_edge=2)
-    return render_template("turn/index.html", turns=turns, center=idcenter, pages=num_pages, search=params['email'])
+    return render_template("turn/index.html", turns=turns, center=idcenter, pages=num_pages, day=params['day'], search=params['email'])
+
+def search_by_email_and_day(search, day, num_page, quantity):
+    if search != '' and day == '':
+        turns = base.session.query(Turn).filter(Turn.email_request.like("%" + search + "%")).paginate(per_page=quantity.elements, page=num_page, error_out=True)
+    elif search == '' and day != '':
+        #Buscar solo por fecha  
+        date = datetime.strptime(day, "%Y-%m-%d")
+        turns = base.session.query(Turn).filter(Turn.day == date ).paginate(per_page=quantity.elements, page=num_page, error_out=True)
+    else:
+        date = datetime.strptime(day, "%Y-%m-%d")
+        turns = base.session.query(Turn).filter(Turn.day == date ).filter(Turn.email_request.like("%" + search + "%")).paginate(per_page=quantity.elements, page=num_page, error_out=True)
+    return turns
 
 @permission_required('turn_new')
 def new(idcenter):
