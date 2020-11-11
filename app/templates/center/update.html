@@ -1,7 +1,6 @@
 {% extends "layout/layout.html" %}
 {% block title %}Actualizar centro{% endblock %}
 {% block head %}
-
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
 
@@ -47,13 +46,13 @@
     <div class="d-flex" style="margin-bottom: 10px; flex-wrap: wrap;">
       <div class="item-1" style="margin-right: 20px;">
         <label><strong> Hora de apertura: </strong><strong style="color:#48D1CC;">*</strong></label></br>
-        <input style="border-color: #DCDCDC; border-radius: 9%; border-style: solid; color: #495057;" type="time" required
-          name="open_time" placeholder="Hora de apertura" value="{{center.open_time}}" />
+        <input style="border-color: #DCDCDC; border-radius: 9%; border-style: solid; color: #495057;" type="time"
+          required name="open_time" placeholder="Hora de apertura" value="{{center.open_time}}" />
       </div>
       <div class="item-2">
         <label><strong> Hora de cierre: </strong><strong style="color:#48D1CC;">*</strong></label></br>
-        <input style="border-color: #DCDCDC; border-radius: 9%; border-style: solid; color: #495057;" type="time" required
-          name="close_time" placeholder="Hora de cierre" value="{{center.close_time}}" />
+        <input style="border-color: #DCDCDC; border-radius: 9%; border-style: solid; color: #495057;" type="time"
+          required name="close_time" placeholder="Hora de cierre" value="{{center.close_time}}" />
       </div>
     </div>
     <div>
@@ -82,13 +81,15 @@
     </div>
     <div>
       <label><strong> Email:</strong> </label></br>
-      <input class="form-control" name="email" placeholder="Email" value="{%if center.email == ''%} - {%else%}{{center.email}}{%endif%}" />
+      <input class="form-control" name="email" placeholder="Email"
+        value="{%if center.email == ''%} - {%else%}{{center.email}}{%endif%}" />
     </div>
     <div>
       <label><strong>Protocolo: </strong></label></br>
       <div class="d-flex" style="align-items: center;">
         <label for="files" class="btn" style="margin-right: 10px;">Seleccione el archivo</label>
-        <span id="nombrearchivo" style="color: #495057">{%if center.protocol != None %}{{center.protocol}}{%endif%}</span>
+        <span id="nombrearchivo"
+          style="color: #495057">{%if center.protocol != None %}{{center.protocol}}{%endif%}</span>
       </div>
       <input id="files" style="visibility:hidden;" type="file" class="form-control-file" name="protocol"
         onchange="nombrearchivo(this)">
@@ -125,9 +126,9 @@
         $('.mapboxgl-canvas').height("470px");
         $('#mapid').width("450px");
         $('#mapid').height("470px");
-        $('.botones').css("padding-top","");
+        $('.botones').css("padding-top", "");
       } else {
-        $('.botones').css("padding-top","600px");
+        $('.botones').css("padding-top", "600px");
         $('#mapid').width($winW - 150);
         $('#mapid').height($winH - 100);
         $('.mapboxgl-canvas').width($winW - 150);

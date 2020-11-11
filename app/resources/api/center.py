@@ -9,27 +9,15 @@ def centers():
     if request.method == "GET":
         centros = Center.return_centers_API_Data()
         count = len(centros)
-        start = int(request.args.get('page'))
+        page = int(request.args.get('page', 1))
         limit = (PageSetting.find_settings()).elements
-        if ((count/limit) < start):    
+        if 0 >= page:    
             return render_template("errors/error404.html")
         obj = {}
-        obj['page'] = start
+        obj['page'] = page
         obj['limit'] = limit
         obj['count'] = count
-        if start == 1:
-            obj['previous'] = ''
-        else:
-            start_copy = max(1, start - limit)
-            obj['previous'] = 'localhost:5000/centros' + '?page=%d' % (start_copy)
-        # make next url
-        if start + limit > count:
-            obj['next'] = ''
-        else:
-            start_copy = start + limit
-            obj['next'] = 'localhost:5000/centros' + '?page=%d' % (start_copy)
-        # finally extract result according to bounds
-        obj['centros'] = centros[(start - 1):(start - 1 + limit)]
+        obj['centros'] = centros[(page - 1)*limit:(page * limit)]
         return jsonify(obj)
     else:
         params = json.loads(request.data)

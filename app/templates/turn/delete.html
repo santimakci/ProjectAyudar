@@ -1,0 +1,41 @@
+{% extends "layout/layout.html" %}
+{% block title %}Eliminar turno{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="col-lg-4 col-md-6 mx-auto">
+  <h3>Eliminar turno</h3>
+  <form action="{{ url_for('commit_delete') }}" name="form1" method="POST">
+    <p>
+        <input type="hidden" name="id" value="{{turn.id}}">
+        <input type="hidden" name="center_id" value="{{turn.center_id}}">
+        <label><strong> Email solicitante: </strong></label></br>
+            <input class="form-control" required name="email" placeholder="Nombre" value="{{turn.email_request}}" disabled  />
+    </p>
+    <p>
+        <label><strong>Teléfono solicitante:</strong></label></br>
+            <input type="text" class="form-control" required name="teléfono" placeholder="Teléfono" value="{{turn.phone}}" disabled />
+    </p>
+    <p>
+      <label><strong>Fecha:</strong></label></br>
+          <input type="date" class="form-control" required name="day" placeholder="Dirección" value="{{turn.day}}" disabled />
+  </p>
+    <p>
+        <label><strong>Horario:</strong></label></br>
+        <input type="text" class="form-control" required name="timeturn" placeholder="Horario" value="{{timeturn}}" disabled/>
+    </p>   
+      <input class="btn btn-danger" type="submit" value="Eliminar">
+      <a class="btn btn-default" href="{{ url_for('center_turnosDisp', idcenter=turn.center_id) }}" class="link">Volver</a>
+      </p>
+  </form>
+</div>
+<style>
+  div.content {
+    float: left;
+    text-align: center;
+    margin: 10px;
+  }
+</style>
+</div>
+{% endblock %}

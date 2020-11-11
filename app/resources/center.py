@@ -48,7 +48,6 @@ def search():
 
 @permission_required('center_new')
 def new():
-
     return render_template("center/new.html")
 
 
@@ -133,9 +132,10 @@ def listado_municipios():
     parsed = json.loads(response.text)
     municipios = parsed['data']['Town']
     return municipios
-    
-def view(id):
+
+@permission_required('center_show')
+def view(idcenter):
     """Retorna una lista con el total de centros 
     """  
-    center = Center.find_by_id(id)
+    center = Center.find_by_id(idcenter)
     return render_template("center/view.html", center=center)

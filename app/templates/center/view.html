@@ -1,5 +1,5 @@
 {% extends "layout/layout.html" %}
-{% block title %}Consultas{% endblock %}
+{% block title %}Información centro{% endblock %}
 {% block head %}
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
@@ -44,13 +44,11 @@
     <div class="d-flex" style="margin-bottom: 10px; flex-wrap: wrap;">
       <div class="item-1" style="margin-right: 20px;">
         <label><strong> Hora de apertura:</strong> </label></br>
-        <input type="time" name="open_time" placeholder="Hora de apertura" value="{{center.open_time}}"
-        disabled />
+        <input type="time" name="open_time" placeholder="Hora de apertura" value="{{center.open_time}}" disabled />
       </div>
       <div class="item-2">
         <label><strong> Hora de cierre:</strong> </label></br>
-        <input type="time" name="close_time" placeholder="Hora de cierre" value="{{center.close_time}}"
-        disabled />
+        <input type="time" name="close_time" placeholder="Hora de cierre" value="{{center.close_time}}" disabled />
       </div>
     </div>
     <div>
@@ -74,10 +72,10 @@
     </div>
     {%endif%}
     <div>
-    {%if center.protocol != None%}
+      {%if center.protocol != None%}
       <label><strong>Protocolo: </strong></label></br>
       <span>{{center.protocol}}</span>
-    {%endif%}
+      {%endif%}
     </div>
   </div>
   <div class="col-md-7 col-sm-12 map-container">
@@ -87,8 +85,12 @@
   </div>
   <div class="container d-flex botones" style="justify-content: center; align-content: flex-end; padding-top: 30px;">
     <br>
-    <a class="btn btn-info" href="{{ url_for('centers') }}" class="link" style="margin-right: 10px;">Solicitar turno</a>
-    <a class="btn btn-default" href="{{ url_for('centers') }}" class="link">Volver</a>
+    <div class="row text-center justify-content-center">
+      {%if 'turn_index' in user_permisos%}
+      <a class="btn btn-default" href="{{ url_for('center_turnosDisp', idcenter=center.id) }}" class="link">Turnos </a>
+      {%endif%}
+      <a class="btn btn-default" href="{{ url_for('centers') }}" class="link">Volver</a>
+    </div>
   </div>
 </div>
 <script>
@@ -107,9 +109,9 @@
         $('.mapboxgl-canvas').height("470px");
         $('#mapid').width("450px");
         $('#mapid').height("470px");
-        $('.botones').css("padding-top","30px");
+        $('.botones').css("padding-top", "30px");
       } else {
-        $('.botones').css("padding-top","650px");
+        $('.botones').css("padding-top", "650px");
         $('#mapid').width($winW - 150);
         $('#mapid').height($winH - 100);
         $('.mapboxgl-canvas').width($winW - 150);

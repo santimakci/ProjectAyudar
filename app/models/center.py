@@ -40,6 +40,7 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
+        self.status = 'Pendiente'
         self.email = params['email']
         self.latitude = params['lat']
         self.longitude = params['lng']
@@ -68,6 +69,25 @@ class Center (base.Model):
         return centros
 
 
+
+    @classmethod
+    def return_centers_API_Data(cls):
+        centros = []
+        for center in base.session.query(Center).all():
+            Dict = {
+                'nombre': center.name,
+                'direccion': center.address,
+                "telefono": center.phone,
+                "hora_apertura": center.open_time.strftime('%H:%M'),
+                "hora_cierre": center.close_time.strftime('%H:%M'),
+                "tipo": center.center_type,
+                "web": center.web,
+                "email": center.email
+                }
+            centros.append(Dict) 
+        return centros
+
+
     @classmethod
     def find_by_id(cls, id):
         """Filtra por id de centro.
@@ -76,6 +96,7 @@ class Center (base.Model):
         """
         for center in base.session.query(Center).filter(Center.id == id):
             return center
+
 
     @classmethod
     def find_by_name(cls, name):
@@ -126,6 +147,7 @@ class Center (base.Model):
         self.close_time = params['close_time']  
         self.center_type = params['center_type']
         self.municipality = params['municipality']
+        self.status = params['status']
         self.latitude = params['lat']
         self.longitude = params['lng']
         self.web = params['web']

@@ -12,11 +12,11 @@ id    Permiso         Descripcion
 9     user_update     Permite actualizar un usuario
 10    ¿user_show?     Permite ver perfil?
 
-11    turn_index      
-12    turn_new
-13    turn_update
-14    turn_destroy
-15    turn_show
+11    turn_index      Permite ver los turnos de un centro
+12    turn_new        Permite agregar un turno
+13    turn_update     Permite actualizar un turno
+14    turn_destroy    Permite borrar un turno
+15    turn_show       Permite visualizar un turno -> necesario si se quiere crear un turno
 
 16    page_settings   Permite entrar a la configuracion de la pagina
 
