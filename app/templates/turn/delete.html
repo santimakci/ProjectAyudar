@@ -14,9 +14,13 @@
             <input class="form-control" required name="email" placeholder="Nombre" value="{{turn.email_request}}" disabled  />
     </p>
     <p>
-        <label><strong>Fecha:</strong></label></br>
-            <input type="date" class="form-control" required name="day" placeholder="Dirección" value="{{turn.day}}" disabled />
+        <label><strong>Teléfono solicitante:</strong></label></br>
+            <input type="text" class="form-control" required name="teléfono" placeholder="Teléfono" value="{{turn.phone}}" disabled />
     </p>
+    <p>
+      <label><strong>Fecha:</strong></label></br>
+          <input type="date" class="form-control" required name="day" placeholder="Dirección" value="{{turn.day}}" disabled />
+  </p>
     <p>
         <label><strong>Horario:</strong></label></br>
         <input type="text" class="form-control" required name="timeturn" placeholder="Horario" value="{{timeturn}}" disabled/>

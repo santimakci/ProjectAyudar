@@ -1,6 +1,10 @@
 from sqlalchemy import Column, Integer, String, Boolean, Time, Numeric
 from sqlalchemy.dialects.mysql import LONGBLOB
 from app.db import base
+
+
+#agregar los pdf por ahora en el filesystem personal 
+import datetime
 # aclaracion , uso Numeric para reemplazar a Decimal que no me lo toma SqlAlchemy https://www.reddit.com/r/learnpython/comments/c117sw/sqlalchemy_mysql_cant_import_decimal_column_type/
 # para logblob desde aca me base https://stackoverflow.com/questions/43791725/sqlalchemy-how-to-make-a-longblob-column-in-mysql
 
@@ -18,12 +22,13 @@ class Center (base.Model):
     center_type = Column(String, unique=False, nullable=False)
     municipality = Column(String, unique=False, nullable=False)
     web = Column(String, unique=False, nullable=True)
+    email = Column(String, unique=False, nullable=False)
     published = Column(Boolean, default=False)
-    #protocol = Column(LONGBLOB, nullable=False)
-    #coordinates = Column(Numeric, nullable=False)
-    status = Column(String, default="Pendiente")
+    latitude = Column(String,unique=False,nullable=False)
+    longitude = Column(String,unique=False, nullable=False)
+    status = Column(String, unique=False, nullable=False)
+    email = Column(String, unique=False, nullable=False)
 
-#ver lo de protocolo y las coordenadas
     def __init__(self, params):
         """Constructor de la clase Center, recibe por parametros en un diccionario.
         """
@@ -34,9 +39,30 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
-        #self.protocol = 1
-        #self.coordinates = 1
+        self.status = 'Pendiente'
+        self.email = params['email']
+        self.latitude = params['lat']
+        self.longitude = params['lng']
         self.web = params['web']
+
+
+    @classmethod
+    def return_centers_API_Data(cls):
+        centros = []
+        for center in base.session.query(Center).all():
+            Dict = {
+                'nombre': center.name,
+                'direccion': center.address,
+                "telefono": center.phone,
+                "hora_apertura": center.open_time.strftime('%H:%M'),
+                "hora_cierre": center.close_time.strftime('%H:%M'),
+                "tipo": center.center_type,
+                "web": center.web,
+                "email": center.email
+                }
+            centros.append(Dict) 
+        return centros
+
 
     @classmethod
     def find_by_id(cls, id):
@@ -47,6 +73,7 @@ class Center (base.Model):
         """
         for center in base.session.query(Center).filter(Center.id == id):
             return center
+
 
     @classmethod
     def find_by_name(cls, name):
@@ -68,7 +95,7 @@ class Center (base.Model):
         center = self.find_by_id(params['id'])
         base.session.delete(center)
         base.session.commit()
-        return (f'se borro el usuario {center.name}', 'success')
+        return (f'Se borró el centro {center.name}', 'success')
 
 
     @classmethod
@@ -82,7 +109,7 @@ class Center (base.Model):
         center = Center(params)
         base.session.add(center)
         base.session.commit()
-        return ("Se creó el centro ", "success")
+        return ("Se creó el centro correctamente ", "success")
 
     def update(self, params):
         """Actualiza los datos de un centro determinado.
@@ -97,7 +124,11 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
+        self.status = params['status']
+        self.latitude = params['lat']
+        self.longitude = params['lng']
         self.web = params['web']
+        self.email = params['email']
         base.session.commit()
-        return ("Usuario actualizado correctamente", "success")
+        return ("Centro actualizado correctamente", "success")
 

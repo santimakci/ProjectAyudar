@@ -8,12 +8,11 @@ from app.models.usersRoles import UsersRoles
 from app.models.pageSetting import PageSetting
 from app.models.turn import Turn
 from datetime import date
+from app.helpers.permissions import *
 
-
+@permission_required('turn_index')
 def index(idcenter):
     num_page = int(request.args.get('num_page', 1))
-    if not authenticated(session):
-        return render_template("errors/error.html")
     quantity = PageSetting.find_settings()
     turns_center = base.session.query(Turn).filter(Turn.center_id == idcenter).paginate(per_page=quantity.elements, page=num_page, error_out=True)
     num_pages = turns_center.iter_pages(left_edge=2, left_current=2, right_current=2, right_edge=2) 
@@ -22,10 +21,22 @@ def index(idcenter):
     params.append(num_pages)
     return render_template("turn/index.html", turns=params[0], pages=params[1], center=idcenter)
 
+def search(idcenter):
+    params = request.form
+    num_page = int(request.args.get('num_page', 1))
+    quantity = PageSetting.find_settings()
+    if params['email'] is None:
+            turns = base.session.query(Turn).filter(Turn.center_id == idcenter).paginate(per_page=quantity.elements, page=num_page, error_out=True)
+    elif params['email'] == None:
+        params['email']=request.args.get('search')      
+        turns = base.session.query(Turn).filter(Turn.email_request.like("%" + params['email'] + "%")).paginate(per_page=quantity.elements, page=num_page, error_out=True)
+    else: 
+        turns = base.session.query(Turn).filter(Turn.email_request.like("%" + params['email'] + "%")).paginate(per_page=quantity.elements, page=num_page, error_out=True)
+    num_pages = turns.iter_pages(left_edge=2, left_current=2, right_current=2, right_edge=2)
+    return render_template("turn/index.html", turns=turns, center=idcenter, pages=num_pages, search=params['email'])
 
+@permission_required('turn_new')
 def new(idcenter):
-    if not authenticated(session):
-        return render_template("errors/error.html")
     time = get_hour_dict()
     today = date.today()    
     return render_template("turn/new.html",center=idcenter,time=time,today=today)
@@ -33,24 +44,23 @@ def new(idcenter):
 
 def create(idcenter):
     params = request.form
-    mensaje = Turn.create(params)
-    flash(mensaje[0],mensaje[1])
+    if not Turn.turn_exists(params['day'],params['num_block'],params['center_id']):
+        mensaje = Turn.create(params)
+        flash(mensaje[0],mensaje[1])
+    else:
+        flash("Problema al crear el turno", "danger")
     return redirect(url_for("center_turnosDisp",num_page=1,idcenter=idcenter))
 
-
+@permission_required('turn_show')
 def view(idcenter,idturno):
-    if not authenticated(session):
-        return render_template("errors/error.html")
     turno = Turn.get_turn_by_id(idturno)
     time = get_hour_dict()
     today = date.today()
     timeturn = time.get(str(turno.num_block))
     return render_template("turn/view.html",turn=turno, time=time, idcenter=idcenter, today=today, timeturn=timeturn)
 
-
+@permission_required('turn_update')
 def update(idcenter,idturno):
-    if not authenticated(session):
-        return render_template("errors/error.html")
     turno = Turn.get_turn_by_id(idturno)
     time = get_hour_dict()
     today = date.today()
@@ -66,10 +76,8 @@ def commit_update():
     flash(mensaje[0], mensaje[1])  
     return redirect(url_for("center_turnosDisp", num_page=1, idcenter=idcenter))
    
-
+@permission_required('turn_destroy')
 def delete(idcenter,idturno):    
-    if not authenticated(session):
-        return render_template("errors/error.html")
     turno = Turn.get_turn_by_id(idturno)    
     timeturn = get_hour_dict().get(str(turno.num_block))
     return render_template("turn/delete.html",turn=turno,timeturn=timeturn)

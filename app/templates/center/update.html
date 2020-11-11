@@ -1,48 +1,94 @@
 {% extends "layout/layout.html" %}
 {% block title %}Actualizar centro{% endblock %}
 {% block head %}
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+<link
+rel="stylesheet"
+href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+type="text/css"
+/>
+<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 {{ super() }}
 {% endblock %}
 {% block content %}
 
 {% include 'helpers/messages.html' %}
 <div class="col-lg-4 col-md-6 mx-auto">
-  <h2>Actualizar usuario</h2>
-  <form action="{{ url_for('center_commit_update') }} " name="form1" method="POST">
+  <h2>Actualizar centro</h2>
+  <form action="{{ url_for('center_commit_update') }} " name="form1" method="POST" onsubmit="submitHandler(event)">
     <input name="id" type="hidden" value="{{center.id}}">
     <p>
-        <label><strong> Nombre: </strong>  </label></br>
+        <label><strong> Nombre: </strong> <strong style="color:#48D1CC;">*</strong></label></br>
             <input class="form-control" required name="name" placeholder="Nombre" value="{{center.name}}" />
     </p>
     <p>
-        <label><strong> Dirección:</strong>   </label></br>
+        <label><strong> Dirección:</strong>   <strong style="color:#48D1CC;">*</strong></label></br>
             <input class="form-control" required name="address" placeholder="Dirección" value="{{center.address}}" />
     </p>
     <p>
-        <label><strong> Teléfono:</strong>   </label></br>
+        <label><strong> Teléfono:</strong><strong style="color:#48D1CC;">*</strong></label></br>
             <input class="form-control" required name="phone" placeholder="Teléfono" value="{{center.phone}}" />
     </p>
     <p>
-        <label><strong> Hora de apertura: </strong>  </label></br>
-            <input type="time" required name="open_time" placeholder="Hora de apertura" value="{{center.open_time}}" />
+        <label><strong> Hora de apertura: </strong><strong style="color:#48D1CC;">*</strong></label></br>
+            <input  style="border-color: #DCDCDC; border-radius: 9%; border-style: solid;" type="time" required name="open_time" placeholder="Hora de apertura" value="{{center.open_time}}" />
     </p>
     <p>
-        <label><strong> Hora de cierre: </strong>  </label></br>
-            <input type="time" required name="close_time" placeholder="Hora de cierre" value="{{center.close_time}}" />
+        <label><strong> Hora de cierre: </strong><strong style="color:#48D1CC;">*</strong></label></br>
+            <input  style="border-color: #DCDCDC; border-radius: 9%; border-style: solid;" type="time" required name="close_time" placeholder="Hora de cierre" value="{{center.close_time}}" />
     </p>
     <p>
-        <label><strong> Tipo de centro: </strong>  </label></br>
-            <input class="form-control" required name="center_type" placeholder="Tipo de centro" value="{{center.center_type}}" />
+      <label for="center_type"><strong> Tipo de centro: </strong><strong style="color:#48D1CC;">*</strong></label></br>
+      <select id="center_type" class="form-control" required name="center_type" style="color: #D2D2D2;"value="{{center.type}}">
+        <option value="{{center.type}}" > {{center.type}}</option>
+        <option value="Sangre">Sangre</option>
+        <option value="Plasma">Plasma</option>
+        <option value="Ropa">Ropa</option>
+        <option value="Comida">Comida</option>
+      </select>
     </p>
     <p>
-      <label><strong> Municipalidad: </strong>  </label></br>
-          <input class="form-control" required name="municipality" placeholder="Municipalidad" value="{{center.municipality}}" />
+      <label for="center_status"><strong> Estado del centro: </strong><strong style="color:#48D1CC;">*</strong></label></br>
+      <select id="center_status" class="form-control" name="status" style="color: #D2D2D2;" value="{{center.status}}">
+        <option value="{{center.status}}">{{center.status}}</option>
+        <option value="Pendiente">Pendiente</option>
+        <option value="Aceptado">Aceptado</option>
+        <option value="Rechazado">Rechazado</option>
+      </select>
+    </p>
+    <p>
+      <label><strong> Municipalidad: </strong><strong style="color:#48D1CC;">*</strong></label></br>
+      <select class="form-control" required name="municipality" style="color: #D2D2D2;" value="{{center.municipality}}">
+        <option value="{{center.municipality}}">{{center.municipality}}</option>
+      {%for muni in municipios.keys(): %}
+        <option value="{{municipios[muni]['name']}}">{{municipios[muni]['name']}}</option>
+      {%endfor%}
+      </select>
   </p>
     <p>
-        <label><strong> Pagina Web: </strong>  </label></br>
-            <input class="form-control" required name="web" placeholder="Web:" value="{{center.web}}" />
+        <label><strong> Pagina Web: </strong></label></br>
+        <input class="form-control" required name="web" placeholder="Web:" value="{{center.web}}" />
     </p>
+    <p>
+      <label><strong> Email:</strong> </label></br>
+      <input class="form-control" name="email" placeholder="Email" value="{{center.email}}"/>
+    </p>
+    <p>
+      <label><strong>Protocolo:</strong></label></br>
+      <input type="file" class="form-control-file" name="protocol" placeholder="Protocolo">
+    </p>
+    <br>
+    <div class="map-container">
+      <div id="mapid" style="width: 600px; height: 400px; position: relative; outline: none;"></div>
+    </div>
 
+    <input type="hidden" name="lat" id="lat" value="{{center.latitude}}">
+    <input type="hidden" name="lng" id="lng" value="{{center.longitude}}">
 
 </div>
   <div class="row text-center justify-content-center">
@@ -52,13 +98,6 @@
   </form>
 </div>
 </div>
+<script src="{{url_for('static', filename='assets/js/map.js')}}" type="text/javascript"></script>
 
-
-<style>
-  div.content {
-    float: left;
-    text-align: center;
-    margin: 10px;
-  }
-</style>
 {% endblock %}

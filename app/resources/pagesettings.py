@@ -2,13 +2,13 @@ from flask import redirect, render_template, request, url_for, session, abort, f
 from app.helpers.auth import authenticated
 from datetime import datetime
 from app.models.pageSetting import *
+from app.helpers.permissions import *
 
 
+@permission_required('page_settings')
 def indexPage():
     """Retorna la página de configuración de la aplicación web.
-    """
-    if not authenticated(session):
-        return render_template("errors/error.html")   
+    """ 
     settings = PageSetting.find_settings()
     return render_template("pageConfig/pagesettings.html", settings=settings)
 

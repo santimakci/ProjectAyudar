@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, exists
 from app.db import base
 from datetime import date,datetime
 
@@ -10,6 +10,7 @@ class Turn (base.Model):
     day = Column(Date, unique=False, nullable=False)
     num_block = Column(Integer, unique=True, nullable=False)
     time = Column(String, unique=True, nullable=False)
+    phone = Column(String, unique=False, nullable=False)
 
     def __init__(self, params):
         """Constructor de la clase User, recibe por parametros en un diccionario email, usuario, nombre, apellido y contraseña.
@@ -18,7 +19,8 @@ class Turn (base.Model):
         self.email_request = params['email']
         self.day = params['day']
         self.num_block = params['num_block']
-        self.time = self.hour_dict(params['num_block'])   
+        self.time = self.hour_dict(params['num_block']) 
+        self.phone = params['phone']  
     
     @classmethod
     def create(self,params): 
@@ -31,7 +33,12 @@ class Turn (base.Model):
         else:   
             return ("Los datos no son válidos", "danger")
 
-    
+    @classmethod
+    def turn_exists(self,date,num_block,center):
+        turn = base.session.query(Turn).filter(Turn.day == date).filter(Turn.num_block == num_block).filter(Turn.center_id == center).first()
+        return turn is not None
+
+
     @classmethod   
     def get_turns_by_center_id(cls,id):
         turns = []
@@ -59,6 +66,7 @@ class Turn (base.Model):
             self.day = params['day']
             self.num_block = params['num_block']
             self.time = self.hour_dict(params['num_block']) #le paso el nuevo bloque actualizando la nueva hora
+            self.phone = params['phone']
             base.session.commit()
             return("Se actualizó el turno", "success")
         else:  
@@ -74,21 +82,35 @@ class Turn (base.Model):
     
     def hour_dict(self,num_block):
        
-        horarios = {'1':'9:00 a 9:30',
-        '2':'9:30 a 10:00',
-        '3':'10:00 a 10:30',
-        '4':'10:30 a 11:00',
-        '5':'11:00 a 11:30',
-        '6':'11:30 a 12:00',
-        '7':'12:00 a 12:30',
-        '8':'12:30 a 13:00',
-        '9':'13:00 a 13:30',
-        '10':'13:30 a 14:00',
-        '11':'14:00 a 14:30',
-        '12':'14:30 a 15:00',
-        '13':'15:00 a 15:30',
-        '14':'15:30 a 16:00'}
+        horarios = {
+        '1':'9:00',
+        '2':'9:30',
+        '3':'10:00',
+        '4':'10:30',
+        '5':'11:00',
+        '6':'11:30',
+        '7':'12:00',
+        '8':'12:30',
+        '9':'13:00',
+        '10':'13:30',
+        '11':'14:00',
+        '12':'14:30',
+        '13':'15:00',
+        '14':'15:30'}
 
         return horarios[num_block]
+
+    @classmethod
+    def get_turns_by_fecha(self,fecha):
+        turnos = []
+        #import code; code.interact(local=dict(globals(), **locals()))
+        fecha_dt = datetime.strptime(fecha, "%Y-%m-%d")
+        for turno in base.session.query(Turn).filter(Turn.day == fecha_dt.date()):
+            turn = {
+                "centro_id": turno.id,
+                "hora_turno": str(turno.time),
+            }
+            turnos.append(turn)
+        return turnos
       
                      
