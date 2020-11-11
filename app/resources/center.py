@@ -73,10 +73,10 @@ def create():
     return redirect(url_for("centers"))
 
 @permission_required('center_destroy')
-def delete(id):
+def delete(idcenter):
     """Chequea que exista el centro con el id recibido por parámetro y 
     es redirigido a la pantalla para eliminar a un centro"""  
-    center = Center.find_by_id(id)
+    center = Center.find_by_id(idcenter)
     return render_template("center/delete.html", center=center)
 
 def commit_delete():
@@ -118,11 +118,11 @@ def commit_update():
             return redirect(url_for("centers", num_page=1))
             
 @permission_required('center_update')
-def update(id):
+def update(idcenter):
     """Chequea que exista el centro con el id recibido por parámetro y 
     es redirigido a la pantalla para modificar los datos del centro.
     """
-    center = Center.find_by_id(id)
+    center = Center.find_by_id(idcenter)
     return render_template("center/update.html", center=center)
     
 
