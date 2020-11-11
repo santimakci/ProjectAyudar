@@ -14500,7 +14500,7 @@ label {
 select,
 select.form-control {
   -moz-appearance: none;
-  -webkit-appearance: none;
+  -webkit-appearance: menu;
 }
 
 @media (min-width: 576px) {

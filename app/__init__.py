@@ -52,6 +52,7 @@ from app.resources.user import (
 from config import config
 
 
+
 def create_app(environment="development"):
     """Crea y configura la aplicación Flask, junto a la conexión a la
     base de datos. Además genera las diferentes URLs.
