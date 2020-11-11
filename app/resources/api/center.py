@@ -22,10 +22,8 @@ def centers():
     else:
         params = json.loads(request.data)
         mensaje = Center.create(params)
-        if mensaje[1] == 'success':
-            return "Se creo el centro"
-        else:
-            return "Error"
+        return "Se creo el centro"
+
 
 def center_by_id(id):
     center = Center.find_by_id(id)

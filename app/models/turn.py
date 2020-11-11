@@ -103,14 +103,15 @@ class Turn (base.Model):
     @classmethod
     def get_turns_by_fecha(self,fecha):
         turnos = []
-        #import code; code.interact(local=dict(globals(), **locals()))
+        
         fecha_dt = datetime.strptime(fecha, "%Y-%m-%d")
-        for turno in base.session.query(Turn).filter(Turn.day == fecha_dt.date()):
+        for turno in base.session.query(Turn).filter(Turn.day == fecha_dt.date()):  
             turn = {
                 "centro_id": turno.id,
                 "hora_turno": str(turno.time),
             }
-            turnos.append(turn)
+            import code; code.interact(local=dict(globals(), **locals()))
+            turnos.append(turn)   
         return turnos
       
                      

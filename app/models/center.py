@@ -26,7 +26,7 @@ class Center (base.Model):
     published = Column(Boolean, default=False)
     latitude = Column(String,unique=False,nullable=False)
     longitude = Column(String,unique=False, nullable=False)
-    status = Column(String, default="Pendiente")
+    status = Column(String)
     email = Column(String, unique=False, nullable=False)
     protocol = Column(String, unique=False, default='')
 
@@ -45,7 +45,6 @@ class Center (base.Model):
         self.latitude = params['lat']
         self.longitude = params['lng']
         self.web = params['web']
-        self.status = 0
         if 'protocol' in params.keys():
             self.protocol = params['protocol']
         
