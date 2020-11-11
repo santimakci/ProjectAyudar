@@ -1,5 +1,5 @@
+from flask import request
 from sqlalchemy import Column, Integer, String, Boolean, Time, Numeric
-from sqlalchemy.dialects.mysql import LONGBLOB
 from app.db import base
 
 
@@ -28,7 +28,8 @@ class Center (base.Model):
     longitude = Column(String,unique=False, nullable=False)
     status = Column(String, default="Pendiente")
     email = Column(String, unique=False, nullable=False)
-#ver lo de protocolo y las coordenadas
+    protocol = Column(String, unique=False, default='')
+
     def __init__(self, params):
         """Constructor de la clase Center, recibe por parametros en un diccionario.
         """
@@ -43,6 +44,10 @@ class Center (base.Model):
         self.latitude = params['lat']
         self.longitude = params['lng']
         self.web = params['web']
+        self.status = 0
+        if 'protocol' in params.keys():
+            self.protocol = params['protocol']
+        
 
 
     @classmethod
@@ -66,7 +71,6 @@ class Center (base.Model):
     @classmethod
     def find_by_id(cls, id):
         """Filtra por id de centro.
-
         Args:
             id (int)
         """
@@ -107,7 +111,7 @@ class Center (base.Model):
         center = Center(params)
         base.session.add(center)
         base.session.commit()
-        return ("Se creó el centro correctamente ", "success")
+        return (("Se creó el centro correctamente ", "success"), center.id)
 
     def update(self, params):
         """Actualiza los datos de un centro determinado.
@@ -119,13 +123,15 @@ class Center (base.Model):
         self.address = params['address']
         self.phone = params['phone']
         self.open_time = params['open_time']
-        self.close_time = params['close_time']    
+        self.close_time = params['close_time']  
         self.center_type = params['center_type']
         self.municipality = params['municipality']
         self.latitude = params['lat']
         self.longitude = params['lng']
         self.web = params['web']
         self.email = params['email']
+        if 'protocol' in params.keys():
+            self.protocol = params['protocol']
         base.session.commit()
         return ("Centro actualizado correctamente", "success")
 
