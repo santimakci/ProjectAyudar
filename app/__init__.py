@@ -145,7 +145,6 @@ def create_app(environment="development"):
                      center_update,
                      methods=['GET', 'POST'])
 
-    # Listado de Centros / Busqueda de centros (pendiente)
     app.add_url_rule("/centers/<int:idcenter>",
                      "center_view",
                      center_view,
@@ -159,7 +158,6 @@ def create_app(environment="development"):
                      center_search,
                      methods=['GET', 'POST'])
 
-    # Consultar el famoso gran center_commit_update
     app.add_url_rule("/centers/commit_update",
                      "center_commit_update",
                      center_commit_update,
