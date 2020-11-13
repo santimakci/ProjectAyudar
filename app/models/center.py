@@ -1,3 +1,4 @@
+from enum import unique
 from flask import request
 from sqlalchemy import Column, Integer, String, Boolean, Time, Numeric
 from app.db import base
@@ -26,7 +27,7 @@ class Center (base.Model):
     published = Column(Boolean, default=False)
     latitude = Column(String,unique=False,nullable=False)
     longitude = Column(String,unique=False, nullable=False)
-    status = Column(String)
+    status = Column(String,unique = False , default='Pendiente')
     email = Column(String, unique=False, nullable=False)
     protocol = Column(String, unique=False, default='')
 
@@ -40,7 +41,8 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
-        self.status = params['status']
+        if 'status' in params.keys():
+            self.status = params['status']
         self.email = params['email']
         self.latitude = params['lat']
         self.longitude = params['lng']
