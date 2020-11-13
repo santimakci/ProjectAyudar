@@ -42,7 +42,7 @@ from app.resources.user import (
     create,
     commit_delete,
     delete,
-    commit_update,
+    commit_update as commit_update_user,
     update_profile,
     profile,
     delete,
@@ -114,7 +114,7 @@ def create_app(environment="development"):
                      methods=["POST"])
     app.add_url_rule("/users/commit_update",
                      "commit_update",
-                     commit_update,
+                     commit_update_user,
                      methods=["POST"])
     app.add_url_rule("/users_create",
                      "user_create",

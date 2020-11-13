@@ -30,7 +30,7 @@ def index():
         left_edge=2, left_current=2, right_current=2, right_edge=2)
     params.append(users)
     params.append(num_pages)  
-    return render_template("user/usuarios.html", users=params[0], pages=params[1])
+    return render_template("user/usuarios.html", active="", users=params[0], pages=params[1])
 
 
 def login():
@@ -62,16 +62,25 @@ def search():
     los mismos están activos o bloqueados y retorna el resultado de 
     forma paginada.
     """
-    params = request.form
+    params = request.form.to_dict()
+    num_page = int(request.args.get('num_page', 1))
     quantity = PageSetting.find_settings()
-    if params['username'] == '':
+    if bool(params) and params['username'] == '':
         users = base.session.query(User).filter(User.active == params['active']).paginate(per_page=quantity.elements, page=1, error_out=True)
+    elif not bool(params):
+        #buscar con parametros get
+        params['username']= request.args.get('search', '')
+        params['active'] = request.args.get('active', '1')
+        users = base.session.query(User).filter(User.username.like(params['username'] + "%")).filter(
+        User.active == params['active']).paginate(per_page=quantity.elements, page=num_page, error_out=True)
     else:
         users = base.session.query(User).filter(User.username.like(params['username'] + "%")).filter(
-            User.active == params['active']).paginate(per_page=quantity.elements, page=1, error_out=True)
+        User.active == params['active']).paginate(per_page=quantity.elements, page=num_page, error_out=True)
     num_pages = users.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2)
-    return render_template("user/usuarios.html", users=users, pages=num_pages, search=params['username'])
+    #import code; code.interact(local=dict(globals(), **locals()))
+
+    return render_template("user/usuarios.html", users=users, pages=num_pages, active=params['active'], search=params['username'])
 
 
 
@@ -123,13 +132,14 @@ def commit_update():
         lista = request.form.getlist('roles[]')
     UsersRoles.get_data(params['id'], lista)
     user = User.find_by_id(params['id'])
-    try:
-        mensaje = user.update(params)
-        flash(mensaje[0], mensaje[1])  
-        return redirect(url_for("usersPag", num_page=1))
-    except: 
-        flash('Error al ingresar los datos', 'danger')
-        return redirect(url_for('user_update', id=params['id']))
+    #try:
+       # import code; code.interact(local=dict(globals(), **locals()))
+    mensaje = user.update(params)
+    flash(mensaje[0], mensaje[1])  
+    return redirect(url_for("usersPag", num_page=1))
+    #except: 
+    #    flash('Error al ingresar los datos', 'danger')
+    #    return redirect(url_for('user_update', id=params['id']))
 
 
       

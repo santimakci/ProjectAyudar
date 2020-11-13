@@ -128,10 +128,13 @@ class Center (base.Model):
             params (dict): recibe los valores a guardar en el objeto centro. 
 
         """
+        center = self.find_by_name(params['name'])
+        if center:
+            return ("El nombre del centro ya existe", "danger")
         center = Center(params)
         base.session.add(center)
         base.session.commit()
-        return (("Se creó el centro correctamente ", "success"), center.id)
+        return ("Se creó el centro correctamente ", "success")
 
     def update(self, params):
         """Actualiza los datos de un centro determinado.

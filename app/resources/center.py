@@ -69,7 +69,10 @@ def create():
                 return redirect(url_for("center_new"))
         else:
             mensaje = Center.create(params)
-    flash(mensaje[0][0], mensaje[0][1])
+    if mensaje[1] == "danger":      
+        flash(mensaje[0], mensaje[1])
+        return redirect(url_for("center_new"))
+    flash(mensaje[0], mensaje[1])
     return redirect(url_for("centers"))
 
 @permission_required('center_destroy')

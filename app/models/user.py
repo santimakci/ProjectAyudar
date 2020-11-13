@@ -114,7 +114,6 @@ class User (base.Model):
         self.username = params['username']
         self.first_name = params['first_name']
         self.last_name = params['last_name']
-        self.password = hashlib.md5(params['password'].encode('utf-8')).hexdigest()
         self.email = params['email']
         self.active = bool(int(params['active']))
         base.session.commit()
