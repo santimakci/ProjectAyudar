@@ -71,10 +71,10 @@ def search():
         #buscar con parametros get
         params['username']= request.args.get('search', '')
         params['active'] = request.args.get('active', '1')
-        users = base.session.query(User).filter(User.username.like(params['username'] + "%")).filter(
+        users = base.session.query(User).filter(User.username.like("%" + params['username'] + "%")).filter(
         User.active == params['active']).paginate(per_page=quantity.elements, page=num_page, error_out=True)
     else:
-        users = base.session.query(User).filter(User.username.like(params['username'] + "%")).filter(
+        users = base.session.query(User).filter(User.username.like("%" + params['username'] + "%")).filter(
         User.active == params['active']).paginate(per_page=quantity.elements, page=num_page, error_out=True)
     num_pages = users.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2)

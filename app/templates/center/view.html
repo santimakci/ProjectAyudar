@@ -87,7 +87,7 @@
     <br>
     <div class="row text-center justify-content-center">
       {%if 'turn_index' in user_permisos%}
-      <a class="btn btn-default" href="{{ url_for('center_turnosDisp', idcenter=center.id) }}" class="link">Turnos </a>
+      <a class="btn btn-info" href="{{ url_for('center_turnosDisp', idcenter=center.id) }}" class="link">Turnos </a>
       {%endif%}
       <a class="btn btn-default" href="{{ url_for('centers') }}" class="link">Volver</a>
     </div>
