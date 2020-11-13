@@ -40,7 +40,7 @@ class Center (base.Model):
         self.close_time = params['close_time']    
         self.center_type = params['center_type']
         self.municipality = params['municipality']
-        self.status = 'Pendiente'
+        self.status = params['status']
         self.email = params['email']
         self.latitude = params['lat']
         self.longitude = params['lng']
