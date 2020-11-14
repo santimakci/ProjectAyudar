@@ -10,91 +10,103 @@
     <div class="row">
       <form class="form-inline" action="{{url_for('turn_search',idcenter=center,num_page=1)}}" method="POST">
         <div class="form-group has-default bmd-form-group">
-          <input type="text" name="email" class="form-control" {% if search %} value="{{ search }}"  {% else %}placeholder="Buscar..."{% endif %}>
-        </div>             
-      <button type="submit" class="btn btn-white btn-raised btn-fab btn-round"  style="margin-top: 1em;">
-        <i class="material-icons">search</i>
-      </button>
-      <div class="form-group has-default bmd-form-group">
-        <input class="form-control datetimepicker" type="date" name="day" id="day" {%if day %} value="{{ day }}" {%endif%} style="margin-left: 1.5em;">
-      </div> 
+          <input type="text" name="email" class="form-control" {% if search %} value="{{ search }}"
+            {% else %}placeholder="Buscar..." {% endif %}>
+        </div>
+        <button type="submit" class="btn btn-white btn-raised btn-fab btn-round" style="margin-top: 1em;">
+          <i class="material-icons">search</i>
+        </button>
+        <div class="form-group has-default bmd-form-group">
+          <input class="form-control datetimepicker" type="date" name="day" id="day" {%if day %} value="{{ day }}"
+            {%endif%} style="margin-left: 1.5em;">
+        </div>
       </form>
     </div>
   </div>
   <!--   <div class="row">
     <div class="col-lg-12 col-md-8"> -->
   <div class="card">
-    <table class="table text-center">
-      <tr>
-        <th scope="col"> Email solicitante </th>
-        <th scope="col"> Teléfono solicitante </th>
-        <th scope="col"> Horario </th>
-        <th scope="col"> Día </th>
-      </tr>
-      {% for turn in turns.items %}
-      <tr>
-        <td scope="row">{{turn.email_request}} </td>
-        <td scope="row">{{turn.phone}} </td>
-
-        <td>{{turn.time}}</td>
-        <td>{{turn.day}}</td>
-        <td>
-          {%if 'turn_show' in user_permisos%}
-          <a href="{{url_for('turn_view',idcenter=center,idturno=turn.id)}}">
-            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-eye" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z"/>
-              <path fill-rule="evenodd" d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-            </svg>
-          </a>
-        {%endif%}
-        </td>
-        <td>
-          {%if 'turn_update' in user_permisos%}
-          <a href="{{url_for('turn_update',idcenter=center,idturno=turn.id)}}">
-            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square" "
-              xmlns=" http://www.w3.org/2000/svg">
-              <path
+    <table class="table text-center table-hover table-responsive-md">
+      <thead>
+        <tr>
+          <th scope="col"> Email solicitante </th>
+          <th scope="col"> Teléfono solicitante </th>
+          <th scope="col"> Horario </th>
+          <th scope="col"> Día </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for turn in turns.items %}
+        <tr>
+          <td scope="row">{{turn.email_request}} </td>
+          <td scope="row">{{turn.phone}} </td>
+          <td>{{turn.time}}</td>
+          <td>{{turn.day}}</td>
+          <td>
+            {%if 'turn_show' in user_permisos%}
+            <a href="{{url_for('turn_view',idcenter=center,idturno=turn.id)}}">
+              <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-eye"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.134 13.134 0 0 0 1.66 2.043C4.12 11.332 5.88 12.5 8 12.5c2.12 0 3.879-1.168 5.168-2.457A13.134 13.134 0 0 0 14.828 8a13.133 13.133 0 0 0-1.66-2.043C11.879 4.668 10.119 3.5 8 3.5c-2.12 0-3.879 1.168-5.168 2.457A13.133 13.133 0 0 0 1.172 8z" />
+                <path fill-rule="evenodd"
+                  d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+              </svg>
+            </a>
+            {%endif%}
+          </td>
+          <td>
+            {%if 'turn_update' in user_permisos%}
+            <a href="{{url_for('turn_update',idcenter=center,idturno=turn.id)}}">
+              <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square" "
+              xmlns=" http://www.w3.org/2000/svg"> <path
                 d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
               <path fill-rule="evenodd"
                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-            </svg>
-          </a>
-          {%endif%}
-        </td>
-        <td>
-          {%if 'turn_destroy' in user_permisos%}
-          <a href="{{url_for('turn_delete',idcenter=center,idturno=turn.id)}}">
-            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash" "
-              xmlns=" http://www.w3.org/2000/svg">
-              <path
+              </svg>
+            </a>
+            {%endif%}
+          </td>
+          <td>
+            {%if 'turn_destroy' in user_permisos%}
+            <a href="{{url_for('turn_delete',idcenter=center,idturno=turn.id)}}">
+              <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash" "
+              xmlns=" http://www.w3.org/2000/svg"> <path
                 d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
               <path fill-rule="evenodd"
                 d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-            </svg>
-          </a>
-          {%endif%}
-        </td>
-      </tr>      
-      {% endfor %}
+              </svg>
+            </a>
+            {%endif%}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
     </table>
 
     <ul class="pagination pagination-info mx-auto" id="page">
       {% for page in pages %}
-        {%if page%}
-        {% if search or day %}
-            <li class="page-item" ><a id="num{{page}}" href="{{url_for('turn_search', idcenter=center,num_page=page, search=search, day=day)}}" class="page-link" >{{page}}</a></li>
-          {%else%}  
-            <li class="page-item" ><a id="num{{page}}" href="{{ url_for('center_turnosDisp',num_page=page,idcenter=center) }}" class="page-link" >{{page}}</a></li>
-          {%endif%}
-        {%else%}
-          ...
-        {%endif%}
+      {%if page%}
+      {% if search or day %}
+      <li class="page-item"><a id="num{{page}}"
+          href="{{url_for('turn_search', idcenter=center,num_page=page, search=search, day=day)}}"
+          class="page-link">{{page}}</a></li>
+      {%else%}
+      <li class="page-item"><a id="num{{page}}" href="{{ url_for('center_turnosDisp',num_page=page,idcenter=center) }}"
+          class="page-link">{{page}}</a></li>
+      {%endif%}
+      {%else%}
+      ...
+      {%endif%}
       {% endfor %}
     </ul>
   </div>
   <div class="text-center">
-    <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="{{ url_for('turn_new', idcenter=center)}}">Solicitar turno</a>
-    <a class="btn btn-default ml-auto" style="height: 3.5em; margin-top: 2em;" href="{{ url_for('center_view', idcenter=center)}}">Volver</a>
+    <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;"
+      href="{{ url_for('turn_new', idcenter=center)}}">Solicitar turno</a>
+    <a class="btn btn-default ml-auto" style="height: 3.5em; margin-top: 2em;"
+      href="{{ url_for('center_view', idcenter=center)}}">Volver</a>
   </div>
 </div>
 
@@ -102,7 +114,9 @@
   $("tr:odd").addClass("cebra");
 </script>
 <script>
-$("#num{{turns.page}}").css({"background": "rgba(0, 188, 200, 1)",
-"color": "aliceblue"})
+  $("#num{{turns.page}}").css({
+    "background": "rgba(0, 188, 200, 1)",
+    "color": "aliceblue"
+  })
 </script>
 {% endblock %}

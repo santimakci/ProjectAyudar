@@ -1,5 +1,5 @@
 var width = $(window).width();
-if(width < 768){
+if(width < 992){
     $('#admin').removeClass("dropdown").css("display","none");
     $('#perfil').css("display","");
     $('#logout').css("display","");
@@ -7,7 +7,7 @@ if(width < 768){
 $(window).resize(function(){
 console.log('resize called');
 var width = $(window).width();
-if(width < 768){
+if(width < 992){
     $('#admin').removeClass("dropdown").css("display","none");
     $('#perfil').css("display","");
     $('#logout').css("display","");

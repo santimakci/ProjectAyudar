@@ -65,8 +65,7 @@ def create():
                 filename = 'centro' + str(mensaje[1])
                 f.save(os.path.join('app/static/uploads', filename + '.pdf'))
             else:
-                flash('Formato de archivo incorrecto, el protocolo debe ser de tipo pdf', 'danger')
-                return redirect(url_for("center_new"))
+                mensaje=('Formato de archivo incorrecto, el protocolo debe ser de tipo pdf', 'danger')
         else:
             mensaje = Center.create(params)
     if mensaje[1] == "danger":      

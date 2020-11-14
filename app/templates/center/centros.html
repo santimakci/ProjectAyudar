@@ -22,27 +22,28 @@
       {%endif%}
     </div>
   </div>
-  <!--   <div class="row">
-    <div class="col-lg-12 col-md-8"> -->
   <div class="card">
-    <table class="table text-center">
-      <tr>
-        <th scope="col"> Nombre </th>
-        <th scope="col"> Dirección </th>
-        <th scope="col"> Horario de apertura </th>
-        <th scope="col"> Horario de cierre </th>
-        <th scope="col"> Télefono </th>
-        <th scope="col"> Web </th>
-        <th scope="col"> Estado </th>
-      </tr>
-      {% for center in centers.items %}
+    <table class="table text-center table-hover table-responsive-md">
+      <thead>
+        <tr>
+          <th scope="col"> Nombre </th>
+          <th scope="col"> Dirección </th>
+          <th scope="col"> Télefono </th>
+          <th scope="col"> Horario</th>
+          <th scope="col"> Tipo</th>
+          <th scope="col"> Municipio </th>
+          <th scope="col"> Estado </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for center in centers.items %}
       <tr>
         <td scope="row">{{center.name}} </td>
         <td>{{center.address}}</td>
-        <td>{{center.open_time}}</td>
-        <td>{{center.close_time}}</td>
         <td>{{center.phone}}</td>
-        <td>{{center.web}}</td>
+        <td>{{center.open_time}} - {{center.close_time}}</td>
+        <td>{{center.center_type}}</td>
+        <td>{{center.municipality}}</td>
         <td id="status">
           {% if center.status == "Pendiente" %}
           <svg data-toggle="tooltip" data-placement="top" title="Pendiente" width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-clock" fill="orange" xmlns="http://www.w3.org/2000/svg">
@@ -95,6 +96,7 @@
         </td>
       </tr>
       {% endfor %}
+      </tbody>
     </table>
 
     <ul class="pagination pagination-info mx-auto" id="page">

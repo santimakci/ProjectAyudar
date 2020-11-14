@@ -104,7 +104,7 @@ def create(idcenter):
         mensaje = Turn.create(params)
         flash(mensaje[0], mensaje[1])
     else:
-        flash("Problema al crear el turno", "danger")
+        flash("No se pudo crear el turno", "danger")
     return redirect(url_for("center_turnosDisp", num_page=1, idcenter=idcenter))
 
 
