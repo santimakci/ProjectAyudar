@@ -6,41 +6,37 @@
 {% block content %}
 <div class="col-lg-4 col-md-6 mx-auto">
   <h3>Actualizar turno</h3>
-  <form action="{{ url_for('commit_update') }}" name="form1" method="POST">
-    <p>
-        <label><strong> Email solicitante: </strong></label></br>
-            <input class="form-control" required name="email" placeholder="Email" value="{{turn.email_request}}"  />
-    </p>
-    <p>
-      <label><strong> Teléfono solicitante: </strong></label></br>
-          <input class="form-control" required name="phone" placeholder="Teléfono" value="{{turn.phone}}"  />
-  </p>
-    <p>
-        <label><strong>Fecha:</strong></label></br>
-            <input type="date" class="form-control" min={{today}} required name="day" placeholder="Dirección" value="{{turn.day}}" />
-    </p>
-    <p>
-      <label><strong>Horarios disponibles:</strong>
+  <form action="{{ url_for('turn_commit_update') }}" name="form1" method="POST">
+    <div>
+      <label><strong> Email solicitante: </strong><strong style="color:#48D1CC;">*</strong></label></br>
+      <input class="form-control" required name="email" placeholder="Email" value="{{turn.email_request}}" />
+    </div>
+    <div>
+      <label><strong> Teléfono solicitante: </strong><strong style="color:#48D1CC;">*</strong></label></br>
+      <input class="form-control" required name="phone" placeholder="Teléfono" value="{{turn.phone}}" />
+    </div>
+    <div>
+      <label><strong>Fecha: </strong><strong style="color:#48D1CC;">*</strong></label></br>
+      <input type="date" class="form-control" min={{today}} required name="day" placeholder="Dirección"
+        value="{{turn.day}}" />
+    </div>
+    <div>
+      <label><strong>Horarios disponibles:</strong><strong style="color:#48D1CC;">*</strong>
         <select class="form-control form-control-sm" name="num_block" id="num_block" required>
           {% for key in time %}
-            <option value="{{key}}" {%if timeturn == time[key] %} selected {%endif%}>{{time[key]}}</option>
+          <option value="{{key}}" {%if timeturn == time[key] %} selected {%endif%}>{{time[key]}}</option>
           {% endfor %}
         </select>
         <input type="hidden" name="id" value="{{turn.id}}">
         <input type="hidden" name="center_id" value="{{turn.center_id}}">
       </label>
-    </p>   
+    </div>
+    <div class="container d-flex" style="justify-content: center;">
       <input class="btn btn-info" type="submit" value="Actualizar">
       <a class="btn btn-default" href="{{ url_for('center_turnosDisp', idcenter=idcenter) }}" class="link">Volver</a>
-      </p>
+    </div>
+
   </form>
 </div>
-<style>
-  div.content {
-    float: left;
-    text-align: center;
-    margin: 10px;
-  }
-</style>
 </div>
 {% endblock %}

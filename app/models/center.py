@@ -1,13 +1,8 @@
+from enum import unique
 from flask import request
 from sqlalchemy import Column, Integer, String, Boolean, Time, Numeric
 from app.db import base
-
-
-# agregar los pdf por ahora en el filesystem personal
 import datetime
-
-# aclaracion , uso Numeric para reemplazar a Decimal que no me lo toma SqlAlchemy https://www.reddit.com/r/learnpython/comments/c117sw/sqlalchemy_mysql_cant_import_decimal_column_type/
-# para logblob desde aca me base https://stackoverflow.com/questions/43791725/sqlalchemy-how-to-make-a-longblob-column-in-mysql
 
 
 class Center(base.Model):
@@ -29,7 +24,7 @@ class Center(base.Model):
     published = Column(Boolean, default=False)
     latitude = Column(String, unique=False, nullable=False)
     longitude = Column(String, unique=False, nullable=False)
-    status = Column(String)
+    status = Column(String, unique=False, default="Pendiente")
     email = Column(String, unique=False, nullable=False)
     protocol = Column(String, unique=False, default="")
 
@@ -42,7 +37,8 @@ class Center(base.Model):
         self.close_time = params["close_time"]
         self.center_type = params["center_type"]
         self.municipality = params["municipality"]
-        self.status = "Pendiente"
+        if "status" in params.keys():
+            self.status = params["status"]
         self.email = params["email"]
         self.latitude = params["lat"]
         self.longitude = params["lng"]
@@ -137,6 +133,9 @@ class Center(base.Model):
         Args:
             params (dict)
         """
+        center = self.find_by_name(params["name"])
+        if center != self:
+            return ("El nombre del centro ya existe", "danger")
         self.name = params["name"]
         self.address = params["address"]
         self.phone = params["phone"]

@@ -17,5 +17,5 @@ def updateSettings():
     params = request.form
     mensaje = PageSetting.update(params)
     settings = PageSetting.find_settings()
-    flash(mensaje)
+    flash(mensaje[0], mensaje[1])
     return render_template("pageConfig/pagesettings.html", settings=settings)

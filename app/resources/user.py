@@ -81,21 +81,20 @@ def search():
         params["active"] = request.args.get("active", "1")
         users = (
             base.session.query(User)
-            .filter(User.username.like(params["username"] + "%"))
+            .filter(User.username.like("%" + params["username"] + "%"))
             .filter(User.active == params["active"])
             .paginate(per_page=quantity.elements, page=num_page, error_out=True)
         )
     else:
         users = (
             base.session.query(User)
-            .filter(User.username.like(params["username"] + "%"))
+            .filter(User.username.like("%" + params["username"] + "%"))
             .filter(User.active == params["active"])
             .paginate(per_page=quantity.elements, page=num_page, error_out=True)
         )
     num_pages = users.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2
     )
-    # import code; code.interact(local=dict(globals(), **locals()))
 
     return render_template(
         "user/usuarios.html",
@@ -152,14 +151,13 @@ def commit_update():
         lista = request.form.getlist("roles[]")
     UsersRoles.get_data(params["id"], lista)
     user = User.find_by_id(params["id"])
-    # try:
-    # import code; code.interact(local=dict(globals(), **locals()))
-    mensaje = user.update(params)
-    flash(mensaje[0], mensaje[1])
-    return redirect(url_for("usersPag", num_page=1))
-    # except:
-    #    flash('Error al ingresar los datos', 'danger')
-    #    return redirect(url_for('user_update', id=params['id']))
+    try:
+        mensaje = user.update(params)
+        flash(mensaje[0], mensaje[1])
+        return redirect(url_for("usersPag", num_page=1))
+    except:
+        flash("Error al ingresar los datos", "danger")
+        return redirect(url_for("user_update", id=params["id"]))
 
 
 @permission_required("user_update")
@@ -178,3 +176,9 @@ def update(id):
     return render_template(
         "user/update.html", user=user, all_roles=roles, user_roles=roles_name_user
     )
+
+
+@permission_required("user_detail")
+def detail(iduser):
+    user = User.find_by_id(iduser)
+    return render_template("user/read.html", user=user)

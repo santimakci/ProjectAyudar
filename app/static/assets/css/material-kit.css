@@ -30,23 +30,35 @@
 *::after {
   box-sizing: border-box;
 }
-.cebra{
+
+.cebra {
   background: rgba(0, 188, 200, 0.1);
 }
-.bodyerror{
+#mapid {
+  position: relative;
+  top: 124px;
+  bottom: 0;
+  width: 700px;
+  height: 470px;
+  margin-bottom: 15px;
+  max-width: 700px;
+}
+
+.bodyerror {
   background-image: url("../img/401-error.jpg");
 }
-.bodyerrorcuatro{
+
+.bodyerrorcuatro {
   background-image: url("../img/404cat.jpg");
   background-repeat: no-repeat;
   width: 100vh;
 }
 
-.maintenance{
+.maintenance {
   background-image: url("../img/maintenance.png");
 }
 
-.addRoles{
+.addRoles {
   float: left;
   text-align: center;
   margin: 10px;
@@ -3136,10 +3148,12 @@ fieldset:disabled a.btn {
   background-color: #e2e6ea;
   border-color: #dae0e5;
 }
-.activePag{
-      background: rgba(0, 188, 200, 1);
-    color: aliceblue;
+
+.activePag {
+  background: rgba(0, 188, 200, 1);
+  color: aliceblue;
 }
+
 .btn-light:focus,
 .btn-light.focus {
   box-shadow: none, 0 0 0 0.2rem rgba(248, 249, 250, 0.5);
@@ -12910,28 +12924,31 @@ fieldset[disabled] .is-focused .switch label:focus {
   color: #999999;
 }
 
-.optiones:hover{
-cursor: pointer;
-  color: #fff;
-  text-decoration: none;
-  background-color: #00bcd4;}
-
-.espanes:hover{
+.optiones:hover {
   cursor: pointer;
   color: #fff;
   text-decoration: none;
-  background-color: #017180;}
+  background-color: #00bcd4;
+}
 
-  .removes:hover{
-    cursor: pointer;
-    color: #fff;
-    text-decoration: none;
-    background-color: #5a5252de;}
+.espanes:hover {
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  background-color: #017180;
+}
+
+.removes:hover {
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  background-color: #5a5252de;
+}
 
 
 .espanes {
   display: block;
-  margin: 2px 2px;
+  margin: 5px 5px;
   padding: 4px 10px;
   background: #00bcd4;
   border-radius: 10px;
@@ -12939,9 +12956,10 @@ cursor: pointer;
   font-size: 12px;
   color: white;
 }
+
 .removes {
   display: block;
-  margin: 2px 2px;
+  margin: 5px 5px;
   padding: 4px 10px;
   background: #999999;
   border-radius: 10px;
@@ -17097,7 +17115,7 @@ footer .pull-center {
 
 .card .card-title {
   margin-top: 0.625rem;
-  
+
 }
 
 .card .card-title:last-child {

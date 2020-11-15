@@ -29,37 +29,61 @@ def index():
 
 
 def search():
-    """Realiza la búsqueda sobre usuarios por nombre de usuario o si
-    los mismos están activos o bloqueados y retorna el resultado de
+    """Realiza la búsqueda sobre centros por nombre de centro o si
+    los mismos están Aceptados, Pendientes o Rechazados y retorna el resultado de
     forma paginada.
     """
-
-    params = request.form.get("name")
+    params = request.form.to_dict()
     num_page = int(request.args.get("num_page", 1))
     quantity = PageSetting.find_settings()
-    if params == "":
+    if bool(params) and params["name"] == "" and params["status"] == "":
         centers = base.session.query(Center).paginate(
             per_page=quantity.elements, page=1, error_out=True
         )
-    elif params == None:
-        params = request.args.get("search")
-        centers = (
-            base.session.query(Center)
-            .filter(Center.name.like("%" + params + "%"))
-            .paginate(per_page=quantity.elements, page=num_page, error_out=True)
+    elif not bool(params):
+        params["name"] = request.args.get("name")
+        params["status"] = request.args.get("status")
+        centers = search_by_name_and_status(
+            params["name"], params["status"], num_page, quantity
         )
     else:
-        centers = (
-            base.session.query(Center)
-            .filter(Center.name.like("%" + params + "%"))
-            .paginate(per_page=quantity.elements, page=num_page, error_out=True)
+        centers = search_by_name_and_status(
+            params["name"], params["status"], num_page, quantity
         )
     num_pages = centers.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2
     )
     return render_template(
-        "center/centros.html", centers=centers, pages=num_pages, search=params
+        "center/centros.html",
+        centers=centers,
+        pages=num_pages,
+        name=params["name"],
+        status=params["status"],
     )
+
+
+def search_by_name_and_status(name, status, num_page, quantity):
+
+    if name != "" and status == "":
+        centers = (
+            base.session.query(Center)
+            .filter(Center.name.like("%" + name + "%"))
+            .paginate(per_page=quantity.elements, page=num_page, error_out=True)
+        )
+    elif name == "" and status != "":
+        centers = (
+            base.session.query(Center)
+            .filter(Center.status == status)
+            .paginate(per_page=quantity.elements, page=num_page, error_out=True)
+        )
+    else:
+        centers = (
+            base.session.query(Center)
+            .filter(Center.status == status)
+            .filter(Center.name.like("%" + name + "%"))
+            .paginate(per_page=quantity.elements, page=num_page, error_out=True)
+        )
+    return centers
 
 
 @permission_required("center_new")
@@ -77,14 +101,13 @@ def create():
                 parametros = params.to_dict()
                 parametros["protocol"] = secure_filename(f.filename)
                 mensaje = Center.create(parametros)
-                filename = "centro" + str(mensaje[1])
+                filename = "centro" + str(mensaje[2])
                 f.save(os.path.join("app/static/uploads", filename + ".pdf"))
             else:
-                flash(
+                mensaje = (
                     "Formato de archivo incorrecto, el protocolo debe ser de tipo pdf",
                     "danger",
                 )
-                return redirect(url_for("center_new"))
         else:
             mensaje = Center.create(params)
     if mensaje[1] == "danger":

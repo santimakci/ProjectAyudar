@@ -1,10 +1,14 @@
-{% extends "layout/layout.html" %}
-{% block title %}Inicio{% endblock %}
-{% block head %}
-    {{ super() }}
-{% endblock %}
-{% block content %}
-    <body class="maintenance" style="background-position: top; background-size: 95%; background-repeat: no-repeat;">
-    </body>
-{% endblock %}
+{% extends "layout/layout.html" %} {% block title %}Inicio{% endblock %} {%
+block head %} {{ super() }} {% endblock %} {% block content %}
 
+<body
+  class="maintenance"
+  style="
+    background-position: top;
+    background-size: 95%;
+    background-repeat: no-repeat;
+  "
+>
+  {% include 'helpers/messages.html' %}
+</body>
+{% endblock %}

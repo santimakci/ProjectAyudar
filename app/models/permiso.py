@@ -49,4 +49,4 @@ class Permiso(base.Model):
         permission = self.find_permission_by_id(params["id"])
         base.session.delete(permission)
         base.session.commit()
-        return (f"se borro el permiso {permissions.name}", "success")
+        return (f"Se borró el permiso {permissions.name}", "success")

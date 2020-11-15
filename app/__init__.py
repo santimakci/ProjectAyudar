@@ -40,7 +40,7 @@ from app.resources.user import (
     login as auth_login,
     new,
     create,
-    commit_delete,
+    commit_delete as commit_delete_user,
     delete,
     commit_update as commit_update_user,
     update_profile,
@@ -48,6 +48,7 @@ from app.resources.user import (
     delete,
     update,
     search as user_search,
+    detail,
 )
 from app.resources.turn import (
     index as turn_index,
@@ -56,8 +57,8 @@ from app.resources.turn import (
     new as turn_new,
     create as turn_create,
     view as turn_view,
-    commit_update,
-    commit_delete,
+    commit_update as turn_commit_update,
+    commit_delete as turn_commit_delete,
     search as turn_search,
 )
 from config import config
@@ -71,7 +72,7 @@ def create_app(environment="development"):
     app = Flask(__name__)
 
     app.config["SESSION_TYPE"] = "filesystem"
-    app.config["SQLALCHEMY_ECHO"] = environment == "development"
+    # app.config["SQLALCHEMY_ECHO"] = (environment == 'development')
     env = os.environ.get("FLASK_ENV", environment)
     app.config.from_object(config[env])
     Session(app)
@@ -100,12 +101,15 @@ def create_app(environment="development"):
 
     # User CRUD
     app.add_url_rule(
-        "/users/commit_delete", "commit_delete", commit_delete, methods=["POST"]
+        "/users/commit_delete", "commit_delete", commit_delete_user, methods=["POST"]
     )
     app.add_url_rule(
         "/users/commit_update", "commit_update", commit_update_user, methods=["POST"]
     )
     app.add_url_rule("/users_create", "user_create", create, methods=["POST"])
+    app.add_url_rule(
+        "/users/detail/<int:iduser>", "user_detail", detail, methods=["GET", "POST"]
+    )
     app.add_url_rule("/users/new", "user_new", new)
     app.add_url_rule(
         "/users/update/<int:id>", "user_update", update, methods=["GET", "POST"]
@@ -212,6 +216,19 @@ def create_app(environment="development"):
         turn_update,
         methods=["GET", "POST"],
     )
+    app.add_url_rule(
+        "/centers/turns/commit_update",
+        "turn_commit_update",
+        turn_commit_update,
+        methods=["GET", "POST"],
+    )
+    app.add_url_rule(
+        "/centers/turns/commit_delete",
+        "turn_commit_delete",
+        turn_commit_delete,
+        methods=["GET", "POST"],
+    )
+
     app.add_url_rule(
         "/centers/<int:idcenter>/turnos/delete/<int:idturno>",
         "turn_delete",

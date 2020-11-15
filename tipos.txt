@@ -10,7 +10,8 @@ id    Permiso         Descripcion
 7     user_new        Permite agregar un usuario
 8     user_destroy    Permite eliminar un usuario
 9     user_update     Permite actualizar un usuario
-10    ¿user_show?     Permite ver perfil?
+10    user_show       Permite ver perfil
+17    user_detail     Permite ver el detalle de un usuario
 
 11    turn_index      Permite ver los turnos de un centro
 12    turn_new        Permite agregar un turno

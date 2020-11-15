@@ -29,7 +29,7 @@ class Turn(base.Model):
             turn = Turn(params)
             base.session.add(turn)
             base.session.commit()
-            return ("Se creo el turno", "success")
+            return ("Se creó el turno", "success")
         else:
             return ("Los datos no son válidos", "danger")
 

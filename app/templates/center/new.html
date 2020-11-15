@@ -12,17 +12,6 @@
 <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 <script src="{{url_for('static', filename='assets/js/page-scripts/mapResize.js')}}" type="text/javascript"></script>
-<style>
-  #mapid {
-    position: relative;
-    top: 124px;
-    bottom: 0;
-    width: 700px;
-    height: 470px;
-    margin-bottom: 15px;
-    max-width: 700px;
-  }
-</style>
 {{ super() }}
 {% endblock %}
 {% block content %}
@@ -78,6 +67,9 @@
       </select>
     </div>
     <div>
+      <input type="hidden" name="status" id="status" value="Aceptado">
+    </div>
+    <div>
       <label><strong> Pagina Web: </strong> </label></br>
       <input class="form-control" name="web" placeholder="Web" />
     </div>
@@ -105,46 +97,9 @@
     <a class="btn btn-default" href="{{ url_for('centers') }}" class="link">Volver</a>
   </div>
 </form>
-<script>
-  function cambiarcolorM() {
-    $("#selectmuni").css("color", "#495057")
-  }
-
-  function cambiarcolorC() {
-    $("#selectcentro").css("color", "#495057")
-  }
-
-  function nombrearchivo(file) {
-    var fileName = file.files[0].name
-    $("#nombrearchivo").css("visibility", "").text(fileName)
-
-  }
-  $($(window).resize(
-    function () {
-      var $winH = $(this).height();
-      var $winW = $(this).width();
-
-      if (1000 < $winW) {
-        $('.mapboxgl-canvas').width("650px");
-        $('.mapboxgl-canvas').height("470px");
-        $('#mapid').width("650px");
-        $('#mapid').height("470px");
-      } else if (768 < $winW) {
-        $('.mapboxgl-canvas').width("450px");
-        $('.mapboxgl-canvas').height("470px");
-        $('#mapid').width("450px");
-        $('#mapid').height("470px");
-        $('.botones').css("padding-top", "");
-      } else {
-        $('.botones').css("padding-top", "120px");
-        $('#mapid').width($winW - 150);
-        $('#mapid').height($winH - 100);
-        $('.mapboxgl-canvas').width($winW - 150);
-        $('.mapboxgl-canvas').height($winH - 100);
-      }
-    }
-  ))
-</script>
-
+<script src="{{url_for('static', filename='assets/js/page-scripts/cambiarcolores.js')}}"
+  type="text/javascript"></script>
+<script src="{{url_for('static', filename='assets/js/page-scripts/nombrearchivo.js')}}" type="text/javascript"></script>
+<script src="{{url_for('static', filename='assets/js/page-scripts/mapstyle.js')}}" type="text/javascript"></script>
 <script src="{{url_for('static', filename='assets/js/map.js')}}" type="text/javascript"></script>
 {% endblock %}

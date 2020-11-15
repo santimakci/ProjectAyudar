@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from app.db import base
 import hashlib
+from app.models.usersRoles import UsersRoles
 
 
 class User(base.Model):
@@ -91,11 +92,11 @@ class User(base.Model):
         if self.find_by_email(params["email"]) or self.find_by_username(
             params["username"]
         ):
-            return ("Email o username ya utilizado", "danger")
+            return ("Email o nombre de usuario ya utilizado", "danger")
         user = User(params)
         base.session.add(user)
         base.session.commit()
-        return ("Se creo el usuario ", "success")
+        return ("Se creó el usuario ", "success")
 
     @classmethod
     def delete(self, params):
@@ -107,7 +108,7 @@ class User(base.Model):
         user = self.find_by_id(params["id"])
         base.session.delete(user)
         base.session.commit()
-        return (f"se borro el usuario {user.username}", "success")
+        return (f"Se borró el usuario {user.username}", "success")
 
     def update(self, params):
         """Actualiza los datos de un usuario determinado.
@@ -115,6 +116,9 @@ class User(base.Model):
         Args:
             params (dict)
         """
+        user = self.find_by_id(params["id"])
+        if UsersRoles.isAdmin(user.id) and bool(int(params["active"])) == 0:
+            return ("No se puede bloquear un usuario administrador", "danger")
         self.username = params["username"]
         self.first_name = params["first_name"]
         self.last_name = params["last_name"]
@@ -128,7 +132,10 @@ class User(base.Model):
             self.first_name = params["first_name"]
             self.last_name = params["last_name"]
             base.session.commit()
-            return ("Se han actualizado el Nombre y Apellido", "success")
+            return (
+                f"Se actualizó el nombre y apellido del usuario {user.username}",
+                "success",
+            )
 
         if (
             params["Newpassword"] != params["Newpassword2"]

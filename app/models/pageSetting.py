@@ -42,4 +42,4 @@ class PageSetting(base.Model):
             page.enabled = True
         page.elements = int(params["cant_elements"])
         base.session.commit()
-        return "Pagina actualizada correctamente"
+        return ("Página actualizada correctamente", "success")
