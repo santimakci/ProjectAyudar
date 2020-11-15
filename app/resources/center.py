@@ -27,23 +27,53 @@ def index():
     return render_template("center/centros.html", centers=params[0], pages=params[1])
 
 def search():
-    """Realiza la búsqueda sobre usuarios por nombre de usuario o si 
-    los mismos están activos o bloqueados y retorna el resultado de 
+    """Realiza la búsqueda sobre centros por nombre de centro o si 
+    los mismos están Aceptados, Pendientes o Rechazados y retorna el resultado de 
     forma paginada.
     """
     
-    params = request.form.get('name')
+    name = request.form.get('name')
+    status = request.form.get('status')
     num_page = int(request.args.get('num_page', 1))
     quantity = PageSetting.find_settings()
-    if params == '':
-            centers = base.session.query(Center).paginate(per_page=quantity.elements, page=1, error_out=True)
-    elif params == None:
+    if name == '':
+            if status == '':
+                centers = (
+                    base.session.query(Center)
+                    .paginate(per_page=quantity.elements, page=1, error_out=True)
+                )
+            else:
+                centers = (
+                base.session.query(Center)
+                .filter(Center.status == status)
+                .filter(Center.name.like("%" + name + "%"))
+                .paginate(per_page=quantity.elements, page=1, error_out=True)
+                )
+
+    elif name == None:
         params=request.args.get('search')
-        centers = base.session.query(Center).filter(Center.name.like("%" + params + "%")).paginate(per_page=quantity.elements, page=num_page, error_out=True)
+        centers = base.session.query(Center).filter(Center.name.like("%" + name + "%")).paginate(per_page=quantity.elements, page=num_page, error_out=True)
     else: 
-        centers = base.session.query(Center).filter(Center.name.like("%" + params + "%")).paginate(per_page=quantity.elements, page=num_page, error_out=True)
+        if status == '' or status == None:
+            centers = (
+                base.session.query(Center)
+                .filter(Center.name.like("%" + name + "%"))
+                .paginate(per_page=quantity.elements, page=1, error_out=True)
+            )
+        else:
+            centers = (
+                base.session.query(Center)
+                .filter(Center.status == status)
+                .filter(Center.name.like("%" + name + "%"))
+                .paginate(per_page=quantity.elements, page=1, error_out=True)
+            )
     num_pages = centers.iter_pages(left_edge=2, left_current=2, right_current=2, right_edge=2)
-    return render_template("center/centros.html", centers=centers, pages=num_pages, search=params)
+    return render_template(
+        "center/centros.html",
+        centers=centers, 
+        pages=num_pages, 
+        search=name , 
+        status=status)
 
 
 @permission_required('center_new')

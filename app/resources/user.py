@@ -78,7 +78,6 @@ def search():
             .paginate(per_page=quantity.elements, page=1, error_out=True)
         )
     elif not bool(params):
-        # buscar con parametros get
         params["username"] = request.args.get("search", "")
         params["active"] = request.args.get("active", "1")
         users = (
