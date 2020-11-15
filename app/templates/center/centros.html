@@ -32,6 +32,7 @@
       {%endif%}
     </div>
   </div>
+  {%if centers.items|length%}
   <div class="card">
     <table class="table text-center table-hover table-responsive-md">
       <thead>
@@ -123,6 +124,22 @@
       {% endfor %}
     </ul>
   </div>
+  {%else%}
+  <ul class=flashes>
+    <div class="alert alert-info">
+      <div class="container text-center">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true"><i class="material-icons">clear</i></span>
+        </button>
+        NO HAY CENTROS REINA
+      </div>
+  </ul>
+  <div class="gatito"  style="text-align:center;">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/NUYvbT6vTPs" frameborder="0" autoplay=1
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>
+  </div>
+  {%endif%}
 </div>
 <script src="{{url_for('static', filename='assets/js/page-scripts/styleCebraTables.js')}}" type="text/javascript"></script>
 <script>

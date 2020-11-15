@@ -213,6 +213,13 @@ def create_app(environment="development"):
         methods=["GET", "POST"],
     )
     app.add_url_rule(
+        "/centers/turns/commit_update",
+        "turn_commit_update",
+        turn_commit_update,
+        methods=["GET", "POST"],
+    )
+
+    app.add_url_rule(
         "/centers/<int:idcenter>/turnos/delete/<int:idturno>",
         "turn_delete",
         turn_delete,

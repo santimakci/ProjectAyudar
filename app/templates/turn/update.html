@@ -6,7 +6,7 @@
 {% block content %}
 <div class="col-lg-4 col-md-6 mx-auto">
   <h3>Actualizar turno</h3>
-  <form action="{{ url_for('commit_update') }}" name="form1" method="POST">
+  <form action="{{ url_for('turn_commit_update') }}" name="form1" method="POST">
     <div>
         <label><strong> Email solicitante: </strong><strong style="color:#48D1CC;">*</strong></label></br>
         <input class="form-control" required name="email" placeholder="Email" value="{{turn.email_request}}"/>

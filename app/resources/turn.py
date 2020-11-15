@@ -28,6 +28,7 @@ def index(idcenter):
     params.append(turns_center)
     params.append(num_pages)
     centro = Center.find_by_id(idcenter)
+
     return render_template(
         "turn/index.html", turns=params[0], pages=params[1], center=idcenter, namecenter=centro.name
     )
@@ -48,11 +49,11 @@ def search(idcenter):
         params["email"] = request.args.get("search", "")
         params["day"] = request.args.get("day", "")
         turns = search_by_email_and_day(
-            params["email"], params["day"], num_page, quantity
+            params["email"], params["day"], num_page, quantity, idcenter
         )
     else:
         turns = search_by_email_and_day(
-            params["email"], params["day"], num_page, quantity
+            params["email"], params["day"], num_page, quantity, idcenter
         )
     num_pages = turns.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2
@@ -67,11 +68,12 @@ def search(idcenter):
     )
 
 
-def search_by_email_and_day(search, day, num_page, quantity):
+def search_by_email_and_day(search, day, num_page, quantity, centerid):
     if search != "" and day == "":
         turns = (
             base.session.query(Turn)
             .filter(Turn.email_request.like("%" + search + "%"))
+            .filter(Turn.center_id == centerid)
             .paginate(per_page=quantity.elements, page=num_page, error_out=True)
         )
     elif search == "" and day != "":
@@ -80,12 +82,14 @@ def search_by_email_and_day(search, day, num_page, quantity):
         turns = (
             base.session.query(Turn)
             .filter(Turn.day == date)
+            .filter(Turn.center_id == centerid)
             .paginate(per_page=quantity.elements, page=num_page, error_out=True)
         )
     else:
         date = datetime.strptime(day, "%Y-%m-%d")
         turns = (
             base.session.query(Turn)
+            .filter(Turn.center_id == centerid)
             .filter(Turn.day == date)
             .filter(Turn.email_request.like("%" + search + "%"))
             .paginate(per_page=quantity.elements, page=num_page, error_out=True)
