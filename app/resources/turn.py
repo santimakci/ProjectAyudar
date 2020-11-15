@@ -7,6 +7,7 @@ from app.models.rol import Rol
 from app.models.usersRoles import UsersRoles
 from app.models.pageSetting import PageSetting
 from app.models.turn import Turn
+from app.models.center import Center
 from datetime import date, datetime
 from app.helpers.permissions import *
 
@@ -26,8 +27,9 @@ def index(idcenter):
     params = []
     params.append(turns_center)
     params.append(num_pages)
+    centro = Center.find_by_id(idcenter)
     return render_template(
-        "turn/index.html", turns=params[0], pages=params[1], center=idcenter
+        "turn/index.html", turns=params[0], pages=params[1], center=idcenter, namecenter=centro.name
     )
 
 

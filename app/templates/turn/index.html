@@ -5,6 +5,7 @@
 {% endblock %}
 {% block content %}
 <div class="container">
+  <h3>Listado de turnos para el centro <i><b>{{namecenter}}</b></i></h3>
   {% include 'helpers/messages.html' %}
   <div class="container">
     <div class="row">
@@ -23,8 +24,6 @@
       </form>
     </div>
   </div>
-  <!--   <div class="row">
-    <div class="col-lg-12 col-md-8"> -->
   <div class="card">
     <table class="table text-center table-hover table-responsive-md">
       <thead>
@@ -82,9 +81,7 @@
         </tr>
         {% endfor %}
       </tbody>
-
     </table>
-
     <ul class="pagination pagination-info mx-auto" id="page">
       {% for page in pages %}
       {%if page%}
@@ -109,7 +106,6 @@
       href="{{ url_for('center_view', idcenter=center)}}">Volver</a>
   </div>
 </div>
-
 <script>
   $("tr:odd").addClass("cebra");
 </script>

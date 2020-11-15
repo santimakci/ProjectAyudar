@@ -5,27 +5,26 @@
 {% endblock %}
 {% block content %}
 <div class="col-lg-4 col-md-6 mx-auto">
-  <h3>Información turno</h3>
-  <form action="#" name="form1" method="POST">
-    <p>
-        <label><strong> Email solicitante: </strong></label></br>
-            <input class="form-control" required name="email" placeholder="Email" value="{{turn.email_request}}" disabled />
-    </p>
-    <p>
-      <label><strong> Teléfono solicitante: </strong></label></br>
-          <input class="form-control" required name="phone" placeholder="Teléfono" value="{{turn.phone}}" disabled />
-  </p>
-    <p>
-        <label><strong>Fecha:</strong></label></br>
-            <input type="date" class="form-control" min={{today}} required name="day" placeholder="Dirección" value="{{turn.day}}" disabled />
-    </p>
-    <p>
-      <label><strong>Horario:</strong></label></br>
-      <input type="text" class="form-control" required name="timeturn" placeholder="Horario" value="{{timeturn}}" disabled/>
-  </p>        
-      <a class="btn btn-default" href="{{ url_for('center_turnosDisp', idcenter=idcenter) }}" class="link">Volver</a>
-      </p>
-  </form>
+  <h3>Información del turno</h3>
+  <div>
+    <label><strong> Email solicitante: </strong></label></br>
+    <span>{{turn.email_request}}</span>
+  </div>
+  <div>
+    <label><strong> Teléfono solicitante: </strong></label></br>
+    <span>{{turn.phone}}</span>
+  </div>
+  <div>
+    <label><strong>Fecha:</strong></label></br>
+    <span>{{turn.day}}</span>
+  </div>
+  <div>
+    <label><strong>Horario:</strong></label></br>
+    <span>{{timeturn}}</span>
+  </div>       
+</div>
+<div class="container d-flex" style="justify-content: center; align-content: flex-end;">
+  <a class="btn btn-default" href="{{ url_for('center_turnosDisp', idcenter=idcenter) }}" class="link">Volver</a>
 </div>
 <style>
   div.content {

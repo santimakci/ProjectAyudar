@@ -74,7 +74,7 @@
     <div>
       {%if center.protocol != None%}
       <label><strong>Protocolo: </strong></label></br>
-      <a href="{{url_for('static', filename='uploads/centro%s.pdf' % center.id)}}" target="_blank">{{center.protocol}}</a>
+      <a class="text-info" href="{{url_for('static', filename='uploads/centro%s.pdf' % center.id)}}" target="_blank">{{center.protocol}}</a>
       {%endif%}
     </div>
   </div>

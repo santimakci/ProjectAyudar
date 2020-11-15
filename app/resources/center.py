@@ -62,7 +62,7 @@ def create():
                 parametros = params.to_dict()
                 parametros['protocol'] = secure_filename(f.filename)
                 mensaje = Center.create(parametros)
-                filename = 'centro' + str(mensaje[1])
+                filename = 'centro' + str(mensaje[2])
                 f.save(os.path.join('app/static/uploads', filename + '.pdf'))
             else:
                 mensaje=('Formato de archivo incorrecto, el protocolo debe ser de tipo pdf', 'danger')

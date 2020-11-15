@@ -48,6 +48,7 @@ from app.resources.user import (
     delete,
     update,
     search as user_search,
+    detail 
 )
 from app.resources.turn import (
     index as turn_index,
@@ -56,8 +57,8 @@ from app.resources.turn import (
     new as turn_new,
     create as turn_create,
     view as turn_view,
-    commit_update,
-    commit_delete,
+    commit_update as turn_commit_update,
+    commit_delete as turn_commit_delete,
     search as turn_search,
 )
 from config import config
@@ -106,6 +107,7 @@ def create_app(environment="development"):
         "/users/commit_update", "commit_update", commit_update_user, methods=["POST"]
     )
     app.add_url_rule("/users_create", "user_create", create, methods=["POST"])
+    app.add_url_rule("/users/detail/<int:iduser>", "user_detail", detail, methods=["GET", "POST"])
     app.add_url_rule("/users/new", "user_new", new)
     app.add_url_rule(
         "/users/update/<int:id>", "user_update", update, methods=["GET", "POST"]

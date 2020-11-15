@@ -97,7 +97,6 @@ def search():
     num_pages = users.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2
     )
-    # import code; code.interact(local=dict(globals(), **locals()))
 
     return render_template(
         "user/usuarios.html",
@@ -181,3 +180,8 @@ def update(id):
     return render_template(
         "user/update.html", user=user, all_roles=roles, user_roles=roles_name_user
     )
+
+@permission_required("user_detail")
+def detail(iduser):
+    user = User.find_by_id(iduser)
+    return render_template("user/read.html", user=user)
