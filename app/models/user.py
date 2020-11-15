@@ -3,10 +3,11 @@ from app.db import base
 import hashlib
 
 
-class User (base.Model):
+class User(base.Model):
     """La clase User se asocia con la tabla users en la base de datos. Tiene email, contraseña, nombre, apellido,
     nombre de usuario, si está activo, la fecha de creación y la última fecha en la que fue modificado.
     """
+
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
     email = Column(String, unique=True, nullable=False)
@@ -19,14 +20,12 @@ class User (base.Model):
     date_created = Column(DateTime, default=base.func.now())
 
     def __init__(self, params):
-        """Constructor de la clase User, recibe por parametros en un diccionario email, usuario, nombre, apellido y contraseña.
-        """
-        self.email = params['email']
-        self.username = params['username']
-        self.first_name = params['first_name']
-        self.last_name = params['last_name']    
-        self.password = hashlib.md5(params['password'].encode('utf-8')).hexdigest()
-
+        """Constructor de la clase User, recibe por parametros en un diccionario email, usuario, nombre, apellido y contraseña."""
+        self.email = params["email"]
+        self.username = params["username"]
+        self.first_name = params["first_name"]
+        self.last_name = params["last_name"]
+        self.password = hashlib.sha512(params["password"].encode("utf-8")).hexdigest()
 
     @classmethod
     def find_by_email_and_pass(cls, mail, password):
@@ -36,7 +35,12 @@ class User (base.Model):
             mail (String)
             password (String)
         """
-        for user in base.session.query(User).filter(User.email == mail).filter(User.password == password).filter(User.active == True):
+        for user in (
+            base.session.query(User)
+            .filter(User.email == mail)
+            .filter(User.password == password)
+            .filter(User.active == True)
+        ):
             return user
 
     @classmethod
@@ -62,8 +66,7 @@ class User (base.Model):
 
     @classmethod
     def find_by_active(cls, active):
-        """Filtra por usuarios activos.
-        """
+        """Filtra por usuarios activos."""
         for user in base.session.query(User).filter(User.active == active):
             return user
 
@@ -82,10 +85,12 @@ class User (base.Model):
         """Crea un objeto usuario y lo inserta en la base de datos.
 
         Args:
-            params (dict): recibe los valores a guardar en el objeto user. 
+            params (dict): recibe los valores a guardar en el objeto user.
 
         """
-        if (self.find_by_email(params['email']) or self.find_by_username(params['username'])):
+        if self.find_by_email(params["email"]) or self.find_by_username(
+            params["username"]
+        ):
             return ("Email o username ya utilizado", "danger")
         user = User(params)
         base.session.add(user)
@@ -99,41 +104,46 @@ class User (base.Model):
         Args:
             params ([dict)
         """
-        user = self.find_by_id(params['id'])
+        user = self.find_by_id(params["id"])
         base.session.delete(user)
         base.session.commit()
-        return (f'se borro el usuario {user.username}', 'success')
+        return (f"se borro el usuario {user.username}", "success")
 
-    
     def update(self, params):
         """Actualiza los datos de un usuario determinado.
 
         Args:
             params (dict)
         """
-        self.username = params['username']
-        self.first_name = params['first_name']
-        self.last_name = params['last_name']
-        self.email = params['email']
-        self.active = bool(int(params['active']))
+        self.username = params["username"]
+        self.first_name = params["first_name"]
+        self.last_name = params["last_name"]
+        self.email = params["email"]
+        self.active = bool(int(params["active"]))
         base.session.commit()
         return ("Usuario actualizado correctamente", "success")
 
-    
     def update_profile(self, params):
-        if params['password'] == "":
-            self.first_name = params['first_name']
-            self.last_name = params['last_name']
+        if params["password"] == "":
+            self.first_name = params["first_name"]
+            self.last_name = params["last_name"]
             base.session.commit()
             return ("Se han actualizado el Nombre y Apellido", "success")
 
-        if params['Newpassword'] != params['Newpassword2'] or params['Newpassword'] == "":
+        if (
+            params["Newpassword"] != params["Newpassword2"]
+            or params["Newpassword"] == ""
+        ):
             return ("Error al ingresar la nueva contraseña", "danger")
-        if self.password == hashlib.md5(params['password'].encode('utf-8')).hexdigest():
-            self.password = hashlib.md5(params['Newpassword'].encode('utf-8')).hexdigest()
-            self.first_name = params['first_name']
-            self.last_name = params['last_name']
+        if (
+            self.password
+            == hashlib.sha512(params["password"].encode("utf-8")).hexdigest()
+        ):
+            self.password = hashlib.sha512(
+                params["Newpassword"].encode("utf-8")
+            ).hexdigest()
+            self.first_name = params["first_name"]
+            self.last_name = params["last_name"]
             base.session.commit()
             return ("Usuario actualizado correctamente", "success")
         return ("Error al ingresar la contraseña", "danger")
-

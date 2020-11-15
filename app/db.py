@@ -3,13 +3,11 @@ from flask import cli
 from flask_sqlalchemy import SQLAlchemy
 
 
-
 base = SQLAlchemy()
 
 
 def connection(current_app):
-    """ Genera la conexión a la base de datos.
-    """
+    """Genera la conexión a la base de datos."""
     db_url = "mysql+pymysql://{username}:{password}@{host}/{database}".format(
         username=current_app.config["DB_USER"],
         password=current_app.config["DB_PASS"],
@@ -28,5 +26,3 @@ def connection(current_app):
 def close(app):
     base.session.close()
     base.engine.dispose()
-
-

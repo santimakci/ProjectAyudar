@@ -5,17 +5,15 @@ from app.models.pageSetting import *
 from app.helpers.permissions import *
 
 
-@permission_required('page_settings')
+@permission_required("page_settings")
 def indexPage():
-    """Retorna la página de configuración de la aplicación web.
-    """ 
+    """Retorna la página de configuración de la aplicación web."""
     settings = PageSetting.find_settings()
     return render_template("pageConfig/pagesettings.html", settings=settings)
 
 
 def updateSettings():
-    """Actualiza los valores de configuración de la aplicación web.
-    """
+    """Actualiza los valores de configuración de la aplicación web."""
     params = request.form
     mensaje = PageSetting.update(params)
     settings = PageSetting.find_settings()
