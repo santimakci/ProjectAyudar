@@ -16,6 +16,16 @@
         <button type="submit" class="btn btn-white btn-raised btn-fab btn-round" style="margin-top: 1em;">
           <i class="material-icons">search</i>
         </button>
+
+        <label style="margin: 2em 0em 0em 2em;"><input type="radio" name="status" value="Aceptado"
+          {%if status == "Aceptado" or status == "" %}checked{% endif %}> <strong style="MARGIN-LEFT: 0.5em;">Aceptado</strong>
+      </label><br>
+      <label style="margin: 2em 0em 0em 2em;"><input type="radio" name="status" value="Pendiente"
+          {%if status == "Pendiente" %}checked{% endif %}> <strong style="MARGIN-LEFT: 0.5em;">Pendiente</strong>
+        </label><br>
+        <label style="margin: 2em 0em 0em 2em;"><input type="radio" name="status" value="Rechazado"
+          {%if status == "Rechazado" %}checked{% endif %}> <strong style="MARGIN-LEFT: 0.5em;">Rechazado</strong>
+        </label><br>
       </form>
       {%if 'center_new' in user_permisos%}
       <a class="btn btn-info ml-auto" style="height: 3.5em; margin-top: 2em;" href="/centers/new">Crear nuevo centro</a>
