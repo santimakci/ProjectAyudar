@@ -22,7 +22,7 @@ def centers():
     else:
         params = json.loads(request.data)
         mensaje = Center.create(params)
-        return "Se creo el centro"
+        return mensaje[0][0]
 
 
 def center_by_id(id):
