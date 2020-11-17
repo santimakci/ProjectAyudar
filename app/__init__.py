@@ -13,6 +13,7 @@ from app.db import close
 from app.helpers import auth as helper_auth
 from app.helpers.permissions import permissions
 from app.helpers.auth import authenticated
+from app.helpers import handler
 from app.models.pageSetting import PageSetting
 from app.models.rol import Rol
 from app.models.user import User
@@ -78,6 +79,9 @@ def create_app(environment="development"):
     Session(app)
 
     connection(app)
+
+    # handler error
+    # app.register_error_handler(500, handler.internal_server_error)
 
     @app.after_request
     def after_request_func(response):

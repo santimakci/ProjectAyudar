@@ -9,6 +9,14 @@ def not_found_error(e):
     return render_template("errors/error.html", **kwargs), 404
 
 
+def internal_server_error(e):
+    kwargs = {
+        "status": "500",
+        "error_description": "Se produjo un error en el servidor",
+    }
+    return kwargs, 500
+
+
 def unauthorized_error(e):
     kwargs = {
         "error_name": "401 Unauthorized Error",

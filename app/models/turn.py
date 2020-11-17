@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Date, ForeignKey, exists
 from app.db import base
 from datetime import date, datetime
+from app.models.center import Center
 
 
 class Turn(base.Model):
@@ -24,6 +25,12 @@ class Turn(base.Model):
 
     @classmethod
     def create(self, params):
+        center = Center.find_by_id(params["center_id"])
+        if center.status != "Aceptado":
+            return (
+                "No se puede reservar turno de un centro que no esté aceptado",
+                "danger",
+            )
         fecha = params["day"]
         if self.validarFecha(self, fecha):
             turn = Turn(params)
@@ -64,6 +71,12 @@ class Turn(base.Model):
         return ("Se eliminó el turno", "success")
 
     def update(self, params):
+        center = Center.find_by_id(params["center_id"])
+        if center.status != "Aceptado":
+            return (
+                "No se puede modificar un turno de un centro que no esté aceptado",
+                "danger",
+            )
         fecha = params["day"]
         if self.validarFecha(fecha):
             self.email_request = params["email"]
