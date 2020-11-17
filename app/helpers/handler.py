@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, jsonify
 
 
 def not_found_error(e):
@@ -6,7 +6,7 @@ def not_found_error(e):
         "error_name": "404 Not Found Error",
         "error_description": "La url a la que quiere acceder no existe",
     }
-    return render_template("errors/error.html", **kwargs), 404
+    return jsonify(kwargs)
 
 
 def internal_server_error(e):

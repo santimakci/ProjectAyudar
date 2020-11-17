@@ -38,7 +38,10 @@ class Turn(base.Model):
             base.session.commit()
             return ("Se creó el turno", "success")
         else:
-            return ("Los datos no son válidos", "danger")
+            return (
+                "No se puede crear un turno en una fecha anterior al día de hoy",
+                "danger",
+            )
 
     @classmethod
     def turn_exists(self, date, num_block, center):

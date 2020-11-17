@@ -121,11 +121,11 @@ class Center(base.Model):
         """
         center = self.find_by_name(params["name"])
         if center:
-            return ("El nombre del centro ya existe", "danger")
+            return (("El nombre del centro ya existe", "danger"), center.id)
         center = Center(params)
         base.session.add(center)
         base.session.commit()
-        return ("Se creó el centro correctamente ", "success")
+        return (("Se creó el centro correctamente ", "success"), center.id)
 
     def update(self, params):
         """Actualiza los datos de un centro determinado.
