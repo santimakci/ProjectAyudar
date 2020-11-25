@@ -4,6 +4,7 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
+{% include 'helpers/messages.html'%}
 <form action="{{ url_for('user_create') }}" name="form1" method="POST">
   <div class="col-lg-4 col-md-6 mx-auto">
     <h3>Crear un usuario</h3>
@@ -53,7 +54,7 @@
   </div>
   <div class="container d-flex" style="justify-content: center; align-content: flex-end;">
     <input class="btn btn-info" type="submit" onclick="selectAll();" value="Crear">
-    <a class="btn btn-default" href="{{ url_for('usersPag', num_page=1) }}" class="link">Volver</a>
+    <a class="btn btn-default" href="{{ url_for('users') }}" class="link">Volver</a>
   </div>
 </form>
 

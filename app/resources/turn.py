@@ -14,35 +14,9 @@ from app.helpers.permissions import *
 
 @permission_required("turn_index")
 def index(idcenter):
-    num_page = int(request.args.get("num_page", 1))
-    quantity = PageSetting.find_settings()
-    turns_center = (
-        base.session.query(Turn)
-        .filter(Turn.center_id == idcenter)
-        .paginate(per_page=quantity.elements, page=num_page, error_out=True)
-    )
-    num_pages = turns_center.iter_pages(
-        left_edge=2, left_current=2, right_current=2, right_edge=2
-    )
-    params = []
-    params.append(turns_center)
-    params.append(num_pages)
-    centro = Center.find_by_id(idcenter)
-
-    return render_template(
-        "turn/index.html",
-        turns=params[0],
-        pages=params[1],
-        center=idcenter,
-        namecenter=centro.name,
-    )
-
-
-def search(idcenter):
     params = request.form.to_dict()
     num_page = int(request.args.get("num_page", 1))
     quantity = PageSetting.find_settings()
-
     if bool(params) and params["email"] == "" and params["day"] == "":
         turns = (
             base.session.query(Turn)
@@ -52,9 +26,16 @@ def search(idcenter):
     elif not bool(params):
         params["email"] = request.args.get("search", "")
         params["day"] = request.args.get("day", "")
-        turns = search_by_email_and_day(
-            params["email"], params["day"], num_page, quantity, idcenter
-        )
+        if params["email"] == "" and params["day"] == "":
+            turns = (
+                base.session.query(Turn)
+                .filter(Turn.center_id == idcenter)
+                .paginate(per_page=quantity.elements, page=num_page, error_out=True)
+            )
+        else:
+            turns = search_by_email_and_day(
+                params["email"], params["day"], num_page, quantity, idcenter
+            )
     else:
         turns = search_by_email_and_day(
             params["email"], params["day"], num_page, quantity, idcenter
@@ -63,7 +44,7 @@ def search(idcenter):
         left_edge=2, left_current=2, right_current=2, right_edge=2
     )
     return render_template(
-        "turn/index.html",
+        "turn/turns.html",
         turns=turns,
         center=idcenter,
         pages=num_pages,

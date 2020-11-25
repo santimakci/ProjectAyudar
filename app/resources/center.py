@@ -13,48 +13,35 @@ from app.helpers.permissions import *
 # Protected resources
 @permission_required("center_index")
 def index():
-    """Retorna una lista con el total de centros"""
-    num_page = int(request.args.get("num_page", 1))
-    quantity = PageSetting.find_settings()
-    centers = base.session.query(Center).paginate(
-        per_page=quantity.elements, page=num_page, error_out=True
-    )
-    num_pages = centers.iter_pages(
-        left_edge=2, left_current=2, right_current=2, right_edge=2
-    )
-    params = []
-    params.append(centers)
-    params.append(num_pages)
-    return render_template("center/centros.html", centers=params[0], pages=params[1])
-
-
-def search():
-    """Realiza la búsqueda sobre centros por nombre de centro o si
-    los mismos están Aceptados, Pendientes o Rechazados y retorna el resultado de
-    forma paginada.
-    """
+    """Retorna el listado de centros paginado, y según el caso filtrado por nombre de centro o estado, o ambos."""
     params = request.form.to_dict()
     num_page = int(request.args.get("num_page", 1))
     quantity = PageSetting.find_settings()
-    if bool(params) and params["name"] == "" and params["status"] == "":
-        centers = base.session.query(Center).paginate(
-            per_page=quantity.elements, page=1, error_out=True
-        )
-    elif not bool(params):
+    if not bool(params):
         params["name"] = request.args.get("name")
         params["status"] = request.args.get("status")
-        centers = search_by_name_and_status(
-            params["name"], params["status"], num_page, quantity
-        )
+        if params["name"] == "" and params["status"] == "":
+            centers = base.session.query(Center).paginate(
+                per_page=quantity.elements, page=num_page, error_out=True
+            )
+        else:
+            centers = search_by_name_and_status(
+                params["name"], params["status"], num_page, quantity
+            )
     else:
-        centers = search_by_name_and_status(
-            params["name"], params["status"], num_page, quantity
-        )
+        if params["name"] == "" and params["status"] == "":
+            centers = base.session.query(Center).paginate(
+                per_page=quantity.elements, page=num_page, error_out=True
+            )
+        else:
+            centers = search_by_name_and_status(
+                params["name"], params["status"], num_page, quantity
+            )
     num_pages = centers.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2
     )
     return render_template(
-        "center/centros.html",
+        "center/centers.html",
         centers=centers,
         pages=num_pages,
         name=params["name"],
@@ -110,12 +97,12 @@ def create():
                     "danger",
                 )
         else:
-            mensaje = Center.create(params)
-    if mensaje[1] == "danger":
-        flash(mensaje[0], mensaje[1])
-        return redirect(url_for("center_new"))
+            args = Center.create(params)
+            mensaje = args[0]
     flash(mensaje[0], mensaje[1])
-    return redirect(url_for("centers"))
+    if mensaje[1] == "danger":
+        return redirect(url_for("center_new"))
+    return redirect(url_for("centers", name="", status=""))
 
 
 @permission_required("center_destroy")
@@ -135,7 +122,7 @@ def commit_delete():
     if os.path.exists("app/static/uploads/centro" + params["id"] + ".pdf"):
         os.remove("app/static/uploads/centro" + params["id"] + ".pdf")
     flash(mensaje[0], mensaje[1])
-    return redirect(url_for("centers"))
+    return redirect(url_for("centers", name="", status=""))
 
 
 def commit_update():
@@ -154,18 +141,17 @@ def commit_update():
                 mensaje = center.update(parametros)
                 filename = "centro" + str(params["id"])
                 f.save(os.path.join("app/static/uploads", filename + ".pdf"))
-                flash(mensaje[0], mensaje[1])
-                return redirect(url_for("centers", num_page=1))
             else:
-                flash(
+                mensaje = (
                     "Formato de archivo incorrecto, el protocolo debe ser de tipo pdf",
                     "danger",
                 )
-                return redirect(url_for("center_update", id=params["id"]))
         else:
             mensaje = center.update(params)
-            flash(mensaje[0], mensaje[1])
-            return redirect(url_for("centers", num_page=1))
+    flash(mensaje[0], mensaje[1])
+    if mensaje[1] == "danger":
+        return redirect(url_for("center_update", idcenter=params["id"]))
+    return redirect(url_for("centers", name="", status=""))
 
 
 @permission_required("center_update")
