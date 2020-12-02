@@ -81,7 +81,7 @@ def create_app(environment="development"):
     connection(app)
 
     # handler error
-    # app.register_error_handler(404, handler.not_found_error)
+    #app.register_error_handler(404, handler.not_found_error)
 
     @app.after_request
     def after_request_func(response):
