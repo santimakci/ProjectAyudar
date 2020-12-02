@@ -37,7 +37,7 @@ def index(idcenter):
         namecenter=centro.name,
     )
 
-
+@permission_required("turn_index")
 def search(idcenter):
     params = request.form.to_dict()
     num_page = int(request.args.get("num_page", 1))
@@ -71,7 +71,7 @@ def search(idcenter):
         search=params["email"],
     )
 
-
+@permission_required("turn_index")
 def search_by_email_and_day(search, day, num_page, quantity, centerid):
     if search != "" and day == "":
         turns = (
@@ -107,7 +107,7 @@ def new(idcenter):
     today = date.today()
     return render_template("turn/new.html", center=idcenter, time=time, today=today)
 
-
+@permission_required("turn_new")
 def create(idcenter):
     params = request.form
     if not Turn.turn_exists(params["day"], params["num_block"], params["center_id"]):
@@ -149,7 +149,7 @@ def update(idcenter, idturno):
         timeturn=timeturn,
     )
 
-
+@permission_required("turn_update")
 def commit_update():
     params = request.form
     idcenter = params["center_id"]
@@ -165,7 +165,7 @@ def delete(idcenter, idturno):
     timeturn = get_hour_dict().get(str(turno.num_block))
     return render_template("turn/delete.html", turn=turno, timeturn=timeturn)
 
-
+@permission_required("turn_destroy")
 def commit_delete():
     params = request.form
     idcenter = params["center_id"]

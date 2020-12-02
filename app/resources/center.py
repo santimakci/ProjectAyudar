@@ -27,7 +27,7 @@ def index():
     params.append(num_pages)
     return render_template("center/centros.html", centers=params[0], pages=params[1])
 
-
+@permission_required("center_index")
 def search():
     """Realiza la búsqueda sobre centros por nombre de centro o si
     los mismos están Aceptados, Pendientes o Rechazados y retorna el resultado de
@@ -90,7 +90,7 @@ def search_by_name_and_status(name, status, num_page, quantity):
 def new():
     return render_template("center/new.html")
 
-
+@permission_required("center_new")
 def create():
     """Crea un Centro con los valores recibidos."""
     params = request.form
@@ -125,7 +125,7 @@ def delete(idcenter):
     center = Center.find_by_id(idcenter)
     return render_template("center/delete.html", center=center)
 
-
+@permission_required("center_destroy")
 def commit_delete():
     """Llama a la función que realiza el borrado fisico de un centro y
     redirige a la pantalla del listado de centros.
@@ -137,7 +137,7 @@ def commit_delete():
     flash(mensaje[0], mensaje[1])
     return redirect(url_for("centers"))
 
-
+@permission_required("center_update")
 def commit_update():
     """Llama a la función que realiza la actualización de datos de un centro y
     redirige a la pantalla del listado de centros si fue exitoso, en caso
