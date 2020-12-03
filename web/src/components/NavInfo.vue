@@ -1,25 +1,21 @@
 <template>
-  <v-card>
-    <v-toolbar
-      class="primary"
-      color="cyan"
-      dark
-      flat
-      style="justify-content: center"
-    >
+  <v-card class="d-flex justify-center mb-6">
+    <v-toolbar class="primary" color="cyan" dark flat>
+      <!--
       <v-toolbar-title>ayudAR</v-toolbar-title>
-
-      <v-spacer></v-spacer>
-
-      <v-toolbar-items style="position: absolute">
+      -->
+      <v-toolbar-items
+        class="margin-auto"
+        style="margin: auto; margin-top: -5px"
+      >
         <v-btn depressed color="primary">
           <router-link to="/" style="color: white; text-decoration: none"
-            >Home</router-link
+            >Inicio</router-link
           >
         </v-btn>
         <v-btn depressed color="primary">
           <router-link to="/Centers" style="color: white; text-decoration: none"
-            >Centers</router-link
+            >Centros</router-link
           >
         </v-btn>
       </v-toolbar-items>
