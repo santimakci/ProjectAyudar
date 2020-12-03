@@ -1,38 +1,7 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-      <v-toolbar-items>
-        <v-btn flat>
-          <router-link to="/">Home</router-link>
-        </v-btn>
-        <v-btn flat>
-          <router-link to="/Centers">Centers</router-link>
-        </v-btn>
-      </v-toolbar-items>
-
-      <v-spacer></v-spacer>
-    </v-app-bar>
-
     <v-main>
+      <NavInfo />
       <router-view />
       <Footer />
     </v-main>
@@ -41,12 +10,14 @@
 
 <script>
 import Footer from "./components/Footer";
+import NavInfo from "./components/NavInfo";
 
 export default {
   name: "App",
 
   components: {
     Footer,
+    NavInfo,
   },
 
   data: () => ({
