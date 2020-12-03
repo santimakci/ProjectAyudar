@@ -60,6 +60,8 @@ def center_by_id(id):
             "open_time": center.open_time.strftime("%H:%M"),
             "close_time": center.close_time.strftime("%H:%M"),
             "cente_type": center.center_type,
+            "lat": center.latitude,
+            "lng": center.longitude,
             "web": center.web,
             "email": center.email,
         }

@@ -1,10 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
+    <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -24,28 +20,33 @@
           width="100"
         />
       </div>
+      <v-toolbar-items>
+        <v-btn flat>
+          <router-link to="/">Home</router-link>
+        </v-btn>
+        <v-btn flat>
+          <router-link to="/Centers">Centers</router-link>
+        </v-btn>
+      </v-toolbar-items>
 
       <v-spacer></v-spacer>
-
-      
     </v-app-bar>
 
     <v-main>
-      <Home/>
-      <Footer/>
+      <router-view />
+      <Footer />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Home from './components/Home';
-import Footer from './components/Footer';
+import Footer from "./components/Footer";
+
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    Home,
-    Footer
+    Footer,
   },
 
   data: () => ({
