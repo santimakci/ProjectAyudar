@@ -63,6 +63,7 @@ from app.resources.turn import (
     search as turn_search,
 )
 from config import config
+from flask_cors import CORS, cross_origin
 
 
 def create_app(environment="development"):
@@ -71,6 +72,8 @@ def create_app(environment="development"):
     """
 
     app = Flask(__name__)
+    CORS(app, support_credentials=True)
+    
 
     app.config["SESSION_TYPE"] = "filesystem"
     # app.config["SQLALCHEMY_ECHO"] = (environment == 'development')
