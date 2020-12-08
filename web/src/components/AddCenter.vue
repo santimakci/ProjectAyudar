@@ -12,26 +12,31 @@
           v-model="center.name"
           id="name"
           :error-messages="nameErrors"
-          label="Nombre del centro"
-          required
+          label="Nombre del centro *"
+          @input="$v.center.name.$touch()"
+          @blur="$v.center.name.$touch()"
         ></v-text-field>
         <v-text-field
           v-model="center.address"
-          :error-messages="nameErrors"
+          :error-messages="addressErrors"
           label="Dirección"
+          @input="$v.center.address.$touch()"
+          @blur="$v.center.address.$touch()"
         ></v-text-field>
         <v-text-field
           v-model="center.phone"
-          :error-messages="nameErrors"
           label="Teléfono"
+          :error-messages="phoneErrors"
           type="number"
+          @input="$v.center.phone.$touch()"
+          @blur="$v.center.phone.$touch()"
         ></v-text-field>
         <v-text-field
           v-model="center.email"
           :error-messages="emailErrors"
           label="E-mail"
-          type="email"
-          @input="$v.email.$touch()"
+          @input="$v.center.email.$touch()"
+          @blur="$v.center.email.$touch()"
         ></v-text-field>
 
         <v-row justify="center">
@@ -109,11 +114,7 @@
           label="Municipalidad"
           @change="$v.select.$touch()"
         ></v-select>
-        <v-text-field
-          v-model="center.web"
-          :error-messages="nameErrors"
-          label="Página web"
-        ></v-text-field>
+        <v-text-field v-model="center.web" label="Página web"></v-text-field>
         <vue-recaptcha
           sitekey="6LfzZf0ZAAAAALQeKk_wfuct6zzTj9TlRiKzKaEV"
         ></vue-recaptcha>
@@ -131,6 +132,7 @@
 <script>
 import axios from "axios";
 import VueRecaptcha from "vue-recaptcha";
+import { required, email } from "vuelidate/lib/validators";
 
 export default {
   name: "AddCenter",
@@ -156,59 +158,63 @@ export default {
       },
     };
   },
+  validations: {
+    center: {
+      name: {
+        required,
+      },
+      email: {
+        email,
+        required,
+      },
+      phone: {
+        required,
+      },
+      address: {
+        required,
+      },
+    },
+  },
+
+  computed: {
+    emailErrors() {
+      const errors = [];
+      if (!this.$v.center.email.$dirty) return errors;
+      !this.$v.center.email.email && errors.push("Debería ser un email");
+      !this.$v.center.email.required && errors.push("El email es requerido");
+      return errors;
+    },
+    nameErrors() {
+      const errors = [];
+      if (!this.$v.center.name.$dirty) return errors;
+      !this.$v.center.name.required &&
+        errors.push("El nombre del centro es obligatorio");
+      return errors;
+    },
+    phoneErrors() {
+      const errors = [];
+      if (!this.$v.center.phone.$dirty) return errors;
+      !this.$v.center.phone.required &&
+        errors.push("El teléfono es obligatorio");
+
+      return errors;
+    },
+    addressErrors() {
+      const errors = [];
+      if (!this.$v.center.address.$dirty) return errors;
+      !this.$v.center.address.required &&
+        errors.push("La direccion es obligatoria");
+      return errors;
+    },
+  },
+
   methods: {
-    checkForm() {
-      if (
-        this.name &&
-        this.address &&
-        this.phone &&
-        this.email &&
-        this.open_time &&
-        this.close_time &&
-        this.municipality &&
-        this.center_type
-      ) {
-        return true;
-      }
-      this.errors = [];
-      if (!this.name) {
-        this.errors.push({
-          id: 1,
-          error: "El nombre del centro es obligatorio",
-        });
-      }
-      if (!this.address) {
-        this.errors.push("La dirección del centro es obligatoria");
-      }
-      if (!this.phone) {
-        this.errors.push("El teléfono del centro es obligatorio");
-      }
-      if (!this.email) {
-        this.errors.push("El email del centro es obligatorio");
-      }
-      if (!this.open_time) {
-        this.errors.push("El horario de apertura del centro es obligatorio");
-      }
-      if (!this.open_close) {
-        this.errors.push("El horario de cierre del centro es obligatorio");
-      }
-      if (!this.municipality) {
-        this.errors.push("El municipio del centro es obligatorio");
-      }
-      if (!this.open_time) {
-        this.errors.push("El tipo de centro es obligatorio");
-      }
-    },
-
     createCenter() {
-      console.log(this.center);
-      this.sendCenter(this.center);
-    },
-
-    sendCenter(center) {
-      axios.post("http://localhost:5000/centros", center).then((response) => {
-        console.log(response);
-      });
+      axios
+        .post("http://localhost:5000/centros", this.center)
+        .then((response) => {
+          console.log(response);
+        });
     },
     listMunicipios() {
       axios

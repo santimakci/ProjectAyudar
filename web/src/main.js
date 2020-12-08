@@ -5,8 +5,10 @@ import '@babel/polyfill'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 import router from './router'
+import Vuelidate from 'vuelidate'
 
 Vue.config.productionTip = false
+Vue.use(Vuelidate)
 
 
 
