@@ -2,12 +2,6 @@
   <div>
     <v-card class="pa-md-4 mx-lg-auto" style="width: 60%; margin: auto">
       <form @submit.prevent="createCenter" id="new-center">
-        <v-card v-for="e in errors" :key="e.id">
-          <v-alert color="red" dense dismissible elevation="17" outlined text>
-            {{ e.error }}</v-alert
-          >
-        </v-card>
-
         <v-text-field
           v-model="center.name"
           id="name"
@@ -38,7 +32,6 @@
           @input="$v.center.email.$touch()"
           @blur="$v.center.email.$touch()"
         ></v-text-field>
-
         <v-row justify="center">
           <v-col md="6">
             <v-menu
@@ -55,11 +48,14 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="center.open_time"
+                  :error-messages="openTimeErrors"
                   label="Hora de apertura"
                   prepend-icon="mdi-clock-time-four-outline"
                   readonly
                   v-bind="attrs"
                   v-on="on"
+                  @input="$v.center.open_time.$touch()"
+                  @blur="$v.center.open_time.$touch()"
                 ></v-text-field>
               </template>
               <v-time-picker
@@ -69,7 +65,6 @@
               ></v-time-picker>
             </v-menu>
           </v-col>
-
           <v-col md="6">
             <v-menu
               ref="menu2"
@@ -85,11 +80,14 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="center.close_time"
+                  :error-messages="closeTimeErrors"
                   label="Hora de cierre"
                   prepend-icon="mdi-clock-time-four-outline"
                   readonly
                   v-bind="attrs"
                   v-on="on"
+                  @input="$v.center.close_time.$touch()"
+                  @blur="$v.center.close_time.$touch()"
                 ></v-text-field>
               </template>
               <v-time-picker
@@ -103,16 +101,18 @@
         <v-select
           v-model="center.center_type"
           :items="center_type"
-          :error-messages="selectErrors"
+          :error-messages="centerTypeErrors"
           label="Tipo de centro"
-          @change="$v.select.$touch()"
+          @input="$v.center.center_type.$touch()"
+          @blur="$v.center.center_type.$touch()"
         ></v-select>
         <v-select
           v-model="center.municipality"
           :items="municipalitys"
-          :error-messages="selectErrors"
+          :error-messages="municipalityErrors"
           label="Municipalidad"
-          @change="$v.select.$touch()"
+          @input="$v.center.municipality.$touch()"
+          @blur="$v.center.municipality.$touch()"
         ></v-select>
         <v-text-field v-model="center.web" label="Página web"></v-text-field>
         <vue-recaptcha
@@ -173,6 +173,18 @@ export default {
       address: {
         required,
       },
+      open_time: {
+        required,
+      },
+      close_time: {
+        required,
+      },
+      municipality: {
+        required,
+      },
+      center_type: {
+        required,
+      },
     },
   },
 
@@ -204,6 +216,34 @@ export default {
       if (!this.$v.center.address.$dirty) return errors;
       !this.$v.center.address.required &&
         errors.push("La direccion es obligatoria");
+      return errors;
+    },
+    openTimeErrors() {
+      const errors = [];
+      if (!this.$v.center.open_time.$dirty) return errors;
+      !this.$v.center.open_time.required &&
+        errors.push("El horario de apertura es obligatorio");
+      return errors;
+    },
+    closeTimeErrors() {
+      const errors = [];
+      if (!this.$v.center.close_time.$dirty) return errors;
+      !this.$v.center.close_time.required &&
+        errors.push("El horario de cierre es obligatorio");
+      return errors;
+    },
+    municipalityErrors() {
+      const errors = [];
+      if (!this.$v.center.municipality.$dirty) return errors;
+      !this.$v.center.municipality.required &&
+        errors.push("La municipalidad es obligatoria");
+      return errors;
+    },
+    centerTypeErrors() {
+      const errors = [];
+      if (!this.$v.center.center_type.$dirty) return errors;
+      !this.$v.center.center_type.required &&
+        errors.push("El tipo de centro es obligatorio");
       return errors;
     },
   },
