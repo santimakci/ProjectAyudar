@@ -154,3 +154,4 @@ class Center(base.Model):
             self.protocol = params["protocol"]
         base.session.commit()
         return ("Centro actualizado correctamente", "success")
+

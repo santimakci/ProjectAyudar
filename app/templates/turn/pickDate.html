@@ -1,0 +1,22 @@
+{% extends "layout/layout.html" %}
+{% block title %}Nuevo turno{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="col-lg-4 col-md-6 mx-auto">
+  <h3>Solicitar un turno</h3>
+  <form action="{{ url_for('turn_new',idcenter=center) }}" name="form1" method="POST">
+    <div>
+      <label><strong> ¿Para qué día querés el turno? </strong> </label></br>
+      <input type="date" class="form-control" min={{today}} name="day" placeholder="Fecha" required />
+    </div>  
+      <!--<input type="hidden" name="center_id" value="{{center}}"> -->
+    <p>
+      <input class="btn btn-info" type="submit" value="Confirmar">
+      <a class="btn btn-default" href="{{ url_for('center_turnosDisp',idcenter=center) }}" class="link">Volver</a>
+    </p>
+  </form>
+</div>
+</div>
+{% endblock %}

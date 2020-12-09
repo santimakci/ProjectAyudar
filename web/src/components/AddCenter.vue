@@ -1,10 +1,11 @@
 <template>
   <div>
     <v-card class="pa-md-4 mx-lg-auto" style="width: 60%; margin: auto">
-      <form @submit.prevent="createCenter" id="new-center">
+      <form    v-on:submit.prevent="checkIfRecaptchaVerified" id="new-center">
         <v-text-field
           v-model="center.name"
           id="name"
+          required
           :error-messages="nameErrors"
           label="Nombre del centro *"
           @input="$v.center.name.$touch()"
@@ -14,6 +15,7 @@
           v-model="center.address"
           :error-messages="addressErrors"
           label="Dirección"
+          required
           @input="$v.center.address.$touch()"
           @blur="$v.center.address.$touch()"
         ></v-text-field>
@@ -22,6 +24,7 @@
           label="Teléfono"
           :error-messages="phoneErrors"
           type="number"
+          required
           @input="$v.center.phone.$touch()"
           @blur="$v.center.phone.$touch()"
         ></v-text-field>
@@ -29,6 +32,7 @@
           v-model="center.email"
           :error-messages="emailErrors"
           label="E-mail"
+          required
           @input="$v.center.email.$touch()"
           @blur="$v.center.email.$touch()"
         ></v-text-field>
@@ -37,6 +41,7 @@
             <v-menu
               ref="menu"
               v-model="menu2"
+              
               :close-on-content-click="false"
               :nudge-right="40"
               :return-value.sync="center.open_time"
@@ -48,6 +53,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="center.open_time"
+                  required
                   :error-messages="openTimeErrors"
                   label="Hora de apertura"
                   prepend-icon="mdi-clock-time-four-outline"
@@ -69,6 +75,7 @@
             <v-menu
               ref="menu2"
               v-model="menu"
+              
               :close-on-content-click="false"
               :nudge-right="40"
               :return-value.sync="center.close_time"
@@ -80,6 +87,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="center.close_time"
+                  required
                   :error-messages="closeTimeErrors"
                   label="Hora de cierre"
                   prepend-icon="mdi-clock-time-four-outline"
@@ -101,6 +109,7 @@
         <v-select
           v-model="center.center_type"
           :items="center_type"
+          required
           :error-messages="centerTypeErrors"
           label="Tipo de centro"
           @input="$v.center.center_type.$touch()"
@@ -109,15 +118,23 @@
         <v-select
           v-model="center.municipality"
           :items="municipalitys"
+          required
           :error-messages="municipalityErrors"
           label="Municipalidad"
           @input="$v.center.municipality.$touch()"
           @blur="$v.center.municipality.$touch()"
         ></v-select>
+
         <v-text-field v-model="center.web" label="Página web"></v-text-field>
+
+        <MapSelectCenter v-on:sendLat="setLat" />
         <vue-recaptcha
-          sitekey="6LfzZf0ZAAAAALQeKk_wfuct6zzTj9TlRiKzKaEV"
+          sitekey="6LcR5v8ZAAAAAJSsYo1aCCPM2Q0hK3___BkNo_w1 "
+          ref="recaptcha" 
+          @verify="markRecaptchaAsVerified"
+          
         ></vue-recaptcha>
+        
         <v-row justify="center">
           <v-btn type="submit" form="new-center" class="primary">
             Enviar centro
@@ -133,16 +150,21 @@
 import axios from "axios";
 import VueRecaptcha from "vue-recaptcha";
 import { required, email } from "vuelidate/lib/validators";
+import MapSelectCenter from "./MapSelectCenter"
 
 export default {
   name: "AddCenter",
-  components: { VueRecaptcha },
+  components: { VueRecaptcha, MapSelectCenter },
 
   data() {
     return {
       errors: [],
       center_type: ["Alimentos", "Sangre", "Ropa", "Plasma"],
       municipalitys: [],
+      captchaInfo:{
+        recaptchaVerified: false,
+        pleaseTickRecaptchaMessage: ''
+      },
       center: {
         name: "",
         address: "",
@@ -249,6 +271,22 @@ export default {
   },
 
   methods: {
+    setLat(prop){
+      this.center.lat = prop.lat
+      this.center.lng = prop.lng
+      console.log(this.center)
+    },
+    markRecaptchaAsVerified() {
+      this.captchaInfo.pleaseTickRecaptchaMessage = '';
+      this.captchaInfo.recaptchaVerified = true;
+    },
+    checkIfRecaptchaVerified() {
+      if (!this.captchaInfo.recaptchaVerified) {
+        alert('Please tick recaptcha.');
+        return false; // prevent form from submitting
+      }
+      this.createCenter()
+    },
     createCenter() {
       axios
         .post("http://localhost:5000/centros", this.center)

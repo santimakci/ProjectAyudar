@@ -61,6 +61,7 @@ from app.resources.turn import (
     commit_update as turn_commit_update,
     commit_delete as turn_commit_delete,
     search as turn_search,
+    pickDate as turn_pickDate,
 )
 from config import config
 from flask_cors import CORS, cross_origin
@@ -260,5 +261,10 @@ def create_app(environment="development"):
         turn_search,
         methods=["GET", "POST"],
     )
-
+    app.add_url_rule(
+        "/centers/<int:idcenter>/turnos/pickDate",
+        "turn_pickDate",
+        turn_pickDate,
+        methods=["GET","POST"],
+    )
     return app

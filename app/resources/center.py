@@ -192,3 +192,24 @@ def view(idcenter):
     """Retorna una lista con el total de centros"""
     center = Center.find_by_id(idcenter)
     return render_template("center/view.html", center=center)
+
+"""
+def validarCentro(params):
+    valid = False;
+    if params['name'] && 
+    params['address'] && 
+    params['phone'] && 
+    params['open_time'] && 
+    params['close_time'] && 
+    params['center_type'] &&
+    params['municipality'] &&
+    params['status'] &&
+    params['lag'] &&
+    params['lat']:
+        valid = True;
+        if params['phone'].isdigit()
+    else:
+        return valid;
+"""
+
+    

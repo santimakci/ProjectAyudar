@@ -100,12 +100,23 @@ def search_by_email_and_day(search, day, num_page, quantity, centerid):
         )
     return turns
 
+@permission_required("turn_new")
+def pickDate(idcenter):
+    today = date.today()
+    return render_template("turn/pickDate.html", center=idcenter, today=today)
+
+
 
 @permission_required("turn_new")
 def new(idcenter):
     time = get_hour_dict()
-    today = date.today()
-    return render_template("turn/new.html", center=idcenter, time=time, today=today)
+    date = request.form['day']
+    turns_taked = Turn.turns_available(date,idcenter)
+    if turns_taked:
+        for turn in turns_taked:
+            del time[str(turn)]    
+    #import code; code.interact(local=dict(globals(), **locals()))
+    return render_template("turn/new.html", center=idcenter, time=time, date=date)
 
 @permission_required("turn_new")
 def create(idcenter):
@@ -175,7 +186,6 @@ def commit_delete():
 
 
 def get_hour_dict():
-
     horarios = {
         "1": "9:00 a 9:30",
         "2": "9:30 a 10:00",

@@ -94,6 +94,15 @@ class Turn(base.Model):
         else:
             return ("Los datos no son válidos", "danger")
 
+    @classmethod
+    def turns_available(self, date, center):
+        fecha_dt = datetime.strptime(date, "%Y-%m-%d")
+        turns_id = []
+        for turn in base.session.query(Turn).filter(Turn.center_id == center).filter(Turn.day == fecha_dt.date()):
+            turns_id.append(turn.num_block)
+        return turns_id
+
+
     def validarFecha(self, fecha):
         fecha_dt = datetime.strptime(fecha, "%Y-%m-%d")
         hoy = datetime.today()
