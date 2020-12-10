@@ -76,21 +76,12 @@
                 </v-menu>
               </v-col>
               <v-col cols="12" sm="6">
-                <v-autocomplete
-                  :items="[
-                    'Skiing',
-                    'Ice hockey',
-                    'Soccer',
-                    'Basketball',
-                    'Hockey',
-                    'Reading',
-                    'Writing',
-                    'Coding',
-                    'Basejump',
-                  ]"
-                  label="Horarios"
-                  multiple
-                ></v-autocomplete>
+                <v-select
+                  v-model="turnos"
+                  :items="turns"
+                  :error-messages="centerTypeErrors"
+                  label="Turno"
+                ></v-select>
               </v-col>
             </v-row>
           </v-container>
@@ -118,9 +109,11 @@ export default {
 
   data() {
     return {
+      turns: [],
       errors: [],
       available_times: [],
       available_days: [],
+      date: "",
       turn: {
         //center_id: "",
         email: "",
@@ -161,7 +154,19 @@ export default {
 
   methods: {
     loadTurns() {
-      console.log("Cambio la fecha");
+      axios
+        .get(
+          "http://localhost:5000/centers/" +
+            this.center.id +
+            "/turnos_disponibles/?date=" +
+            this.date
+        )
+        .then((response) => {
+          this.turns = [];
+          for (var i = 1; i <= Object.keys(response.data).length; i++) {
+            this.turns.push(response.data[i]);
+          }
+        });
     },
     createTurn() {
       axios

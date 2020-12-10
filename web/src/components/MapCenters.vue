@@ -23,25 +23,17 @@
               Horario: {{ cen.open_time }} - {{ cen.close_time }}<br />
               Teléfono: {{ cen.phone }}
             </p>
-            <v-btn depressed color="primary" flat @click="dialog=true">
+            <v-btn depressed color="primary" flat @click="dialog = true">
               Solicitar Turno
             </v-btn>
-            <v-dialog
-              v-model="dialog"
-              persistent
-              max-width="600px"
-            >
-            <v-card>
-               <AddTurn :center="cen" />
-              <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                color="blue darken-1"
-                text
-                @click="dialog = false"
-              >
-                Cerrar
-              </v-btn>
+            <v-dialog v-model="dialog" persistent max-width="600px">
+              <v-card>
+                <AddTurn :center="cen" />
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="dialog = false">
+                    Cerrar
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -87,10 +79,7 @@ export default {
       },
       showMap: true,
 
-      dialog:false,
-
-      
-
+      dialog: false,
     };
   },
   props: ["centers"],
