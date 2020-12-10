@@ -33,6 +33,7 @@
       <thead>
         <tr>
           <th scope="col"> Email solicitante </th>
+          <th scope="col"> Nombre solicitante </th>
           <th scope="col"> Teléfono solicitante </th>
           <th scope="col"> Horario </th>
           <th scope="col"> Día </th>
@@ -42,9 +43,10 @@
         {% for turn in turns.items %}
         <tr>
           <td scope="row">{{turn.email_request}} </td>
+          <td scope="row">{{turn.name}} {{turn.lastname}} </td>
           <td scope="row">{{turn.phone}} </td>
-          <td>{{turn.time}}</td>
-          <td>{{turn.day}}</td>
+          <td scope="row">{{turn.time}}</td>
+          <td scope="row">{{turn.day}}</td>
           <td>
             {%if 'turn_show' in user_permisos%}
             <a href="{{url_for('turn_view',idcenter=center,idturno=turn.id)}}">

@@ -14,6 +14,7 @@ from app.helpers.permissions import *
 
 @permission_required("turn_index")
 def index(idcenter):
+    """Retorna el listado de turnos paginado, y según el caso filtrado por email o fecha o ambos"""
     params = request.form.to_dict()
     num_page = int(request.args.get("num_page", 1))
     quantity = PageSetting.find_settings()
@@ -33,11 +34,11 @@ def index(idcenter):
                 .paginate(per_page=quantity.elements, page=num_page, error_out=True)
             )
         else:
-            turns = search_by_email_and_day(
+            turns = Turn.search_by_email_and_day(
                 params["email"], params["day"], num_page, quantity, idcenter
             )
     else:
-        turns = search_by_email_and_day(
+        turns = Turn.search_by_email_and_day(
             params["email"], params["day"], num_page, quantity, idcenter
         )
     num_pages = turns.iter_pages(
@@ -53,34 +54,10 @@ def index(idcenter):
     )
 
 
-@permission_required("turn_index")
-def search_by_email_and_day(search, day, num_page, quantity, centerid):
-    if search != "" and day == "":
-        turns = (
-            base.session.query(Turn)
-            .filter(Turn.email_request.like("%" + search + "%"))
-            .filter(Turn.center_id == centerid)
-            .paginate(per_page=quantity.elements, page=num_page, error_out=True)
-        )
-    elif search == "" and day != "":
-        # Buscar solo por fecha
-        date = datetime.strptime(day, "%Y-%m-%d")
-        turns = (
-            base.session.query(Turn)
-            .filter(Turn.day == date)
-            .filter(Turn.center_id == centerid)
-            .paginate(per_page=quantity.elements, page=num_page, error_out=True)
-        )
-    else:
-        date = datetime.strptime(day, "%Y-%m-%d")
-        turns = (
-            base.session.query(Turn)
-            .filter(Turn.center_id == centerid)
-            .filter(Turn.day == date)
-            .filter(Turn.email_request.like("%" + search + "%"))
-            .paginate(per_page=quantity.elements, page=num_page, error_out=True)
-        )
-    return turns
+@permission_required("turn_new")
+def pickDate(idcenter):
+    today = date.today()
+    return render_template("turn/pickDate.html", center=idcenter, today=today)
 
 
 @permission_required("turn_new")

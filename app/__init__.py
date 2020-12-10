@@ -58,7 +58,6 @@ from app.resources.turn import (
     view as turn_view,
     commit_update as turn_commit_update,
     commit_delete as turn_commit_delete,
-    search as turn_search,
     pickDate as turn_pickDate,
 )
 from config import config
