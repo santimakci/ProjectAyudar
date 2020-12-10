@@ -1,5 +1,6 @@
 from os import environ
 
+
 class BaseConfig(object):
     """Base configuration."""
 

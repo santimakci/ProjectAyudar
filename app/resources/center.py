@@ -56,6 +56,7 @@ def new():
     return render_template("center/new.html")
 
 
+@permission_required("center_new")
 def create():
     """Crea un Centro con los valores recibidos."""
     params = request.form
@@ -92,6 +93,7 @@ def delete(idcenter):
     return render_template("center/delete.html", center=center)
 
 
+@permission_required("center_destroy")
 def commit_delete():
     """Llama a la función que realiza el borrado fisico de un centro y
     redirige a la pantalla del listado de centros.
@@ -104,6 +106,7 @@ def commit_delete():
     return redirect(url_for("centers", name="", status=""))
 
 
+@permission_required("center_update")
 def commit_update():
     """Llama a la función que realiza la actualización de datos de un centro y
     redirige a la pantalla del listado de centros si fue exitoso, en caso
@@ -156,3 +159,23 @@ def view(idcenter):
     """Retorna la información de un centro"""
     center = Center.find_by_id(idcenter)
     return render_template("center/view.html", center=center)
+
+
+"""
+def validarCentro(params):
+    valid = False;
+    if params['name'] && 
+    params['address'] && 
+    params['phone'] && 
+    params['open_time'] && 
+    params['close_time'] && 
+    params['center_type'] &&
+    params['municipality'] &&
+    params['status'] &&
+    params['lag'] &&
+    params['lat']:
+        valid = True;
+        if params['phone'].isdigit()
+    else:
+        return valid;
+"""

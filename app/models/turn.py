@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Date, ForeignKey, exists
 from app.db import base
 from datetime import date, datetime
+from app.models.center import Center
 
 
 class Turn(base.Model):
@@ -25,6 +26,12 @@ class Turn(base.Model):
     @classmethod
     def create(self, params):
         """Crea el turno, o en caso de error indica el problema"""
+        center = Center.find_by_id(params["center_id"])
+        if center.status != "Aceptado":
+            return (
+                "No se puede reservar turno de un centro que no esté aceptado",
+                "danger",
+            )
         fecha = params["day"]
         if self.validarFecha(self, fecha):
             turn = Turn(params)
@@ -32,7 +39,10 @@ class Turn(base.Model):
             base.session.commit()
             return ("Se creó el turno", "success")
         else:
-            return ("Los datos no son válidos", "danger")
+            return (
+                "No se puede crear un turno en una fecha anterior al día de hoy",
+                "danger",
+            )
 
     @classmethod
     def turn_exists(self, date, num_block, center):
@@ -70,6 +80,12 @@ class Turn(base.Model):
 
     def update(self, params):
         """Actualiza la información de un turno"""
+        center = Center.find_by_id(params["center_id"])
+        if center.status != "Aceptado":
+            return (
+                "No se puede modificar un turno de un centro que no esté aceptado",
+                "danger",
+            )
         fecha = params["day"]
         if self.validarFecha(fecha):
             self.email_request = params["email"]
@@ -83,6 +99,18 @@ class Turn(base.Model):
             return ("Se actualizó el turno", "success")
         else:
             return ("Los datos no son válidos", "danger")
+
+    @classmethod
+    def turns_available(self, date, center):
+        fecha_dt = datetime.strptime(date, "%Y-%m-%d")
+        turns_id = []
+        for turn in (
+            base.session.query(Turn)
+            .filter(Turn.center_id == center)
+            .filter(Turn.day == fecha_dt.date())
+        ):
+            turns_id.append(turn.num_block)
+        return turns_id
 
     def validarFecha(self, fecha):
         """Valida la fecha del turno"""

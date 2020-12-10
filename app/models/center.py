@@ -33,14 +33,16 @@ class Center(base.Model):
         centros = []
         for center in base.session.query(Center).all():
             Dict = {
-                "nombre": center.name,
-                "direccion": center.address,
-                "telefono": center.phone,
-                "hora_apertura": center.open_time.strftime("%H:%M"),
-                "hora_cierre": center.close_time.strftime("%H:%M"),
-                "tipo": center.center_type,
+                "name": center.name,
+                "adress": center.address,
+                "phone": center.phone,
+                "open_time": center.open_time.strftime("%H:%M"),
+                "close_time": center.close_time.strftime("%H:%M"),
+                "type": center.center_type,
                 "web": center.web,
                 "email": center.email,
+                "lat": center.latitude,
+                "lng": center.longitude,
             }
             centros.append(Dict)
         return centros

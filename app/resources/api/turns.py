@@ -1,28 +1,76 @@
+import sys
 from flask import jsonify
 from app.models.turn import Turn
 from flask import request, render_template
 from app.models.pageSetting import PageSetting
 import json
+from json import JSONDecodeError
 from datetime import date, datetime
+from sqlalchemy.exc import InternalError
 
 
 def turns(idcenter):
-    if request.args.get("fecha"):
-        fecha = request.args.get("fecha")
+    try:
+        if request.args.get("date"):
+            fecha = request.args.get("date")
+            turnos = Turn.get_turns_by_fecha_and_center(fecha, idcenter)
+            return jsonify(turnos)
+        fecha = datetime.today().strftime("%Y-%m-%d")
         turnos = Turn.get_turns_by_fecha_and_center(fecha, idcenter)
         return jsonify(turnos)
-    fecha = datetime.today().strftime("%Y-%m-%d")
-    turnos = Turn.get_turns_by_fecha_and_center(fecha, idcenter)
-    return jsonify(turnos)
+    except Exception as e:
+        return jsonify(detect_error(sys.exc_info()[0], e))
 
 
 def reserve_turn(idcenter):
-    if request.method == "POST":
-        params = json.loads(request.data)
-        if not Turn.turn_exists(
-            params["day"], params["num_block"], params["center_id"]
-        ):
-            mensaje = Turn.create(params)
-            return mensaje[0]
+    try:
+        if request.method == "POST":
+            params = json.loads(request.data)
+            params["center_id"] = idcenter
+            if not Turn.turn_exists(
+                params["day"], params["num_block"], params["center_id"]
+            ):
+                mensaje = Turn.create(params)
+                if mensaje[1] == "success":
+                    response = {"status": 200, "body": mensaje[0], "turn": params}
+                else:
+                    response = {"status": 200, "body": mensaje[0]}
+                return jsonify(response)
+            else:
+                response = {"status": 400, "body": "El turno ya existe"}
+                return jsonify(response)
+    except Exception as e:
+        return jsonify(detect_error(sys.exc_info()[0], e))
+
+
+def detect_error(e, msg):
+    if e is ValueError:
+        response = {
+            "status": 400,
+            "body": "La fecha ingresada debe respetar el formato Y-M-D",
+        }
+        return response
+    elif e is KeyError:
+        if str(msg) in ["'email'", "'day'", "'num_block'", "'phone'"]:
+            response = {"status": 400, "body": "Falta el atributo %s" % str(msg)}
         else:
-            return "El turno ya existe"
+            response = {
+                "status": 400,
+                "body": "El atributo %s es incorrecto" % str(msg),
+            }
+        return response
+    elif e is AttributeError:
+        response = {"status": 400, "body": "El Centro solicitado no existe"}
+        return response
+    elif e is InternalError:
+        response = {
+            "status": 500,
+            "body": "Se produjo un error interno de la base de datos verifique que los campos enviados son válidos",
+            "error": str(msg),
+        }
+    elif e is JSONDecodeError:
+        response = {
+            "status": 400,
+            "body": "El JSON recibido como parámetro no es válido, verigfique es esté bien armado",
+        }
+        return response

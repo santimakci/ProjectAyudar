@@ -13,6 +13,7 @@ from app.db import close
 from app.helpers import auth as helper_auth
 from app.helpers.permissions import permissions
 from app.helpers.auth import authenticated
+from app.helpers import handler
 from app.models.pageSetting import PageSetting
 from app.models.rol import Rol
 from app.models.user import User
@@ -57,8 +58,11 @@ from app.resources.turn import (
     view as turn_view,
     commit_update as turn_commit_update,
     commit_delete as turn_commit_delete,
+    search as turn_search,
+    pickDate as turn_pickDate,
 )
 from config import config
+from flask_cors import CORS, cross_origin
 
 
 def create_app(environment="development"):
@@ -67,6 +71,7 @@ def create_app(environment="development"):
     """
 
     app = Flask(__name__)
+    CORS(app, support_credentials=True)
 
     app.config["SESSION_TYPE"] = "filesystem"
     # app.config["SQLALCHEMY_ECHO"] = (environment == 'development')
@@ -75,6 +80,9 @@ def create_app(environment="development"):
     Session(app)
 
     connection(app)
+
+    # handler error
+    # app.register_error_handler(404, handler.not_found_error)
 
     @app.after_request
     def after_request_func(response):
@@ -230,10 +238,9 @@ def create_app(environment="development"):
         methods=["GET", "POST"],
     )
     app.add_url_rule(
-        "/centros/<int:idcenter>/reserva",
-        "reserve_turn",
-        reserve_turn,
-        methods=["POST"],
+        "/centers/<int:idcenter>/turnos/pickDate",
+        "turn_pickDate",
+        turn_pickDate,
+        methods=["GET", "POST"],
     )
-
     return app

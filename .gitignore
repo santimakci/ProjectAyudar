@@ -112,4 +112,6 @@ coc-settings.json
 .vscode
 
 #files
-.app/static/uploads
+
+uploads/
+node_modules/
