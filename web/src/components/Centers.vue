@@ -45,7 +45,9 @@ export default {
           let url = "http://localhost:5000/centros?page=" + i;
           axios.get(url).then((response) => {
             response.data.centros.forEach((center) => {
-              this.centers.push(center);
+              if (center.status === "Aceptado") {
+                this.centers.push(center);
+              }
             });
           });
         }

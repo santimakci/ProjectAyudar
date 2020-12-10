@@ -131,18 +131,29 @@ class Turn(base.Model):
 
     @classmethod
     def get_turns_by_fecha_and_center(self, fecha, idcenter):
-        turnos = []
         fecha_dt = datetime.strptime(fecha, "%Y-%m-%d")
         totalturns = (
             base.session.query(Turn)
             .filter(Turn.day == fecha_dt.date())
             .filter(Turn.center_id == idcenter)
         )
+        horarios = {
+            "1": "9:00",
+            "2": "9:30",
+            "3": "10:00",
+            "4": "10:30",
+            "5": "11:00",
+            "6": "11:30",
+            "7": "12:00",
+            "8": "12:30",
+            "9": "13:00",
+            "10": "13:30",
+            "11": "14:00",
+            "12": "14:30",
+            "13": "15:00",
+            "14": "15:30",
+        }
         for turno in totalturns:
-            turn = {
-                "center_id": turno.center_id,
-                "turno_id": turno.id,
-                "hora_turno": str(turno.time),
-            }
-            turnos.append(turn)
-        return turnos
+            if turno.num_block in horarios:
+                del horarios[str(turno.num_block)]
+        return horarios
