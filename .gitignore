@@ -112,4 +112,4 @@ coc-settings.json
 .vscode
 
 # Node modules
-**/node_modules
+web/node_modules
