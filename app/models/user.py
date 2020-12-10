@@ -128,6 +128,7 @@ class User(base.Model):
         return ("Usuario actualizado correctamente", "success")
 
     def update_profile(self, params):
+        """Actualiza los datos del perfil del usuario"""
         if params["password"] == "":
             self.first_name = params["first_name"]
             self.last_name = params["last_name"]

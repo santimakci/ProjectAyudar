@@ -32,6 +32,7 @@ class Permiso(base.Model):
 
     @classmethod
     def find_name_permission_by_ids(self, ids):
+        """Retorna los nombres de los permisos pasados por id"""
         name_permisos = []
         for idPermiso in ids:
             permiso = self.find_permission_by_id(idPermiso)
@@ -39,6 +40,7 @@ class Permiso(base.Model):
         return name_permisos
 
     def update_permission_name(self, params):
+        """Actualiza el nombre de un permiso"""
         self.name = params["name"]
         base.session.commit()
         return ("Nombre del permiso actualizado correctamente", "success")

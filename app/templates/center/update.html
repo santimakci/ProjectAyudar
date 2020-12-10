@@ -89,7 +89,7 @@
         <span id="nombrearchivo"
           style="color: #495057">{%if center.protocol != None %}{{center.protocol}}{%endif%}</span>
       </div>
-      <input id="files" style="visibility:hidden;" type="file" class="form-control-file" name="protocol"
+      <input id="files" style="visibility:hidden;" type="file" accept="application/pdf" class="form-control-file" name="protocol"
         onchange="nombrearchivo(this)">
     </div>
   </div>
@@ -100,7 +100,7 @@
   </div>
   <div class="container d-flex botones" style="justify-content: center; align-content: flex-end;">
     <input class="btn btn-info" type="submit" value="Actualizar" style="margin-right: 10px;">
-    <a class="btn btn-default" href="{{ url_for('centers') }}" class="link">Volver</a>
+    <a class="btn btn-default" href="{{ url_for('centers', name='', status='') }}" class="link">Volver</a>
   </div>
 </form>
 <script src="{{url_for('static', filename='assets/js/page-scripts/nombrearchivo.js')}}" type="text/javascript"></script>

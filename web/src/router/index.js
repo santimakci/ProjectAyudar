@@ -4,30 +4,35 @@ import Home from '../components/Home'
 import Center from '../components/Centers'
 import Turn from '../components/Turn'
 import AddCenter from '../components/AddCenter'
+import Statistics from '../components/Statistics'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'Home',
     component: Home
   },
   {
-    path: '/centers',
+    path: '/centros',
     name: 'Centers',
-    component: Center 
+    component: Center
   },
   {
     path: '/cargarCentro',
     name: 'addCenter',
-    component: AddCenter 
+    component: AddCenter
   },
   {
     path: '/solicitarTurno',
     name: 'Turns',
-    component: Turn 
+    component: Turn
   },
+  {
+    path: '/estadisticas',
+    name: 'Statistics',
+    component: Statistics
+  }
 ]
 
 const router = new VueRouter({

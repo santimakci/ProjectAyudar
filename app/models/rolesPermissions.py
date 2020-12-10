@@ -15,6 +15,7 @@ class RolesPermissions(base.Model):
 
     @classmethod
     def get_permissions_by_roles(cls, roles):
+        """Retorna los permisos para los roles indicados"""
         permisos = []
 
         for rol in roles:
