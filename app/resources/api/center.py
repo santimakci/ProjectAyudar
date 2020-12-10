@@ -47,6 +47,12 @@ def detect_error(e, msg):
             "body": "Se produjo un error interno de la base de datos verifique que los campos enviados son válidos",
             "error": str(msg),
         }
+    else:
+        response = {
+            "status": 500,
+            "body": "Se produjo un error interno de la base de datos verifique que los campos enviados son válidos",
+            "error": str(msg),
+        }
     return response
 
 
@@ -60,8 +66,8 @@ def center_by_id(id):
             "open_time": center.open_time.strftime("%H:%M"),
             "close_time": center.close_time.strftime("%H:%M"),
             "cente_type": center.center_type,
-            "lat": center.latitude,
-            "lng": center.longitude,
+            "latitude": center.latitude,
+            "longitude": center.longitude,
             "web": center.web,
             "email": center.email,
         }

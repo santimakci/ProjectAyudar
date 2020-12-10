@@ -63,18 +63,22 @@ def pickDate(idcenter):
 @permission_required("turn_new")
 def new(idcenter):
     time = get_hour_dict()
-    date = request.form["day"]
-    turns_taked = Turn.turns_available(date, idcenter)
+    day = request.form["day"]
+    turns_taked = Turn.turns_available(day, idcenter)
     if turns_taked:
         for turn in turns_taked:
             del time[str(turn)]
-    # import code; code.interact(local=dict(globals(), **locals()))
-    return render_template("turn/new.html", center=idcenter, time=time, date=date)
+        if time == {}:
+            flash("No hay turnos disponibles para ese día", "danger")
+            today = date.today()
+            return render_template("turn/pickDate.html", center=idcenter, today=today)
+    return render_template("turn/new.html", center=idcenter, time=time, date=day)
 
 
 @permission_required("turn_new")
 def create(idcenter):
     params = request.form
+
     if not Turn.turn_exists(params["day"], params["num_block"], params["center_id"]):
         mensaje = Turn.create(params)
         flash(mensaje[0], mensaje[1])

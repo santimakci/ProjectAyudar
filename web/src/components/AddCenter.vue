@@ -173,8 +173,8 @@ export default {
         close_time: "",
         center_type: "",
         municipality: "",
-        lat: "",
-        lng: "",
+        latitude: "",
+        longitude: "",
         email: "",
         web: "",
       },
@@ -272,8 +272,8 @@ export default {
 
   methods: {
     setLat(prop){
-      this.center.lat = prop.lat
-      this.center.lng = prop.lng
+      this.center.latitude = prop.lat
+      this.center.longitude = prop.lng
       console.log(this.center)
     },
     markRecaptchaAsVerified() {
