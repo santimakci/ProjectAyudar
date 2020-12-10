@@ -12,9 +12,14 @@ from sqlalchemy.exc import InternalError
 def turns(idcenter):
     try:
         if request.args.get("date"):
+            time = get_hour_dict()
             fecha = request.args.get("date")
-            turnos = Turn.get_turns_by_fecha_and_center(fecha, idcenter)
-            return jsonify(turnos)
+            turnos = Turn.turns_available(fecha, idcenter)
+            if turnos:
+                for turn in turnos:
+                    del time[str(turn)] 
+
+            return jsonify(time)
         fecha = datetime.today().strftime("%Y-%m-%d")
         turnos = Turn.get_turns_by_fecha_and_center(fecha, idcenter)
         return jsonify(turnos)
@@ -74,3 +79,22 @@ def detect_error(e, msg):
             "body": "El JSON recibido como parámetro no es válido, verigfique es esté bien armado",
         }
         return response
+
+def get_hour_dict():
+    horarios = {
+        "1": "9:00",
+        "2": "9:30",
+        "3": "10:00",
+        "4": "10:30",
+        "5": "11:00",
+        "6": "11:30",
+        "7": "12:00",
+        "8": "12:30",
+        "9": "13:00",
+        "10": "13:30",
+        "11": "14:00",
+        "12": "14:30",
+        "13": "15:00",
+        "14": "15:30",
+    }
+    return horarios
