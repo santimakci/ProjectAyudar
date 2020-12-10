@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/Home'
 import Center from '../components/Centers'
-import Turn from '../components/Turn'
+import AddTurn from '../components/AddTurn'
 import AddCenter from '../components/AddCenter'
 import Statistics from '../components/Statistics'
 
@@ -24,9 +24,10 @@ const routes = [{
     component: AddCenter
   },
   {
-    path: '/solicitarTurno',
-    name: 'Turns',
-    component: Turn
+    path: '/solicitarTurno/:center',
+    name: 'solicitarTurno',
+    component: AddTurn,
+    props: true
   },
   {
     path: '/estadisticas',
