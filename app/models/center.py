@@ -70,6 +70,7 @@ class Center(base.Model):
             Dict = {
                 "id": center.id,
                 "name": center.name,
+                "status": center.status,
                 "adress": center.address,
                 "phone": center.phone,
                 "open_time": center.open_time.strftime("%H:%M"),
