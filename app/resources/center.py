@@ -10,10 +10,11 @@ from app.models.center import Center
 from app.models.pageSetting import PageSetting
 from app.helpers.permissions import *
 
-# Protected resources
+
 @permission_required("center_index")
 def index():
-    """Retorna el listado de centros paginado, y según el caso filtrado por nombre de centro o estado, o ambos."""
+    """Retorna el listado de centros paginado, y según el caso filtrado por nombre de
+    centro o estado, o ambos."""
     params = request.form.to_dict()
     num_page = int(request.args.get("num_page", 1))
     quantity = PageSetting.find_settings()
@@ -25,7 +26,7 @@ def index():
                 per_page=quantity.elements, page=num_page, error_out=True
             )
         else:
-            centers = search_by_name_and_status(
+            centers = Center.search_by_name_and_status(
                 params["name"], params["status"], num_page, quantity
             )
     else:
@@ -34,7 +35,7 @@ def index():
                 per_page=quantity.elements, page=num_page, error_out=True
             )
         else:
-            centers = search_by_name_and_status(
+            centers = Center.search_by_name_and_status(
                 params["name"], params["status"], num_page, quantity
             )
     num_pages = centers.iter_pages(
@@ -49,32 +50,9 @@ def index():
     )
 
 
-def search_by_name_and_status(name, status, num_page, quantity):
-
-    if name != "" and status == "":
-        centers = (
-            base.session.query(Center)
-            .filter(Center.name.like("%" + name + "%"))
-            .paginate(per_page=quantity.elements, page=num_page, error_out=True)
-        )
-    elif name == "" and status != "":
-        centers = (
-            base.session.query(Center)
-            .filter(Center.status == status)
-            .paginate(per_page=quantity.elements, page=num_page, error_out=True)
-        )
-    else:
-        centers = (
-            base.session.query(Center)
-            .filter(Center.status == status)
-            .filter(Center.name.like("%" + name + "%"))
-            .paginate(per_page=quantity.elements, page=num_page, error_out=True)
-        )
-    return centers
-
-
 @permission_required("center_new")
 def new():
+    """Retorna la vista para crear un centro"""
     return render_template("center/new.html")
 
 
@@ -84,7 +62,8 @@ def create():
     if request.method == "POST":
         f = request.files["protocol"]
         if f.filename != "":
-            if f.filename.rsplit(".", 1)[1].lower() == "pdf":
+            nombre, extension = os.path.splitext(f.filename)
+            if extension == ".pdf":
                 parametros = params.to_dict()
                 parametros["protocol"] = secure_filename(f.filename)
                 param = Center.create(parametros)
@@ -164,9 +143,8 @@ def update(idcenter):
 
 
 def listado_municipios():
-    url = (
-        "https://api-referencias.proyecto2020.linti.unlp.edu.ar/municipios?per_page=135"
-    )
+    """Retorna los municipios de una página determinada"""
+    url = "https://api-referencias.proyecto2020.linti.unlp.edu.ar/municipios"
     response = requests.get(url)
     parsed = json.loads(response.text)
     municipios = parsed["data"]["Town"]
@@ -175,6 +153,6 @@ def listado_municipios():
 
 @permission_required("center_show")
 def view(idcenter):
-    """Retorna una lista con el total de centros"""
+    """Retorna la información de un centro"""
     center = Center.find_by_id(idcenter)
     return render_template("center/view.html", center=center)

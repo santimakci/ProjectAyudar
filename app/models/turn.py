@@ -14,7 +14,7 @@ class Turn(base.Model):
     phone = Column(String, unique=False, nullable=False)
 
     def __init__(self, params):
-        """Constructor de la clase User, recibe por parametros en un diccionario email, usuario, nombre, apellido y contraseña."""
+        """Constructor de la clase Turn, recibe por parametros en un diccionario email, id de, centro, día, horario, nombre, apellido y teléfono del solicitante."""
         self.center_id = params["center_id"]
         self.email_request = params["email"]
         self.day = params["day"]
@@ -24,6 +24,7 @@ class Turn(base.Model):
 
     @classmethod
     def create(self, params):
+        """Crea el turno, o en caso de error indica el problema"""
         fecha = params["day"]
         if self.validarFecha(self, fecha):
             turn = Turn(params)
@@ -35,6 +36,7 @@ class Turn(base.Model):
 
     @classmethod
     def turn_exists(self, date, num_block, center):
+        """Chequea la existencia de un turno para un centro en una fecha determinada"""
         turn = (
             base.session.query(Turn)
             .filter(Turn.day == date)
@@ -46,6 +48,7 @@ class Turn(base.Model):
 
     @classmethod
     def get_turns_by_center_id(cls, id):
+        """Retorna los turnos para un centro determinado"""
         turns = []
         for turn in base.session.query(Turn).filter(Turn.center_id == id):
             turns.append(turn)
@@ -53,17 +56,20 @@ class Turn(base.Model):
 
     @classmethod
     def get_turn_by_id(cls, id):
+        """Retorna la información de un turno determinado"""
         turn = base.session.query(Turn).filter(Turn.id == id).first()
         return turn
 
     @classmethod
     def delete(self, params):
+        """Elimina un turno determinado"""
         turn = self.get_turn_by_id(params["id"])
         base.session.delete(turn)
         base.session.commit()
         return ("Se eliminó el turno", "success")
 
     def update(self, params):
+        """Actualiza la información de un turno"""
         fecha = params["day"]
         if self.validarFecha(fecha):
             self.email_request = params["email"]
@@ -79,6 +85,7 @@ class Turn(base.Model):
             return ("Los datos no son válidos", "danger")
 
     def validarFecha(self, fecha):
+        """Valida la fecha del turno"""
         fecha_dt = datetime.strptime(fecha, "%Y-%m-%d")
         hoy = datetime.today()
         return fecha_dt >= hoy

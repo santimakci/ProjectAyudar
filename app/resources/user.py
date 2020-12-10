@@ -61,15 +61,18 @@ def index():
 
 
 def login():
+    """Retorna la vista de inicio de sesión"""
     return render_template("auth/login.html")
 
 
 def profile():
+    """Retorna la vista con la información del perfil del usuario"""
     user = User.find_by_id(session["id"])
     return render_template("user/profile.html", user=user)
 
 
 def update_profile():
+    """Actualiza la información del perfil de un usuario"""
     params = request.form
     user = User.find_by_id(session["id"])
     mensaje = user.update_profile(params=params)
@@ -162,5 +165,6 @@ def update(id):
 
 @permission_required("user_detail")
 def detail(iduser):
+    """Retorna la vista de la información de un usuario"""
     user = User.find_by_id(iduser)
     return render_template("user/read.html", user=user)

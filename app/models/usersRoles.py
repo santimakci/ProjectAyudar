@@ -23,7 +23,6 @@ class UsersRoles(base.Model):
 
     @classmethod
     def get_data(self, user_id, new_roles):
-        """"""
         self.delete_all_roles(user_id)
         isAdmin = self.isAdmin(user_id)
         self.create_user_rol(user_id, new_roles, isAdmin)
@@ -89,6 +88,7 @@ class UsersRoles(base.Model):
 
     @classmethod
     def return_name_permission_by_iduser(cls, iduser):
+        """Retorna el nombre de los permisos para un usuario"""
         permisos = (
             base.session.query(Permiso)
             .select_from(UsersRoles)
