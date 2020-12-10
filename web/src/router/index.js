@@ -24,9 +24,10 @@ const routes = [
     component: AddCenter 
   },
   {
-    path: '/solicitarTurno',
-    name: 'Turns',
-    component: AddTurn 
+    path: '/solicitarTurno/:center',
+    name: 'solicitarTurno',
+    component: AddTurn, 
+    props: true
   },
 ]
 
