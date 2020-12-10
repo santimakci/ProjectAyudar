@@ -68,6 +68,7 @@ class Center(base.Model):
         centros = []
         for center in base.session.query(Center).all():
             Dict = {
+                "id": center.id,
                 "name": center.name,
                 "adress": center.address,
                 "phone": center.phone,
