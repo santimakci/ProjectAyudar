@@ -15,17 +15,17 @@
 
     <v-img
       height="250"
-      src="../assets/map.png"
+      v-bind:src="require('@/assets/' + img + '')"
     >
-     </v-img>
+    </v-img>
 
-    <v-card-title>Encontrá tu centro de donación <br> más cercano</v-card-title>
+    <v-card-title>{{title}}</v-card-title>
     
-    <v-card-text
-    
-    >
-      <div>Sacá turno, y respetando los protocolos, acercá tus donaciones!</div>
-    </v-card-text>
+    <v-card-text>{{description}}</v-card-text>
+    <v-chip
+      class="primary--text ma-2" :to="link" style="text-decoration: none">{{name}}
+    </v-chip>
+
   </v-card>
 </template>
 
@@ -34,5 +34,23 @@ export default {
   data: () => ({
     
   }),
+  name: "Card",
+    props: {
+    title: {
+      type: String
+    },
+    img: {
+      type: String
+    },
+    description: {
+      type: String
+    },
+    link:{
+      type: String
+    },
+    name:{
+      type: String
+    }
+  },
 };
 </script>

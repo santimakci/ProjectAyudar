@@ -17,7 +17,7 @@ def turns(idcenter):
             turnos = Turn.turns_available(fecha, idcenter)
             if turnos:
                 for turn in turnos:
-                    del time[str(turn)] 
+                    del time[str(turn)]
 
             return jsonify(time)
         fecha = datetime.today().strftime("%Y-%m-%d")
@@ -79,6 +79,7 @@ def detect_error(e, msg):
             "body": "El JSON recibido como parámetro no es válido, verigfique es esté bien armado",
         }
         return response
+
 
 def get_hour_dict():
     horarios = {

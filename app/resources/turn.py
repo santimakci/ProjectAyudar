@@ -18,16 +18,10 @@ def index(idcenter):
     params = request.form.to_dict()
     num_page = int(request.args.get("num_page", 1))
     quantity = PageSetting.find_settings()
-    if bool(params) and params["email"] == "" and params["day"] == "":
-        turns = (
-            base.session.query(Turn)
-            .filter(Turn.center_id == idcenter)
-            .paginate(per_page=quantity.elements, page=num_page, error_out=True)
-        )
-    elif not bool(params):
+    if not bool(params):
         params["email"] = request.args.get("search", "")
-        params["day"] = request.args.get("day", "")
-        if params["email"] == "" and params["day"] == "":
+        params["date"] = request.args.get("date", "")
+        if params["email"] == "" and params["date"] == "":
             turns = (
                 base.session.query(Turn)
                 .filter(Turn.center_id == idcenter)
@@ -35,12 +29,19 @@ def index(idcenter):
             )
         else:
             turns = Turn.search_by_email_and_day(
-                params["email"], params["day"], num_page, quantity, idcenter
+                params["email"], params["date"], num_page, quantity, idcenter
             )
     else:
-        turns = Turn.search_by_email_and_day(
-            params["email"], params["day"], num_page, quantity, idcenter
-        )
+        if params["email"] == "" and params["date"] == "":
+            turns = (
+                base.session.query(Turn)
+                .filter(Turn.center_id == idcenter)
+                .paginate(per_page=quantity.elements, page=num_page, error_out=True)
+            )
+        else:
+            turns = Turn.search_by_email_and_day(
+                params["email"], params["date"], num_page, quantity, idcenter
+            )
     num_pages = turns.iter_pages(
         left_edge=2, left_current=2, right_current=2, right_edge=2
     )
@@ -49,7 +50,7 @@ def index(idcenter):
         turns=turns,
         center=idcenter,
         pages=num_pages,
-        day=params["day"],
+        day=params["date"],
         search=params["email"],
     )
 

@@ -31,7 +31,7 @@ class Center(base.Model):
     def return_centers_API_Data(cls):
         """Retorna todos los centros como una lista de diccionarios"""
         centros = []
-        for center in base.session.query(Center).all():
+        for center in base.session.query(Center).filter(Center.status == "Aceptado"):
             Dict = {
                 "id": center.id,
                 "name": center.name,

@@ -147,10 +147,18 @@ def update(idcenter):
 
 def listado_municipios():
     """Retorna los municipios de una página determinada"""
-    url = "https://api-referencias.proyecto2020.linti.unlp.edu.ar/municipios"
+    url = f"https://api-referencias.proyecto2020.linti.unlp.edu.ar/municipios"
     response = requests.get(url)
     parsed = json.loads(response.text)
     municipios = parsed["data"]["Town"]
+    pages = parsed["total"] / parsed["per_page"]
+    if pages % 2 != 0:
+        pages = int(pages) + 1
+    for i in range(2, pages + 1):
+        url = f"https://api-referencias.proyecto2020.linti.unlp.edu.ar/municipios?page={i}"
+        response = requests.get(url)
+        parsed = json.loads(response.text)
+        municipios.update(parsed["data"]["Town"])
     return municipios
 
 

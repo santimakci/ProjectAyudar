@@ -1,12 +1,8 @@
 <template>
   <v-container>
-    <v-row align="center" justify="space-around">
-      <v-btn depressed color="primary">
-        <router-link
-          to="/cargarCentro"
-          style="color: white; text-decoration: none"
-          >Solicitar nuevo centro</router-link
-        >
+    <v-row  justify="end" class="pa-6 ma-2">
+      <v-btn depressed color="primary" to="/cargarCentro" style="color: white; text-decoration: none">
+      Solicitar nuevo centro
       </v-btn>
     </v-row>
     <MapCenters :centers="centers" />

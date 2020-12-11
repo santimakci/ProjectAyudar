@@ -19,7 +19,7 @@
           <i class="material-icons">search</i>
         </button>
         <div class="form-group has-default bmd-form-group">
-          <input class="form-control datetimepicker" type="date" name="day" id="day" {%if day %} value="{{ day }}"
+          <input class="form-control datetimepicker" type="date" name="date" id="date" {%if day %} value="{{ day }}"
             {%endif%} style="margin-left: 1.5em;">
         </div>
       </form>
@@ -91,7 +91,8 @@
     <ul class="pagination pagination-info mx-auto" id="page">
       {% for page in pages %}
       {%if page%}
-      <li class="page-item"><a id="num{{page}}" href="{{ url_for('center_turnosDisp',num_page=page,idcenter=center) }}"
+      <li class="page-item"><a id="num{{page}}"
+          href="{{ url_for('center_turnosDisp',num_page=page,idcenter=center, email=search, date=day) }}"
           class="page-link">{{page}}</a></li>
       {%else%}
       ...

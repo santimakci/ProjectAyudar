@@ -1,6 +1,15 @@
 <template>
   <div>
+      <div v-if="message.submitted"> 
+      <v-alert v-if="message.type == 201" type="success">
+        {{message.text}}
+      </v-alert>
+      <v-alert v-else type="warning">
+        {{message.text}}
+      </v-alert>    
+    </div>
     <v-card class="pa-md-4 mx-lg-auto" style="width: 60%; margin: auto">
+    
       <form    v-on:submit.prevent="checkIfRecaptchaVerified" id="new-center">
         <v-text-field
           v-model="center.name"
@@ -137,12 +146,12 @@
         
         <v-row justify="center">
           <v-btn type="submit" form="new-center" class="primary">
-            Enviar centro
+        
+    Enviar centro
           </v-btn>
         </v-row>
       </form>
     </v-card>
-    <br />
   </div>
 </template>
 
@@ -175,9 +184,15 @@ export default {
         municipality: "",
         latitude: "",
         longitude: "",
+        submitted: true,
         email: "",
         web: "",
       },
+      message: {
+        type: "",
+        text: "",
+        submitted: false,
+      }
     };
   },
   validations: {
@@ -280,18 +295,23 @@ export default {
       this.captchaInfo.pleaseTickRecaptchaMessage = '';
       this.captchaInfo.recaptchaVerified = true;
     },
+
     checkIfRecaptchaVerified() {
       if (!this.captchaInfo.recaptchaVerified) {
         alert('Please tick recaptcha.');
         return false; // prevent form from submitting
-      }
+      }   
       this.createCenter()
     },
     createCenter() {
       axios
         .post("http://localhost:5000/centros", this.center)
         .then((response) => {
-          console.log(response);
+          this.message.submitted = true;
+          this.message.type = response.data.status
+          this.message.text = response.data.body
+          console.log(response.data)
+          
         });
     },
     listMunicipios() {
