@@ -9,7 +9,6 @@
       </v-alert>    
     </div>
     <v-card class="pa-md-4 mx-lg-auto" style="width: 60%; margin: auto">
-    
       <form    v-on:submit.prevent="checkIfRecaptchaVerified" id="new-center">
         <v-text-field
           v-model="center.name"
@@ -23,34 +22,24 @@
         <v-text-field
           v-model="center.address"
           :error-messages="addressErrors"
-          label="Dirección"
+          label="Dirección *"
           required
           @input="$v.center.address.$touch()"
           @blur="$v.center.address.$touch()"
         ></v-text-field>
         <v-text-field
           v-model="center.phone"
-          label="Teléfono"
+          label="Teléfono *"
           :error-messages="phoneErrors"
-          type="number"
           required
           @input="$v.center.phone.$touch()"
           @blur="$v.center.phone.$touch()"
         ></v-text-field>
-        <v-text-field
-          v-model="center.email"
-          :error-messages="emailErrors"
-          label="E-mail"
-          required
-          @input="$v.center.email.$touch()"
-          @blur="$v.center.email.$touch()"
-        ></v-text-field>
-        <v-row justify="center">
-          <v-col md="6">
+        <v-row>
+          <v-col cols="6">
             <v-menu
               ref="menu"
               v-model="menu2"
-              
               :close-on-content-click="false"
               :nudge-right="40"
               :return-value.sync="center.open_time"
@@ -64,8 +53,7 @@
                   v-model="center.open_time"
                   required
                   :error-messages="openTimeErrors"
-                  label="Hora de apertura"
-                  prepend-icon="mdi-clock-time-four-outline"
+                  label="Hora de apertura *"
                   readonly
                   v-bind="attrs"
                   v-on="on"
@@ -80,11 +68,10 @@
               ></v-time-picker>
             </v-menu>
           </v-col>
-          <v-col md="6">
+          <v-col cols="6">
             <v-menu
               ref="menu2"
               v-model="menu"
-              
               :close-on-content-click="false"
               :nudge-right="40"
               :return-value.sync="center.close_time"
@@ -98,8 +85,7 @@
                   v-model="center.close_time"
                   required
                   :error-messages="closeTimeErrors"
-                  label="Hora de cierre"
-                  prepend-icon="mdi-clock-time-four-outline"
+                  label="Hora de cierre *"
                   readonly
                   v-bind="attrs"
                   v-on="on"
@@ -120,7 +106,7 @@
           :items="center_type"
           required
           :error-messages="centerTypeErrors"
-          label="Tipo de centro"
+          label="Tipo de centro *"
           @input="$v.center.center_type.$touch()"
           @blur="$v.center.center_type.$touch()"
         ></v-select>
@@ -128,12 +114,19 @@
           v-model="center.municipality"
           :items="municipalitys"
           required
+          :menu-props="{ top: true, offsetY: true }"
           :error-messages="municipalityErrors"
-          label="Municipalidad"
+          label="Municipalidad *"
           @input="$v.center.municipality.$touch()"
           @blur="$v.center.municipality.$touch()"
         ></v-select>
-
+        <v-text-field
+          v-model="center.email"
+          :error-messages="emailErrors"
+          label="Email"
+          @input="$v.center.email.$touch()"
+          @blur="$v.center.email.$touch()"
+        ></v-text-field>
         <v-text-field v-model="center.web" label="Página web"></v-text-field>
 
         <MapSelectCenter v-on:sendLat="setLat" />
@@ -144,7 +137,7 @@
           
         ></vue-recaptcha>
         
-        <v-row justify="center">
+        <v-row  class="mt-5 ml-1">
           <v-btn type="submit" form="new-center" class="primary">
         
     Enviar centro

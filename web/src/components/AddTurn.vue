@@ -178,3 +178,19 @@ export default {
   },
 };
 </script>
+
+<!--
+<style scoped>
+  .sangre{
+    filter: hue-rotate(140deg);
+  }
+  .plasma{
+    filter: hue-rotate(220deg);
+  }
+  .ropa{
+    filter: hue-rotate(70deg);
+  }
+  .comida{
+    filter: hue-rotate(300deg);
+  }
+</style>-->
