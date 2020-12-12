@@ -9,16 +9,14 @@ from datetime import date, datetime
 from sqlalchemy.exc import InternalError
 
 
-def turns(idcenter):
+def turns(idcenter,fecha=None):
     try:
-        if request.args.get("date"):
+        if fecha != None:
             time = get_hour_dict()
-            fecha = request.args.get("date")
             turnos = Turn.turns_available(fecha, idcenter)
             if turnos:
                 for turn in turnos:
                     del time[str(turn)]
-
             return jsonify(time)
         fecha = datetime.today().strftime("%Y-%m-%d")
         turnos = Turn.get_turns_by_fecha_and_center(fecha, idcenter)
