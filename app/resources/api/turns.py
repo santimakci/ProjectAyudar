@@ -35,10 +35,6 @@ def reserve_turn(idcenter):
             horarios = get_hour_dict()
             num_block = str(list(horarios.values()).index(params["time"]) + 1)
             if not Turn.turn_exists(params["day"], num_block, params["center_id"]):
-                import code
-
-                code.interact(local=dict(globals(), **locals()))
-
                 params["num_block"] = num_block
                 mensaje = Turn.create(params)
                 if mensaje[1] == "success":

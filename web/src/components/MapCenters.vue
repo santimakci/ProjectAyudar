@@ -18,13 +18,18 @@
         <l-popup>
           <div>
             <p>
-              <strong>Nombre del centro:</strong> {{ cen.name }}<br>
-              <strong>Dirección:</strong> {{ cen.adress }}<br>
-              <strong>Horario:</strong> {{ cen.open_time }} - {{ cen.close_time }}<br>
-              <strong>Teléfono:</strong> {{ cen.phone }} <br>
-              <strong>Tipo:</strong> {{cen.type}}
+              <strong>Nombre del centro:</strong> {{ cen.name }}<br />
+              <strong>Dirección:</strong> {{ cen.adress }}<br />
+              <strong>Horario:</strong> {{ cen.open_time }} - {{ cen.close_time
+              }}<br />
+              <strong>Teléfono:</strong> {{ cen.phone }} <br />
+              <strong>Tipo:</strong> {{ cen.type }}
             </p>
-            <Dialog :center="cen"/>  
+            <Dialog
+              v-on:superMSJ="upResponse"
+              v-on:showOff="show"
+              :center="cen"
+            />
           </div>
         </l-popup>
       </l-marker>
@@ -52,7 +57,7 @@ export default {
     LTileLayer,
     LMarker,
     LPopup,
-    Dialog
+    Dialog,
   },
   data() {
     return {
@@ -72,11 +77,17 @@ export default {
   },
   props: ["centers"],
   methods: {
+    show(status) {
+      this.$emit("setShow", status);
+    },
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
     },
     centerUpdate(center) {
       this.currentCenter = center;
+    },
+    upResponse(args) {
+      this.$emit("setMessage", args);
     },
   },
 };
