@@ -18,25 +18,13 @@
         <l-popup>
           <div>
             <p>
-              Nombre del centro: {{ cen.name }}<br />
-              Dirección: {{ cen.adress }}<br />
-              Horario: {{ cen.open_time }} - {{ cen.close_time }}<br />
-              Teléfono: {{ cen.phone }}
+              <strong>Nombre del centro:</strong> {{ cen.name }}<br>
+              <strong>Dirección:</strong> {{ cen.adress }}<br>
+              <strong>Horario:</strong> {{ cen.open_time }} - {{ cen.close_time }}<br>
+              <strong>Teléfono:</strong> {{ cen.phone }} <br>
+              <strong>Tipo:</strong> {{cen.type}}
             </p>
-            <v-btn depressed color="primary" flat @click="dialog = true">
-              Solicitar Turno
-            </v-btn>
-            <v-dialog v-model="dialog" persistent max-width="600px">
-              <v-card>
-                <AddTurn :center="cen" />
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="dialog = false">
-                    Cerrar
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+            <Dialog :center="cen"/>  
           </div>
         </l-popup>
       </l-marker>
@@ -48,7 +36,7 @@
 import { latLng } from "leaflet";
 import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 import { Icon } from "leaflet";
-import AddTurn from "@/components/AddTurn.vue";
+import Dialog from "@/components/Dialog";
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
@@ -60,11 +48,11 @@ Icon.Default.mergeOptions({
 export default {
   name: "MapCenter",
   components: {
-    AddTurn,
     LMap,
     LTileLayer,
     LMarker,
     LPopup,
+    Dialog
   },
   data() {
     return {

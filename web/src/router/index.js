@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/Home'
 import Center from '../components/Centers'
-import AddTurn from '../components/AddTurn'
+import AddTurn from '../components/Dialog'
 import AddCenter from '../components/AddCenter'
 import Statistics from '../components/Statistics'
 

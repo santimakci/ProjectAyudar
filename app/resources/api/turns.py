@@ -9,7 +9,7 @@ from datetime import date, datetime
 from sqlalchemy.exc import InternalError
 
 
-def turns(idcenter,fecha=None):
+def turns(idcenter, fecha=None):
     try:
         if fecha != None:
             time = get_hour_dict()
@@ -20,7 +20,9 @@ def turns(idcenter,fecha=None):
             return jsonify(time)
         fecha = datetime.today().strftime("%Y-%m-%d")
         turnos = Turn.get_turns_by_fecha_and_center(fecha, idcenter)
-        return jsonify(turnos)
+        response = jsonify(turnos)
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
     except Exception as e:
         return jsonify(detect_error(sys.exc_info()[0], e))
 
@@ -30,14 +32,19 @@ def reserve_turn(idcenter):
         if request.method == "POST":
             params = json.loads(request.data)
             params["center_id"] = idcenter
-            if not Turn.turn_exists(
-                params["day"], params["num_block"], params["center_id"]
-            ):
+            horarios = get_hour_dict()
+            num_block = str(list(horarios.values()).index(params["time"]) + 1)
+            if not Turn.turn_exists(params["day"], num_block, params["center_id"]):
+                import code
+
+                code.interact(local=dict(globals(), **locals()))
+
+                params["num_block"] = num_block
                 mensaje = Turn.create(params)
                 if mensaje[1] == "success":
                     response = {"status": 200, "body": mensaje[0], "turn": params}
                 else:
-                    response = {"status": 200, "body": mensaje[0]}
+                    response = {"status": 400, "body": mensaje[0]}
                 return jsonify(response)
             else:
                 response = {"status": 400, "body": "El turno ya existe"}

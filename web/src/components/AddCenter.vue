@@ -177,7 +177,6 @@ export default {
         municipality: "",
         latitude: "",
         longitude: "",
-        submitted: true,
         email: "",
         web: "",
       },
@@ -195,7 +194,6 @@ export default {
       },
       email: {
         email,
-        required,
       },
       phone: {
         required,
@@ -223,7 +221,6 @@ export default {
       const errors = [];
       if (!this.$v.center.email.$dirty) return errors;
       !this.$v.center.email.email && errors.push("Debería ser un email");
-      !this.$v.center.email.required && errors.push("El email es requerido");
       return errors;
     },
     nameErrors() {
@@ -300,10 +297,11 @@ export default {
       axios
         .post("http://localhost:5000/centros", this.center)
         .then((response) => {
+          console.log(response)
           this.message.submitted = true;
           this.message.type = response.data.status
           this.message.text = response.data.body
-          console.log(response.data)
+          
           
         });
     },

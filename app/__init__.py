@@ -69,14 +69,26 @@ def create_app(environment="development"):
     base de datos. Además genera las diferentes URLs.
     """
 
+    configu = {
+        "ORIGINS": [
+            "http://localhost:8080",  # React
+            "http://127.0.0.1:8080",  # React
+        ],
+    }
     app = Flask(__name__)
-    CORS(app, support_credentials=True)
+    CORS(
+        app,
+        resources={r"/*": {"origins": configu["ORIGINS"]}},
+        supports_credentials=True,
+    )
 
     app.config["SESSION_TYPE"] = "filesystem"
     # app.config["SQLALCHEMY_ECHO"] = (environment == 'development')
     env = os.environ.get("FLASK_ENV", environment)
     app.config.from_object(config[env])
     Session(app)
+
+    # Cors
 
     connection(app)
 
@@ -251,4 +263,13 @@ def create_app(environment="development"):
         turn_pickDate,
         methods=["GET", "POST"],
     )
+
+    # Turns API create turn
+    app.add_url_rule(
+        "/centers/<int:idcenter>/reserva",
+        "reserve_turn",
+        reserve_turn,
+        methods=["POST"],
+    )
+
     return app
