@@ -76,13 +76,13 @@ initializeMap('mapid');
 lat = document.getElementById('lat').getAttribute('value');
 lng = document.getElementById('lng').getAttribute('value');
 if (lat != null && lng != null) {
-    if (document.getElementById('lat').disabled = !true) {
-        addMarker({
+    if (document.getElementById('lat').disabled == true) {
+        initializeView({
             lng,
             lat
         });
     } else {
-        initializeView({
+        addMarker({
             lng,
             lat
         });
