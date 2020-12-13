@@ -24,7 +24,6 @@ def permission_required(idPermiso):
 
 def permissions():
     if authenticated(session):
-        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        #print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         name_permisos = UsersRoles.return_name_permission_by_iduser(int(session["id"]))
-        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
         return name_permisos

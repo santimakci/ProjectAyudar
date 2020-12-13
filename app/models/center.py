@@ -6,26 +6,25 @@ import datetime
 
 
 class Center(base.Model):
-    """La clase Center se asocia con la tabla centers en la base de datos. Tiene nombre, direccion, telefono
-    hora de apertura y de cierre, tipo de centro, municipalidad, web,si fue publicado, protocolo, coordenadas y estado.
+    """La clase Center se asocia con la tabla centers en la base de datos. Tiene nombre,
+    direccion, telefono hora de apertura y de cierre, tipo de centro, municipalidad, web,
+    si fue publicado, protocolo, coordenadas y estado.
     """
 
     __tablename__ = "centers"
     id = Column(Integer, primary_key=True)
-    name = Column(String, unique=False, nullable=False)
+    name = Column(String, unique=True, nullable=False)
     address = Column(String, unique=True, nullable=False)
     phone = Column(String, unique=True, nullable=False)
     open_time = Column(Time, unique=False, nullable=False)
     close_time = Column(Time, unique=False, nullable=False)
     center_type = Column(String, unique=False, nullable=False)
     municipality = Column(String, unique=False, nullable=False)
-    web = Column(String, unique=False, nullable=True)
-    email = Column(String, unique=False, nullable=False)
-    published = Column(Boolean, default=False)
     latitude = Column(String, unique=False, nullable=False)
     longitude = Column(String, unique=False, nullable=False)
+    web = Column(String, unique=False, nullable=True)
+    email = Column(String, unique=False, nullable=True)
     status = Column(String, unique=False, default="Pendiente")
-    email = Column(String, unique=False, nullable=False)
     protocol = Column(String, unique=False, default="")
 
     def __init__(self, params):
@@ -48,34 +47,22 @@ class Center(base.Model):
 
     @classmethod
     def return_centers_API_Data(cls):
+        """Retorna todos los centros como una lista de diccionarios"""
         centros = []
-        for center in base.session.query(Center).all():
+        for center in base.session.query(Center).filter(Center.status == "Aceptado"):
             Dict = {
-                "nombre": center.name,
-                "direccion": center.address,
-                "telefono": center.phone,
-                "hora_apertura": center.open_time.strftime("%H:%M"),
-                "hora_cierre": center.close_time.strftime("%H:%M"),
-                "tipo": center.center_type,
+                "id": center.id,
+                "name": center.name,
+                "status": center.status,
+                "adress": center.address,
+                "phone": center.phone,
+                "open_time": center.open_time.strftime("%H:%M"),
+                "close_time": center.close_time.strftime("%H:%M"),
+                "type": center.center_type,
                 "web": center.web,
                 "email": center.email,
-            }
-            centros.append(Dict)
-        return centros
-
-    @classmethod
-    def return_centers_API_Data(cls):
-        centros = []
-        for center in base.session.query(Center).all():
-            Dict = {
-                "nombre": center.name,
-                "direccion": center.address,
-                "telefono": center.phone,
-                "hora_apertura": center.open_time.strftime("%H:%M"),
-                "hora_cierre": center.close_time.strftime("%H:%M"),
-                "tipo": center.center_type,
-                "web": center.web,
-                "email": center.email,
+                "lat": center.latitude,
+                "lng": center.longitude,
             }
             centros.append(Dict)
         return centros
@@ -134,7 +121,7 @@ class Center(base.Model):
             params (dict)
         """
         center = self.find_by_name(params["name"])
-        if center != self:
+        if center != None and self != center:
             return ("El nombre del centro ya existe", "danger")
         self.name = params["name"]
         self.address = params["address"]
@@ -152,3 +139,32 @@ class Center(base.Model):
             self.protocol = params["protocol"]
         base.session.commit()
         return ("Centro actualizado correctamente", "success")
+
+    def search_by_name_and_status(name, status, num_page, quantity):
+        """Realiza la búsqueda por nombre y/o estado y retorna los resultados para la página pedida.
+        Args:
+            name (string): búsqueda por nombre de centro
+            status (string): búsqueda por estado de centro (Aceptado, Pendiente o Rechazado)
+            num_page (int): página de la que quiere los resultados
+            quantity (int): elementos por página
+        """
+        if name != "" and status == "":
+            centers = (
+                base.session.query(Center)
+                .filter(Center.name.like("%" + name + "%"))
+                .paginate(per_page=quantity.elements, page=num_page, error_out=True)
+            )
+        elif name == "" and status != "":
+            centers = (
+                base.session.query(Center)
+                .filter(Center.status == status)
+                .paginate(per_page=quantity.elements, page=num_page, error_out=True)
+            )
+        else:
+            centers = (
+                base.session.query(Center)
+                .filter(Center.status == status)
+                .filter(Center.name.like("%" + name + "%"))
+                .paginate(per_page=quantity.elements, page=num_page, error_out=True)
+            )
+        return centers

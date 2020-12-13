@@ -19,13 +19,13 @@
                 </li>
                 {%if 'center_index' in user_permisos%}
                 <li {% if request.path.startswith('/centers') %} class="nav-item active" {%else%}class="nav-item"{%endif%}>
-                    <a class="nav-link" href="{{ url_for('centers') }}"> Centros
+                    <a class="nav-link" href="{{ url_for('centers', name='', status='') }}"> Centros
                     </a>
                 </li>
                 {%endif%}
                 {%if 'user_index' in user_permisos%}
                 <li {% if request.path.startswith('/users') %} class="nav-item active" {%else%}class="nav-item"{%endif%}>
-                    <a class="nav-link" href="{{ url_for('usersPag', num_page=1) }}"> Usuarios
+                    <a class="nav-link" href="{{ url_for('users') }}"> Usuarios
                     </a>
                 </li>
                 {%endif%}
