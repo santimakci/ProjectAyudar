@@ -27,6 +27,24 @@ class Center(base.Model):
     status = Column(String, unique=False, default="Pendiente")
     protocol = Column(String, unique=False, default="")
 
+    def __init__(self, params):
+        """Constructor de la clase Center, recibe por parametros en un diccionario."""
+        self.name = params["name"]
+        self.address = params["address"]
+        self.phone = params["phone"]
+        self.open_time = params["open_time"]
+        self.close_time = params["close_time"]
+        self.center_type = params["center_type"]
+        self.municipality = params["municipality"]
+        if "status" in params.keys():
+            self.status = params["status"]
+        self.email = params["email"]
+        self.latitude = params["lat"]
+        self.longitude = params["lng"]
+        self.web = params["web"]
+        if "protocol" in params.keys():
+            self.protocol = params["protocol"]
+
     @classmethod
     def return_centers_API_Data(cls):
         """Retorna todos los centros como una lista de diccionarios"""
@@ -91,7 +109,7 @@ class Center(base.Model):
         center = self.find_by_name(params["name"])
         if center:
             return (("El nombre del centro ya existe", "danger"), center.id)
-        center = Center(**params)
+        center = Center(params)
         base.session.add(center)
         base.session.commit()
         return (("Se creó el centro correctamente ", "success"), center.id)
