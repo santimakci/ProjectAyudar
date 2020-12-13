@@ -62,6 +62,7 @@
                 <v-text-field
                   v-model="turn.phone"
                   label="Teléfono *"
+                  type="number"
                   :error-messages="phoneErrors"
                   required
                   @input="$v.turn.phone.$touch()"
@@ -87,7 +88,12 @@
                       v-on="on"
                     ></v-text-field>
                   </template>
-                  <v-date-picker v-model="turn.day" no-title scrollable>
+                  <v-date-picker
+                    v-model="turn.day"
+                    :min="nowDate"
+                    no-title
+                    scrollable
+                  >
                     <v-spacer></v-spacer>
                     <v-btn text color="primary" @click="menu = false">
                       Cancel
@@ -145,6 +151,7 @@ export default {
   name: "AddTurn",
   data() {
     return {
+      nowDate: new Date().toISOString().slice(0, 10),
       turns: [],
       turns_submitted: false,
       turn: {
@@ -240,7 +247,7 @@ export default {
     loadTurns() {
       axios
         .get(
-          "http://localhost:5000/centers/" +
+          "https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centers" +
             this.center.id +
             "/turnos_disponibles/" +
             String(this.turn.day)
@@ -258,7 +265,9 @@ export default {
     createTurn() {
       axios
         .post(
-          "http://localhost:5000/centers/" + this.center.id + "/reserva",
+          "https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centers" +
+            this.center.id +
+            "/reserva",
           this.turn
         )
         .then((response) => {

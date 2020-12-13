@@ -1,15 +1,15 @@
 <template>
   <div>
-      <div v-if="message.submitted"> 
+    <div v-if="message.submitted">
       <v-alert v-if="message.type == 201" type="success">
-        {{message.text}}
+        {{ message.text }}
       </v-alert>
       <v-alert v-else type="warning">
-        {{message.text}}
-      </v-alert>    
+        {{ message.text }}
+      </v-alert>
     </div>
     <v-card class="pa-md-4 mx-lg-auto" style="width: 60%; margin: auto">
-      <form    v-on:submit.prevent="checkIfRecaptchaVerified" id="new-center">
+      <form v-on:submit.prevent="checkIfRecaptchaVerified" id="new-center">
         <v-text-field
           v-model="center.name"
           id="name"
@@ -48,6 +48,7 @@
               <v-time-picker
                 v-model="time"
                 full-width
+                required
                 @click:minute="$refs.menu.save(time)"
               ></v-time-picker>
             </v-menu>
@@ -58,6 +59,7 @@
               v-model="menu"
               :close-on-content-click="false"
               :nudge-right="40"
+              required
               :return-value.sync="center.close_time"
               transition="scale-transition"
               offset-y
@@ -96,6 +98,7 @@
         <v-text-field
           v-model="center.phone"
           label="Teléfono *"
+          type="number"
           :error-messages="phoneErrors"
           required
           @input="$v.center.phone.$touch()"
@@ -104,7 +107,7 @@
         <v-select
           v-model="center.center_type"
           :items="center_type"
-          required
+          :required="!center.center_type"
           :menu-props="{ top: true, offsetY: true }"
           :error-messages="centerTypeErrors"
           label="Tipo de centro *"
@@ -114,7 +117,7 @@
         <v-select
           v-model="center.municipality"
           :items="municipalitys"
-          required
+          :required="!center.municipality"
           :menu-props="{ top: true, offsetY: true }"
           :error-messages="municipalityErrors"
           label="Municipalidad *"
@@ -133,15 +136,13 @@
         <MapSelectCenter v-on:sendLat="setLat" />
         <vue-recaptcha
           sitekey="6LcR5v8ZAAAAAJSsYo1aCCPM2Q0hK3___BkNo_w1 "
-          ref="recaptcha" 
+          ref="recaptcha"
           @verify="markRecaptchaAsVerified"
-          
         ></vue-recaptcha>
-        
-        <v-row  class="mt-5 ml-1">
-          <v-btn type="submit" form="new-center" class="primary">
-        
-    Enviar centro
+
+        <v-row class="mt-5 ml-1">
+          <v-btn @click="check" type="submit" form="new-center" class="primary">
+            Enviar centro
           </v-btn>
         </v-row>
       </form>
@@ -153,7 +154,7 @@
 import axios from "axios";
 import VueRecaptcha from "vue-recaptcha";
 import { required, email } from "vuelidate/lib/validators";
-import MapSelectCenter from "./MapSelectCenter"
+import MapSelectCenter from "./MapSelectCenter";
 
 export default {
   name: "AddCenter",
@@ -164,9 +165,9 @@ export default {
       errors: [],
       center_type: ["Alimentos", "Sangre", "Ropa", "Plasma"],
       municipalitys: [],
-      captchaInfo:{
+      captchaInfo: {
         recaptchaVerified: false,
-        pleaseTickRecaptchaMessage: ''
+        pleaseTickRecaptchaMessage: "",
       },
       center: {
         name: "",
@@ -185,7 +186,7 @@ export default {
         type: "",
         text: "",
         submitted: false,
-      }
+      },
     };
   },
   validations: {
@@ -277,33 +278,35 @@ export default {
   },
 
   methods: {
-    setLat(prop){
-      this.center.lat = prop.lat
-      this.center.lng = prop.lng
-      console.log(this.center)
+    setLat(prop) {
+      this.center.lat = prop.lat;
+      this.center.lng = prop.lng;
+      console.log(this.center);
     },
     markRecaptchaAsVerified() {
-      this.captchaInfo.pleaseTickRecaptchaMessage = '';
+      this.captchaInfo.pleaseTickRecaptchaMessage = "";
       this.captchaInfo.recaptchaVerified = true;
     },
 
     checkIfRecaptchaVerified() {
       if (!this.captchaInfo.recaptchaVerified) {
-        alert('Please tick recaptcha.');
+        alert("Please tick recaptcha.");
         return false; // prevent form from submitting
-      }   
-      this.createCenter()
+      }
+      this.createCenter();
     },
     createCenter() {
       axios
+        /* .post(
+          "https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centros",
+          this.center
+        ) */
         .post("http://localhost:5000/centros", this.center)
         .then((response) => {
-          console.log(response)
+          console.log(response);
           this.message.submitted = true;
-          this.message.type = response.data.status
-          this.message.text = response.data.body
-          
-          
+          this.message.type = response.data.status;
+          this.message.text = response.data.body;
         });
     },
     listMunicipios() {

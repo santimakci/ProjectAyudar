@@ -71,6 +71,7 @@ export default {
   created() {
     axios
       .get("http://localhost:5000/centros")
+      /* .get("https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centros") */
       .then((response) => {
         var totalPages = 1;
         if (response.data.count % response.data.limit != 0) {
@@ -80,6 +81,9 @@ export default {
         }
         for (var i = 1; i <= totalPages; i++) {
           let url = "http://localhost:5000/centros?page=" + i;
+          /* let url =
+            "https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centros?page=" +
+            i; */
           axios.get(url).then((response) => {
             response.data.centros.forEach((center) => {
               if (center.status === "Aceptado") {

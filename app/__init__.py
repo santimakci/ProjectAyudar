@@ -251,10 +251,9 @@ def create_app(environment="development"):
 
     # Turns API by date
     app.add_url_rule(
-        "/centers/<int:idcenter>/turnos_disponibles/<string:fecha>",
-        "turnos_api",
-        turnsAPi,
-        methods=["GET", "POST"],
+       "/centers/<int:idcenter>/turnos_disponibles/<string:fecha>",
+       "turnos_api",
+       methods=["GET", "POST"],
     )
 
     app.add_url_rule(
