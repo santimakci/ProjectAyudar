@@ -8,15 +8,15 @@
         <v-row>
           <v-col>
             <v-row>
-              <v-text><strong>Contacto</strong></v-text>
+              <span><strong>Contacto</strong></span>
             </v-row>
             <v-row>
-              <v-text>ayudar@gba.gob.ar</v-text>
+              <span>ayudar@gba.gob.ar</span>
             </v-row>
           </v-col>
           <v-col>
             <v-row>
-              <v-text><strong>Uso Interno</strong></v-text>
+              <span><strong>Uso Interno</strong></span>
             </v-row>
             <v-row>
               <a class="primary--text" style="text-decoration: none" href="https://admin-grupo21.proyecto2020.linti.unlp.edu.ar">Administración</a>
