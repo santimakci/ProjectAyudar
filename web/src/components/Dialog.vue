@@ -262,7 +262,6 @@ export default {
           this.turn
         )
         .then((response) => {
-          console.log(this.turn);
           this.turn.name = "";
           this.turn.lastname = "";
           this.turn.email = "";
