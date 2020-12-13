@@ -8,25 +8,6 @@ import json
 
 
 def centers():
-<<<<<<< HEAD
-    if request.method == "GET":
-        centros = Center.return_centers_API_Data()
-        count = len(centros)
-        page = int(request.args.get("page", 1))
-        limit = (PageSetting.find_settings()).elements
-        if 0 >= page:
-            return render_template("errors/error404.html")
-        obj = {}
-        obj["page"] = page
-        obj["limit"] = limit
-        obj["count"] = count
-        obj["centros"] = centros[(page - 1) * limit : (page * limit)]
-        return jsonify(obj)
-    else:
-        params = json.loads(request.data)
-        mensaje = Center.create(params)
-        return mensaje[0][0]
-=======
     try:
         if request.method == "GET":
             centros = Center.return_centers_API_Data()
@@ -73,7 +54,6 @@ def detect_error(e, msg):
             "error": str(msg),
         }
     return response
->>>>>>> vue-project
 
 
 def center_by_id(id):
