@@ -3,13 +3,14 @@
 {% block head %}
 {{ super() }}
 {% endblock %}
+{% import 'helpers/macros.html' as sign%}
 {% block content %}
 
 <div class="container">
   {% include 'helpers/messages.html' %}
   <div class="container">
     <div class="row">
-      <form class="form-inline" action="{{url_for('usersSearch', num_page=1)}}" method="POST">
+      <form class="form-inline" action="{{url_for('users')}}" method="POST">
         <div class="form-group has-default bmd-form-group">
           <input type="text" name="username" class="form-control" {% if search %} value="{{ search }}"
             {% else %}placeholder="Buscar..." {% endif %}>
@@ -89,14 +90,9 @@
     <ul class="pagination pagination-info mx-auto" id="page">
       {% for page in pages %}
       {%if page%}
-      {% if search or active != ""%}
       <li class="page-item"><a id="num{{page}}"
-          href="{{url_for('usersSearch',num_page=page, search=search, active=active)}}" class="page-link">{{page}}</a>
+          href="{{url_for('users',num_page=page, search=search, active=active)}}" class="page-link">{{page}}</a>
       </li>
-      {%else%}
-      <li class="page-item"><a id="num{{page}}" href="{{ url_for('usersPag',num_page=page, active="") }}"
-          class="page-link">{{page}}</a></li>
-      {%endif%}
       {%else%}
       ...
       {%endif%}
@@ -106,20 +102,7 @@
 
   </div>
   {%else%}
-  <ul class=flashes>
-    <div class="alert alert-info">
-      <div class="container text-center">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true"><i class="material-icons">clear</i></span>
-        </button>
-        NO HAY USUARIOS REY
-      </div>
-  </ul>
-  <div class="gatito"  style="text-align:center;">
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/NUYvbT6vTPs" frameborder="0" autoplay=1
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen></iframe>
-  </div>
+    <div>{{sign.noresults()}}</div>
   {%endif%}
 </div>
 

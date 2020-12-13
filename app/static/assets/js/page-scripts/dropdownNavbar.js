@@ -5,7 +5,6 @@ if(width < 992){
     $('#logout').css("display","");
 }
 $(window).resize(function(){
-console.log('resize called');
 var width = $(window).width();
 if(width < 992){
     $('#admin').removeClass("dropdown").css("display","none");
