@@ -85,7 +85,7 @@ class Turn(base.Model):
         turn = self.get_turn_by_id(params["id"])
         base.session.delete(turn)
         base.session.commit()
-        return ("Se eliminó el turno", "success")
+        return ("Se eliminó el turno con éxito!", "success")
 
     def update(self, params):
         """Actualiza la información de un turno"""

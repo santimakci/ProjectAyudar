@@ -19,22 +19,6 @@
           @input="$v.center.name.$touch()"
           @blur="$v.center.name.$touch()"
         ></v-text-field>
-        <v-text-field
-          v-model="center.address"
-          :error-messages="addressErrors"
-          label="Dirección *"
-          required
-          @input="$v.center.address.$touch()"
-          @blur="$v.center.address.$touch()"
-        ></v-text-field>
-        <v-text-field
-          v-model="center.phone"
-          label="Teléfono *"
-          :error-messages="phoneErrors"
-          required
-          @input="$v.center.phone.$touch()"
-          @blur="$v.center.phone.$touch()"
-        ></v-text-field>
         <v-row>
           <v-col cols="6">
             <v-menu
@@ -101,10 +85,27 @@
             </v-menu>
           </v-col>
         </v-row>
+        <v-text-field
+          v-model="center.address"
+          :error-messages="addressErrors"
+          label="Dirección *"
+          required
+          @input="$v.center.address.$touch()"
+          @blur="$v.center.address.$touch()"
+        ></v-text-field>
+        <v-text-field
+          v-model="center.phone"
+          label="Teléfono *"
+          :error-messages="phoneErrors"
+          required
+          @input="$v.center.phone.$touch()"
+          @blur="$v.center.phone.$touch()"
+        ></v-text-field>
         <v-select
           v-model="center.center_type"
           :items="center_type"
           required
+          :menu-props="{ top: true, offsetY: true }"
           :error-messages="centerTypeErrors"
           label="Tipo de centro *"
           @input="$v.center.center_type.$touch()"

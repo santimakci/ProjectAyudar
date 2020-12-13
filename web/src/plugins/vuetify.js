@@ -15,10 +15,10 @@ export default new Vuetify({
         primary: '#2BBBAD',
         secondary: '#aa66cc',
         accent: '#81d4fa',
-        error: '#f44336',
+        error: '#ff3333',
         info: '#29b6f6',
-        success: '#b2ff59',
-        warning: '#ffc107',
+        success: '#00ff00',
+        warning: '#FFCC00',
         anchor: '#ffffff'
       },
     },

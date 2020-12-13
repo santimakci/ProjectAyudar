@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 
-  <head>
-    {% block head %}
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href=" {{ url_for('static', filename='assets/css/material-kit.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css"
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-    <link rel="stylesheet" src="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" src="{{url_for('static', filename='static/style.css')}}" />
-    <link rel="shortcut icon" type="image/x-ico" href="{{url_for('static', filename='assets/img/favicon.ico') }}" />
-    <title>{% block title %}Ayudar{% endblock %}</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-    {% endblock %}
-  </head>
+<head>
+  {% block head %}
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <link href=" {{ url_for('static', filename='assets/css/material-kit.css') }}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" src="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" src="{{url_for('static', filename='static/style.css')}}" />
+  <link rel="shortcut icon" type="image/x-ico" href="{{url_for('static', filename='assets/img/favicon.ico') }}" />
+  <title>{% block title %}Ayudar{% endblock %}</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  {% endblock %}
+</head>
 
-  <body class="hidden">
-    <div id="loader" class="container">
+<body>
+  <!--<div id="loader" class="container">
       <div class="preloader" id="preloader">
         <img class="imgloader" src="https://i.imgur.com/cWGLRFJ.png" alt="">
       </div>
-    </div>
-    {% set user_permisos = user_permisos()%}
-    <div class="main">
-      {% include 'layout/navbar.html'%}
-      <div id="content">{% block content %} {% endblock %}</div>
-    </div>
-    <script src="{{url_for('static', filename='assets/js/core/jquery.min.js')}}" type="text/javascript"></script>
-    <script src="{{url_for('static', filename='assets/js/core/popper.min.js')}}" type="text/javascript"></script>
-    <script src="{{url_for('static', filename='assets/js/core/bootstrap-material-design.min.js')}}"
-      type="text/javascript"></script>
-    <script src="{{url_for('static', filename='assets/js/plugins/moment.min.js')}}" type="text/javascript"></script>
-    <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
-    <script src="{{url_for('static', filename='assets/js/plugins/bootstrap-datetimepicker.js')}}"
-      type="text/javascript"></script>
-    <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
-    <script src="{{url_for('static', filename='assets/js/plugins/nouislider.min.js')}}" type="text/javascript"></script>
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
-    <script src="{{url_for('static', filename='assets/js/material-kit.js')}}" type="text/javascript"></script>
-    <script src="{{url_for('static', filename='assets/js/loader.js')}}" type="text/javascript"></script>
-  </body>
+    </div>-->
+  {% set user_permisos = user_permisos()%}
+  <div class="main">
+    {% include 'layout/navbar.html'%}
+    <div id="content">{% block content %} {% endblock %}</div>
+  </div>
+  <script src="{{url_for('static', filename='assets/js/core/jquery.min.js')}}" type="text/javascript"></script>
+  <script src="{{url_for('static', filename='assets/js/core/popper.min.js')}}" type="text/javascript"></script>
+  <script src="{{url_for('static', filename='assets/js/core/bootstrap-material-design.min.js')}}"
+    type="text/javascript"></script>
+  <script src="{{url_for('static', filename='assets/js/plugins/moment.min.js')}}" type="text/javascript"></script>
+  <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
+  <script src="{{url_for('static', filename='assets/js/plugins/bootstrap-datetimepicker.js')}}" type="text/javascript">
+  </script>
+  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+  <script src="{{url_for('static', filename='assets/js/plugins/nouislider.min.js')}}" type="text/javascript"></script>
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
+  <script src="{{url_for('static', filename='assets/js/material-kit.js')}}" type="text/javascript"></script>
+  <!--<script src="{{url_for('static', filename='assets/js/loader.js')}}" type="text/javascript"></script>-->
+</body>
 
 </html>

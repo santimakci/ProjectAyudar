@@ -103,7 +103,7 @@ class Center(base.Model):
             params (dict)
         """
         center = self.find_by_name(params["name"])
-        if center != self:
+        if center != None and self != center:
             return ("El nombre del centro ya existe", "danger")
         self.name = params["name"]
         self.address = params["address"]
