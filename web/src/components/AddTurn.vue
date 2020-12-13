@@ -2,60 +2,46 @@
   <div>
     <v-card class="pa-md-4 mx-lg-auto" style="width: 60%; margin: auto">
       <div class="text-body-1 mb-6"></div>
-      
       <form @submit.prevent="createTurn" id="new-turn">
-
         <v-card-title>
           <span class="headline">Solicitar un turno</span>
         </v-card-title>
-
         <v-card-subtitle>
           <span> Para el centro: '{{ center.name }}'</span>
         </v-card-subtitle>
-
         <v-card-text>
           <v-container>
             <v-row>
-
               <v-col cols="12" sm="6" md="4">
-                <v-text-field 
-                  v-model="turn.name"
-                  label="Nombre"
-                  @input="$v.turn.name.$touch()"
-                  @blur="$v.turn.name.$touch()"
-                ></v-text-field>
+                <v-text-field label="Nombre" required></v-text-field>
               </v-col>
-
               <v-col cols="12" sm="6" md="4">
                 <v-text-field
-                  v-model="turn.lastname"
                   label="Apellido"
-                  @input="$v.turn.lastname.$touch()"
-                  @blur="$v.turn.lastname.$touch()"
+                  required
+                  hint="example of helper text only on focus"
                 ></v-text-field>
               </v-col>
-
               <v-col cols="12">
                 <v-text-field
                   v-model="turn.email"
                   label="E-mail*"
+                  required
                   @input="$v.turn.email.$touch()"
                   @blur="$v.turn.email.$touch()"
                 ></v-text-field>
               </v-col>
-
               <v-col cols="12">
                 <v-text-field
                   v-model="turn.phone"
                   label="Teléfono"
                   type="number"
+                  required
                   @input="$v.turn.phone.$touch()"
                   @blur="$v.turn.phone.$touch()"
                 ></v-text-field>
               </v-col>
-
               <v-col cols="12" sm="6">
-
                 <v-menu
                   ref="menu"
                   v-model="menu"
@@ -65,7 +51,6 @@
                   offset-y
                   min-width="290px"
                 >
-                
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                       v-model="date"
@@ -80,27 +65,22 @@
                     <v-btn text color="primary" @click="menu = false">
                       Cancel
                     </v-btn>
-                    <v-btn 
+                    <v-btn
                       text
                       color="primary"
                       @click="$refs.menu.save(date), loadTurns()"
-                      @input="$v.turn.date.$touch()"
-                      @blur="$v.turn.date.$touch()"
                     >
                       OK
                     </v-btn>
                   </v-date-picker>
                 </v-menu>
               </v-col>
-
               <v-col cols="12" sm="6">
                 <v-select
-                  v-model="turn.time"
+                  v-model="turns"
                   :items="turns"
-                  required
+                  :error-messages="centerTypeErrors"
                   label="Turno"
-                  @input="$v.turn.time.$touch()"
-                  @blur="$v.turn.time.$touch()"
                 ></v-select>
               </v-col>
             </v-row>
@@ -130,14 +110,17 @@ export default {
   data() {
     return {
       turns: [],
-
+      errors: [],
+      available_times: [],
+      available_days: [],
+      date: "",
       turn: {
-        name: "",
-        lastname: "",
+        //center_id: "",
         email: "",
+        //num_block: "",
         phone: "",
-        date: "",
-        time: "",
+        day: "",
+        // time: "",
       },
     };
   },
@@ -151,9 +134,6 @@ export default {
       name: {
         required,
       },
-      lastname: {
-        required,
-      },
       email: {
         email,
         required,
@@ -161,14 +141,16 @@ export default {
       phone: {
         required,
       },
-      date: {
+      // time: {
+      //   required,
+      // },
+      day: {
         required,
       },
-       time: {
-         required,
-       },
     },
   },
+
+  computed: {},
 
   methods: {
     loadTurns() {
@@ -176,26 +158,23 @@ export default {
         .get(
           "http://localhost:5000/centers/" +
             this.center.id +
-            "/turnos_disponibles/" +
-            String(this.date)
+            "/turnos_disponibles/?date=" +
+            this.date
         )
         .then((response) => {
+          console.log(response);
           this.turns = [];
-          console.log(this.turns);
           for (var i = 1; i <= Object.keys(response.data).length; i++) {
-            if ((response.data[i] in window) == false)
-              this.turns.push(response.data[i]);
+            this.turns.push(response.data[i]);
           }
-          console.log(this.turns);
         });
     },
     createTurn() {
-      console.log(this.turn)
-      // axios
-      //   .post("http://localhost:5000/1/reserva", this.center)
-      //   .then((response) => {
-      //     console.log(response);
-      //   });
+      axios
+        .post("http://localhost:5000/1/reserva", this.center)
+        .then((response) => {
+          console.log(response);
+        });
     },
   },
 };

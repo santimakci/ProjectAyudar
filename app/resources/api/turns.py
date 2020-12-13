@@ -11,15 +11,16 @@ from sqlalchemy.exc import InternalError
 
 def turns(idcenter,fecha=None):
     try:
+        time = get_hour_dict()
         if fecha != None:
-            time = get_hour_dict()
             turnos = Turn.turns_available(fecha, idcenter)
-            if turnos:
-                for turn in turnos:
-                    del time[str(turn)]
-            return jsonify(time)
-        fecha = datetime.today().strftime("%Y-%m-%d")
-        turnos = Turn.get_turns_by_fecha_and_center(fecha, idcenter)
+        else:
+            fecha = datetime.today().strftime("%Y-%m-%d")
+            turnos = Turn.turns_available(fecha, idcenter)
+        if turnos:
+            for turn in turnos:
+                del time[str(turn)]
+        
         return jsonify(turnos)
     except Exception as e:
         return jsonify(detect_error(sys.exc_info()[0], e))
@@ -74,7 +75,7 @@ def detect_error(e, msg):
     elif e is JSONDecodeError:
         response = {
             "status": 400,
-            "body": "El JSON recibido como parámetro no es válido, verigfique es esté bien armado",
+            "body": "El JSON recibido como parámetro no es válido, verifique es esté bien armado",
         }
         return response
 
