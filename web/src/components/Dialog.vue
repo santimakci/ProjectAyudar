@@ -246,8 +246,14 @@ export default {
     },
     loadTurns() {
       axios
-        .get(
+       /* .get(
           "https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centers" +
+            this.center.id +
+            "/turnos_disponibles/" +
+            String(this.turn.day)
+        )*/
+         .get(
+          "http://localhost:5000/centers/" +
             this.center.id +
             "/turnos_disponibles/" +
             String(this.turn.day)
@@ -264,8 +270,14 @@ export default {
     },
     createTurn() {
       axios
-        .post(
+        /*.post(
           "https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centers/" +
+            this.center.id +
+            "/reserva",
+          this.turn
+        )*/
+        .post(
+          "http://localhost:5000/centers/" +
             this.center.id +
             "/reserva",
           this.turn
