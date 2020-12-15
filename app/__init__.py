@@ -73,6 +73,7 @@ def create_app(environment="development"):
         "ORIGINS": [
             "http://localhost:8080",  # React
             "http://127.0.0.1:8080",  # React
+            "https://grupo21.proyecto2020.linti.unlp.edu.ar",
         ],
     }
     app = Flask(__name__)
