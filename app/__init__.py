@@ -31,7 +31,7 @@ from app.resources.center import (
     listado_municipios,
     view as center_view,
 )
-from app.resources.api.center import centers as CentersApi, center_by_id
+from app.resources.api.center import centers as CentersApi, center_by_id , centers_by_type
 from app.resources.api.turns import turns as turnsAPi, reserve_turn
 from app.resources.index import home
 from app.resources.pagesettings import indexPage, updateSettings
@@ -271,5 +271,16 @@ def create_app(environment="development"):
         reserve_turn,
         methods=["POST"],
     )
+
+    # Centers & Turns Api's for charts
+
+    #Cantidad de centros por tipo de centro
+    app.add_url_rule(
+        "/centers/by_type/",
+        "centers_by_type",
+        centers_by_type,
+        methods=["GET"],
+    )
+    
 
     return app

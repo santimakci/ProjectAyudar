@@ -68,6 +68,17 @@ class Center(base.Model):
         return centros
 
     @classmethod
+    def return_centers_by_type_API_Data(cls):
+        """Retorna para cada tipo de centro su cantidad como un diccionario"""
+        tipos = {
+            "Sangre": base.session.query(Center).filter(Center.status == "Aceptado").filter(Center.center_type == "Sangre").count(),
+            "Plasma": base.session.query(Center).filter(Center.status == "Aceptado").filter(Center.center_type == "Plasma").count(),
+            "Ropa": base.session.query(Center).filter(Center.status == "Aceptado").filter(Center.center_type == "Ropa").count(),
+            "Comida": base.session.query(Center).filter(Center.status == "Aceptado").filter(Center.center_type == "Comida").count(),
+        }
+        return tipos
+
+    @classmethod
     def find_by_id(cls, id):
         """Filtra por id de centro.
         Args:

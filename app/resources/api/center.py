@@ -33,6 +33,11 @@ def centers():
     except Exception as e:
         return jsonify(detect_error(sys.exc_info()[0], e))
 
+def centers_by_type():
+    centros = Center.return_centers_by_type_API_Data()
+    return jsonify(centros)
+
+
 
 def detect_error(e, msg):
     if e is ValueError:
