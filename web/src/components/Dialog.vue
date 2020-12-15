@@ -247,7 +247,7 @@ export default {
     loadTurns() {
       axios
         .get(
-          "https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centers" +
+          "https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centers/" +
             this.center.id +
             "/turnos_disponibles/" +
             String(this.turn.day)
