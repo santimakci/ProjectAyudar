@@ -1,19 +1,20 @@
 <template>
-  <v-img src="../assets/construccion.png">
-    <template v-slot:placeholder>
-      <v-row class="fill-height ma-0" align="center" justify="center">
-        <v-progress-circular
-          indeterminate
-          color="blue darken-2"
-        ></v-progress-circular>
-      </v-row>
-    </template>
-  </v-img>
+  <div>
+    <ChartPie/>
+    <ChartBar/>
+  </div>
 </template>
 
 
 <script>
+import ChartPie from "./ChartPie"
+import ChartBar from "./ChartBar"
+
 export default {
+  components: {
+    ChartPie,
+    ChartBar
+  },
   data: () => ({}),
 };
 </script>
