@@ -1,7 +1,8 @@
 from enum import unique
 from flask import request
-from sqlalchemy import Column, Integer, String, Boolean, Time, Numeric
+from sqlalchemy import Column, Integer, String, Boolean, Time, Numeric, func
 from app.db import base
+from app.models.turn import Turn
 import datetime
 
 
@@ -71,10 +72,22 @@ class Center(base.Model):
     def return_centers_by_type_API_Data(cls):
         """Retorna para cada tipo de centro su cantidad como un diccionario"""
         tipos = {
-            "Sangre": base.session.query(Center).filter(Center.status == "Aceptado").filter(Center.center_type == "Sangre").count(),
-            "Plasma": base.session.query(Center).filter(Center.status == "Aceptado").filter(Center.center_type == "Plasma").count(),
-            "Ropa": base.session.query(Center).filter(Center.status == "Aceptado").filter(Center.center_type == "Ropa").count(),
-            "Comida": base.session.query(Center).filter(Center.status == "Aceptado").filter(Center.center_type == "Comida").count(),
+            "Sangre": base.session.query(Center)
+            .filter(Center.status == "Aceptado")
+            .filter(Center.center_type == "Sangre")
+            .count(),
+            "Plasma": base.session.query(Center)
+            .filter(Center.status == "Aceptado")
+            .filter(Center.center_type == "Plasma")
+            .count(),
+            "Ropa": base.session.query(Center)
+            .filter(Center.status == "Aceptado")
+            .filter(Center.center_type == "Ropa")
+            .count(),
+            "Comida": base.session.query(Center)
+            .filter(Center.status == "Aceptado")
+            .filter(Center.center_type == "Comida")
+            .count(),
         }
         return tipos
 
@@ -179,3 +192,35 @@ class Center(base.Model):
                 .paginate(per_page=quantity.elements, page=num_page, error_out=True)
             )
         return centers
+
+    @classmethod
+    def get_total_turns_by_municipality(cls):
+        """select count(centers.municipality) as totalturnos, centers.municipality
+        from turns inner join centers on centers.id = turns.center_id
+        group by centers.municipality
+        order by totalturnos desc"""
+        totalturns = (
+            base.session.query(Center.municipality, func.count(Center.municipality))
+            .join(Turn, Center.id == Turn.center_id)
+            .group_by(Center.municipality)
+            .all()
+        )
+        return totalturns
+
+    @classmethod
+    def total_centers_by_type(cls):
+        """select count(centers.municipality) as totalturnos, centers.municipality
+        from turns inner join centers on centers.id = turns.center_id
+        group by centers.municipality
+        order by totalturnos desc"""
+        total_centers_by_type = (
+            base.session.query(Center.municipality, func.count(Center.municipality))
+            .join(Turn, Center.id == Turn.center_id)
+            .filter(Center.center_type == "Plasma")
+            .group_by(Center.municipality)
+            .all()
+        )
+        return total_centers_by_type
+
+
+    

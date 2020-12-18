@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer, String, Date, ForeignKey, exists
 from app.db import base
 from datetime import date, datetime
-from app.models.center import Center
+
+# from app.models.center import Center
 
 
 class Turn(base.Model):
