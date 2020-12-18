@@ -3,11 +3,18 @@
     <ChartPie v-if="info == 3" :centersTypes="centersTypes" />
     <ChartBar v-if="info == 3" :municipalities="municipalities" />
     <ChartCake v-if="info == 3" :TotalTurnsByCenter="TotalTurnsByCenter" />
+    <FlowerSpinner
+      v-if="info != 3"
+      :animation-duration="2500"
+      :size="70"
+      color="#ff1d5e"
+    />
   </div>
 </template>
 
 
 <script>
+import { FlowerSpinner } from "epic-spinners";
 import ChartPie from "./ChartPie";
 import ChartBar from "./ChartBar";
 import ChartCake from "./ChartCake";
@@ -18,6 +25,7 @@ export default {
     ChartPie,
     ChartBar,
     ChartCake,
+    FlowerSpinner,
   },
   data() {
     return {

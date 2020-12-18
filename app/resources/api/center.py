@@ -41,8 +41,9 @@ def centers_by_type():
     return jsonify(centros)
 
 def total_centers_by_type():
+    Params_type = request.args.get("type", "Plasma")
     totalcenters = {}
-    total = Center.total_centers_by_type()
+    total = Center.total_centers_by_type(Params_type)
     for i in range(len(total)):
         totalcenters[total[i][0]] = {"Total": total[i][1]}
     return jsonify(totalcenters), 200

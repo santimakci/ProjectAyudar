@@ -208,7 +208,7 @@ class Center(base.Model):
         return totalturns
 
     @classmethod
-    def total_centers_by_type(cls):
+    def total_centers_by_type(cls, paramtype):
         """select count(centers.municipality) as totalturnos, centers.municipality
         from turns inner join centers on centers.id = turns.center_id
         group by centers.municipality
@@ -216,7 +216,7 @@ class Center(base.Model):
         total_centers_by_type = (
             base.session.query(Center.municipality, func.count(Center.municipality))
             .join(Turn, Center.id == Turn.center_id)
-            .filter(Center.center_type == "Plasma")
+            .filter(Center.center_type == paramtype)
             .group_by(Center.municipality)
             .all()
         )

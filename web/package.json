@@ -14,6 +14,7 @@
     "core-js": "^3.6.5",
     "echarts": "^5.0.0",
     "echarts-liquidfill": "^2.0.6",
+    "epic-spinners": "^1.1.0",
     "leaflet": "^1.7.1",
     "roboto-fontface": "*",
     "v-charts": "^1.19.0",
