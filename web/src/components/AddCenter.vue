@@ -301,10 +301,7 @@ export default {
           "https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centros",
           this.center
         )*/
-        .post(
-          "http://localhost:5000/centros/",
-          this.center
-        )
+        .post("http://localhost:5000/centros", this.center)
         .then((response) => {
           console.log(response);
           this.message.submitted = true;
