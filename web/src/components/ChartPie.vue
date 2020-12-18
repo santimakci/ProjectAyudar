@@ -6,19 +6,28 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        pieChartData: {
-          columns: ['center_type', 'amount'],
-          rows: [
-            { 'center_type': 'Sangre', 'amount': 15},
-            { 'center_type': 'Plasma', 'amount': 20},
-            { 'center_type': 'Comida', 'amount': 18},
-            { 'center_type': 'Ropa', 'amount': 10},
-          ]
-        }
-      }      
-    }
-  }
+export default {
+  created() {},
+  props: ["centersTypes"],
+  data() {
+    return {
+      pieChartData: {
+        columns: ["center_type", "amount"],
+        rows: [
+          { center_type: "Sangre", amount: this.centersTypes.Sangre },
+          { center_type: "Plasma", amount: this.centersTypes.Plasma },
+          { center_type: "Comida", amount: this.centersTypes.Comida },
+          { center_type: "Ropa", amount: this.centersTypes.Ropa },
+        ],
+      },
+    };
+  },
+  watch: {
+    centersTypes: function (newVal, oldVal) {
+      console.log("arreglo:", this.pieChartData.rows[0].center_type);
+      console.log("dic:", this.pieChartData.rows);
+      console.log(newVal, oldVal);
+    },
+  },
+};
 </script>

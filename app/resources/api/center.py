@@ -21,7 +21,7 @@ def centers():
             obj["limit"] = limit
             obj["count"] = count
             obj["centros"] = centros[(page - 1) * limit : (page * limit)]
-            return jsonify(obj)
+            return jsonify(obj), 200
         else:
             params = json.loads(request.data)
             mensaje = Center.create(params)
@@ -29,13 +29,13 @@ def centers():
                 response = {"status": 201, "body": mensaje[0][0], "center": params}
             else:
                 response = {"status": 401, "body": mensaje[0][0]}
-            return jsonify(response)
+            return jsonify(response), 200
     except Exception as e:
         return jsonify(detect_error(sys.exc_info()[0], e))
 
 def centers_by_type():
     centros = Center.return_centers_by_type_API_Data()
-    return jsonify(centros)
+    return jsonify(centros), 200
 
 
 
