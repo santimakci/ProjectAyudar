@@ -1,7 +1,7 @@
 <template>
   <div>
-    <ChartPie v-if="info == true" :centersTypes="centersTypes" />
-    <ChartBar />
+    <ChartPie v-if="info == 2" :centersTypes="centersTypes" />
+    <ChartBar v-if="info == 2" :municipalities="municipalities"/>
   </div>
 </template>
 
@@ -18,13 +18,14 @@ export default {
   },
   data() {
     return {
-      info: false,
+      info: 0,
       centersTypes: {
         Plasma: 0,
         Sangre: 0,
         Ropa: 0,
         Comida: 0,
       },
+      municipalities: {}
     };
   },
 
@@ -34,7 +35,11 @@ export default {
       this.centersTypes.Sangre = response.data.Sangre;
       this.centersTypes.Ropa = response.data.Ropa;
       this.centersTypes.Comida = response.data.Comida;
-      this.info = true;
+      this.info ++;
+    });
+    axios.get("http://localhost:5000/centers/turns_by_municipality/").then((response)=>{
+      this.municipalities = response.data;
+      this.info++;
     });
   },
 };

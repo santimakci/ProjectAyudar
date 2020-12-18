@@ -4,6 +4,7 @@ from app.models.center import Center
 from flask import request, render_template
 from sqlalchemy.exc import InternalError
 from app.models.pageSetting import PageSetting
+from app.resources.center import listado_municipios
 import json
 
 
@@ -33,10 +34,21 @@ def centers():
     except Exception as e:
         return jsonify(detect_error(sys.exc_info()[0], e))
 
+
 def centers_by_type():
     centros = Center.return_centers_by_type_API_Data()
     return jsonify(centros), 200
 
+
+def total_turns_by_municipality():
+    turnostotales = {}
+    municipios = listado_municipios()
+    for i in municipios:
+        turnostotales[municipios[i]["name"]] = {"turnos": 0}
+    total = Center.get_total_turns_by_municipality()
+    for i in range(len(total)):
+        turnostotales[total[i][0]] = {"turnos": total[i][1]}
+    return jsonify(turnostotales), 200
 
 
 def detect_error(e, msg):
