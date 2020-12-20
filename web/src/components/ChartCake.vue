@@ -1,16 +1,27 @@
 <template>
-  <div>
-    <h1>Total de turnos de Tipo {{ selectType }} por Municipalidad</h1>
-    <v-select
+  <v-card
+    class="mx-auto"
+    width="600"
+    elevation="4"
+    outlined
+    style="border-radius: 8px;"
+  >
+    <v-card-title>
+      <div>
+        Total de turnos de tipo <em>{{ selectType }}</em> por municipio
+      </div> 
+    </v-card-title>
+    <v-divider></v-divider>
+    <v-card-text>
+      <v-select
       v-model="selectType"
       :items="types"
-      label="Tipo de centro *"
-      @input="$v.center.center_type.$touch()"
-      @blur="$v.center.center_type.$touch()"
+      label="Tipo de centro de donación"
       @change="onChange($event)"
-    ></v-select>
-    <ve-pie :data="pieChartData"></ve-pie>
-  </div>
+      ></v-select>
+      <ve-pie :data="pieChartData"></ve-pie>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -43,6 +54,7 @@ export default {
             });
           }
           this.pieChartData.rows = rows;
+          console.log(this.pieChartData)
         });
     },
   },

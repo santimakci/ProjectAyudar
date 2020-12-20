@@ -2,9 +2,9 @@
   <v-card class="d-flex justify-center mb-6">
     <v-toolbar class="primary" flat>
       <img class="mr-3" :src="require('../assets/logo.png')" height="25"/>
-      <v-toolbar-items class="margin-auto"
+      <v-toolbar-items
+        class="margin-auto"
         style="margin: auto; margin-top: -5px">
-        
         <v-btn depressed color="primary" to="/" style="text-decoration: none"
             >Inicio
         </v-btn>
@@ -15,6 +15,7 @@
             >Estadísticas
         </v-btn>
       </v-toolbar-items>   
+
     </v-toolbar>
   </v-card>
 </template>

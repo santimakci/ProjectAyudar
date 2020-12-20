@@ -1,14 +1,24 @@
 <template>
   <div>
-    <ChartPie v-if="info == 3" :centersTypes="centersTypes" />
+    <v-row>
+      <ChartPie v-if="info == 3" :centersTypes="centersTypes" />
+      <ChartCake v-if="info == 3" :TotalTurnsByCenter="TotalTurnsByCenter" />
+    </v-row>
     <ChartBar v-if="info == 3" :municipalities="municipalities" />
-    <ChartCake v-if="info == 3" :TotalTurnsByCenter="TotalTurnsByCenter" />
-    <FlowerSpinner
-      v-if="info != 3"
-      :animation-duration="2500"
-      :size="70"
-      color="#ff1d5e"
-    />
+    <div
+    v-if="info != 3"
+    style="height: 70vh; display: flex; justify-content: center; align-items: center;"
+    >
+      <div 
+      style="position: absolute; top: 50%; left: 50%; width: 60px; height: 60px; margin:-30px 0 0 -30px;"
+      >
+        <FlowerSpinner
+        :animation-duration="2500"
+        :size="70"
+        color="#2BBBAD"
+        />
+      </div>
+    </div>
   </div>
 </template>
 

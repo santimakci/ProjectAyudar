@@ -8,7 +8,21 @@
         {{ message.text }}
       </v-alert>
     </div>
-    <v-container>
+    <div
+    v-if="info == false"
+    style="height: 70vh; display: flex; justify-content: center; align-items: center;"
+    >
+      <div 
+      style="position: absolute; top: 50%; left: 50%; width: 60px; height: 60px; margin:-30px 0 0 -30px;"
+      >
+        <FlowerSpinner
+        :animation-duration="2500"
+        :size="70"
+        color="#2BBBAD"
+        />
+      </div>
+    </div>
+    <v-container v-if="info == true">
       <v-row justify="space-between" class="pa-6 ma-2" align="end">
         <v-col>
           <h3 class="title">Centros de Donación</h3>
@@ -39,16 +53,19 @@
 <script>
 import axios from "axios";
 import MapCenters from "./MapCenters";
+import { FlowerSpinner } from "epic-spinners";
 
 export default {
   name: "Centers",
 
   components: {
     MapCenters,
+    FlowerSpinner,
   },
 
   data() {
     return {
+      info: false,
       centers: [],
       message: {
         text: "",
@@ -70,7 +87,7 @@ export default {
 
   created() {
     axios
-       .get("http://localhost:5000/centros") 
+      .get("http://localhost:5000/centros") 
       /* .get("https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centros")*/
       .then((response) => {
         var totalPages = 1;
@@ -80,8 +97,8 @@ export default {
           totalPages = response.data.count / response.data.limit;
         }
         for (var i = 1; i <= totalPages; i++) {
-           let url = "http://localhost:5000/centros?page=" + i; 
-         /* let url =
+          let url = "http://localhost:5000/centros?page=" + i; 
+          /* let url =
             "https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centros?page=" +
             i;*/
           axios.get(url).then((response) => {
@@ -90,6 +107,7 @@ export default {
                 this.centers.push(center);
               }
             });
+            this.info=true
           });
         }
       })

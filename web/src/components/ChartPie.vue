@@ -1,8 +1,17 @@
 <template>
-  <div>
-    <h1>Cantidad de centros de ayuda por tipo</h1>
-    <ve-pie :data="pieChartData"></ve-pie>
-  </div>
+  <v-card
+    class="mx-auto"
+    width="600"
+    elevation="4"
+    outlined
+    style="border-radius: 8px;"
+  >
+    <v-card-title>Cantidad de centros de ayuda por tipo</v-card-title>
+    <v-divider></v-divider>
+    <v-card-text>
+      <ve-pie :data="pieChartData"></ve-pie>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -14,10 +23,10 @@ export default {
       pieChartData: {
         columns: ["center_type", "amount"],
         rows: [
-          { center_type: "Sangre", amount: this.centersTypes.Sangre },
-          { center_type: "Plasma", amount: this.centersTypes.Plasma },
           { center_type: "Comida", amount: this.centersTypes.Comida },
           { center_type: "Ropa", amount: this.centersTypes.Ropa },
+          { center_type: "Sangre", amount: this.centersTypes.Sangre },
+          { center_type: "Plasma", amount: this.centersTypes.Plasma },
         ],
       },
     };
