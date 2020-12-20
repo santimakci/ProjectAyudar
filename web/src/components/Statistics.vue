@@ -53,14 +53,18 @@ export default {
 
   created() {
     axios
-      .get("http://localhost:5000/centers/total_centers_by_type/")
+      /*.get("http://localhost:5000/centers/total_centers_by_type/")*/
+      .get("http://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centers/total_centers_by_type/")
       .then((response) => {
         this.TotalTurnsByCenter = response.data;
         console.log(response);
         this.info++;
       });
 
-    axios.get("http://localhost:5000/centers/by_type/").then((response) => {
+    axios
+    /*.get("http://localhost:5000/centers/by_type/")*/
+    .get("http://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centers/by_type/")
+    .then((response) => {
       this.centersTypes.Plasma = response.data.Plasma;
       this.centersTypes.Sangre = response.data.Sangre;
       this.centersTypes.Ropa = response.data.Ropa;
@@ -68,7 +72,8 @@ export default {
       this.info++;
     });
     axios
-      .get("http://localhost:5000/centers/turns_by_municipality/")
+      /*.get("http://localhost:5000/centers/turns_by_municipality/")*/
+      .get("http://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centers/turns_by_municipality/")
       .then((response) => {
         this.municipalities = response.data;
         this.info++;

@@ -42,8 +42,11 @@ export default {
   methods: {
     onChange(event) {
       axios
-        .get(
+        /*.get(
           "http://localhost:5000/centers/total_centers_by_type/?type=" + event
+        )*/
+        .get(
+          "http://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centers/total_centers_by_type/?type=" + event
         )
         .then((response) => {
           let rows = [];

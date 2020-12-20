@@ -270,18 +270,18 @@ export default {
     },
     createTurn() {
       axios
-        /*.post(
+        .post(
           "https://admin-grupo21.proyecto2020.linti.unlp.edu.ar/centers/" +
             this.center.id +
             "/reserva",
           this.turn
-        )*/
-        .post(
+        )
+        /*.post(
           "http://localhost:5000/centers/" +
             this.center.id +
             "/reserva",
           this.turn
-        )
+        )*/
         .then((response) => {
           this.turn.name = "";
           this.turn.lastname = "";
