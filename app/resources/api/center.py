@@ -1,6 +1,7 @@
 import sys
 from flask import jsonify
 from app.models.center import Center
+from app.models.turn import Turn
 from flask import request, render_template
 from sqlalchemy.exc import InternalError
 from app.models.pageSetting import PageSetting
@@ -43,7 +44,7 @@ def centers_by_type():
 def total_centers_by_type():
     Params_type = request.args.get("type", "Plasma")
     totalcenters = {}
-    total = Center.total_centers_by_type(Params_type)
+    total = Turn.total_centers_by_type(Params_type)
     for i in range(len(total)):
         totalcenters[total[i][0]] = {"Total": total[i][1]}
     return jsonify(totalcenters), 200
@@ -55,7 +56,7 @@ def total_turns_by_municipality():
     municipios = listado_municipios()
     for i in municipios:
         turnostotales[municipios[i]["name"]] = {"turnos": 0}
-    total = Center.get_total_turns_by_municipality()
+    total = Turn.get_total_turns_by_municipality()
     for i in range(len(total)):
         turnostotales[total[i][0]] = {"turnos": total[i][1]}
     return jsonify(turnostotales), 200

@@ -1,8 +1,7 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, exists
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, exists, func
 from app.db import base
 from datetime import date, datetime
-
-# from app.models.center import Center
+from app.models.center import Center
 
 
 class Turn(base.Model):
@@ -206,3 +205,32 @@ class Turn(base.Model):
                 .paginate(per_page=quantity.elements, page=num_page, error_out=True)
             )
         return turns
+
+    @classmethod
+    def get_total_turns_by_municipality(cls):
+        """select count(centers.municipality) as totalturnos, centers.municipality
+        from turns inner join centers on centers.id = turns.center_id
+        group by centers.municipality
+        order by totalturnos desc"""
+        totalturns = (
+            base.session.query(Center.municipality, func.count(Center.municipality))
+            .join(Turn, Center.id == Turn.center_id)
+            .group_by(Center.municipality)
+            .all()
+        )
+        return totalturns
+
+    @classmethod
+    def total_centers_by_type(cls, paramtype):
+        """select count(centers.municipality) as totalturnos, centers.municipality
+        from turns inner join centers on centers.id = turns.center_id
+        group by centers.municipality
+        order by totalturnos desc"""
+        total_centers_by_type = (
+            base.session.query(Center.municipality, func.count(Center.municipality))
+            .join(Turn, Center.id == Turn.center_id)
+            .filter(Center.center_type == paramtype)
+            .group_by(Center.municipality)
+            .all()
+        )
+        return total_centers_by_type
